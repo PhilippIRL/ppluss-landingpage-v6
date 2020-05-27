@@ -1,10 +1,11 @@
 {
-  "name": "learn-starter",
+  "name": "ppluss-landingpage-v6",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "export": "next export",
     "start": "next start"
   },
   "dependencies": {

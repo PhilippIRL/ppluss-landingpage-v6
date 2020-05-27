@@ -1,209 +1,326 @@
-import Head from 'next/head'
+import Head from "next/head";
+import React from "react";
 
-export default function Home() {
-  return (
-    <div className="container">
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+export default class Home extends React.Component {
+    render() {
+        return (
+            <div className="app-root">
+                <Head>
+                    <title>PplusS</title>
+                </Head>
+                <div>
+                    <Terminal />
+                    <header>
+                        <div className="inner-title-wrapper">
+                            <span className="header-title">Willkommen bei PplusS<span className="header-version">v6</span></span>
+                        </div>
+                    </header>
+                </div>
+                <style jsx>{`
+                
+                    header {
+                        height: 300px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
 
-      <main>
-        <h1 className="title">
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+                    .inner-title-wrapper {
+                        display: flex;
+                    }
 
-        <p className="description">
-          Get started by editing <code>pages/index.js</code>
-        </p>
+                    .header-title {
+                        margin: 0;
+                        text-align: center;
+                        display: inline;
+                        font-size: 32px;
+                    }
 
-        <div className="grid">
-          <a href="https://nextjs.org/docs" className="card">
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+                    .header-version {
+                        font-size: 16px;
+                        color: gray;
+                        position: relative;
+                        bottom: -3px;
+                    }
 
-          <a href="https://nextjs.org/learn" className="card">
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
+                `}</style>
+            </div>
+        )
+    }
+}
 
-          <a
-            href="https://github.com/zeit/next.js/tree/master/examples"
-            className="card"
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
+class Terminal extends React.Component {
 
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="card"
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
+    timeoutId = -1;
+    prefix = "# ";
+    terminalBrandString = "PplusS Landing Page v6";
 
-      <footer>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className="logo" />
-        </a>
-      </footer>
+    constructor(props) {
+        super(props);
 
-      <style jsx>{`
-        .container {
-          min-height: 100vh;
-          padding: 0 0.5rem;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
+        this.keyHandler = this.keyHandler.bind(this);
+        this.startResize = this.startResize.bind(this);
+        this.resizeHandler = this.resizeHandler.bind(this);
+        this.typingHandler = this.typingHandler.bind(this);
+        this.println = this.println.bind(this);
+        this.onCommand = this.onCommand.bind(this);
+        this.toggleConsole = this.toggleConsole.bind(this);
+
+        this.state = {visible: false, anim: null, resizing: false, height: 400, typingText: "", lines: [this.terminalBrandString,""]};
+    }
+
+    onCommand(command, args) {
+        switch(command) {
+            case "clear":
+            case "cls":
+                this.setState({lines: []});
+                return;
+            case "print":
+            case "echo":
+                this.println(args.join(" "));
+                return;
+            case "reboot":
+            case "reload":
+            case "refresh":
+                window.location.reload();
+                return;
+            case "exit":
+            case "quit":
+            case "close":
+                this.toggleConsole();
+                return;
+            case "":
+                return;
+            case "ver":
+            case "uname":
+            case "lsb_release":
+                this.println();
+                this.println(this.terminalBrandString);
+                this.println();
+                return;
+            case "command-not-found":
+            default:
+                this.println(command + ": command not found");
+                return;
+        }
+    }
+
+    componentDidUpdate() {
+        if(this.bottomRef) {
+            this.bottomRef.current.scrollIntoView();
+        }
+    }
+
+    keyHandler(e) {
+        if(!e.shiftKey && !e.metaKey && !e.ctrlKey && e.altKey && e.code === "KeyT") {
+            e.preventDefault();
+            this.toggleConsole();
+        }
+    }
+
+    toggleConsole() {
+        if(!this.state.visible) {
+            this.setState({visible: true, anim: "in"});
+            clearTimeout(this.timeoutId);
+            this.timeoutId = setTimeout(() => {
+                this.setState({anim: null});
+            }, 500);
+            window.addEventListener("keyup", this.typingHandler);
+        } else {
+            this.setState({anim: "out"});
+            clearTimeout(this.timeoutId);
+            this.timeoutId = setTimeout(() => {
+                this.setState({visible: false, anim: null});
+            }, 500);
+            window.removeEventListener("keyup", this.typingHandler);
+        }
+    }
+
+    println(text="") {
+        var lines = this.state.lines;
+        lines.push(text);
+        this.setState({lines});
+    } 
+
+    typingHandler(e) {
+        if(!e.metaKey && !e.ctrlKey && !e.altKey) {
+            var typingText = this.state.typingText;
+            if(e.code === "Backspace") {
+                typingText = typingText.substr(0, typingText.length - 1);
+            } else if(e.code === "Enter") {
+                this.println(this.prefix + typingText);
+
+                var args = typingText.split(" ");
+                var command = args.shift();
+                this.onCommand(command, args);
+
+                typingText = "";
+            } else if(e.key.length === 1) {
+                typingText += e.key;
+            }
+            this.setState({typingText})
+        }
+    }
+
+    componentDidMount() {
+        window.addEventListener("keydown", this.keyHandler);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("keydown", this.keyHandler);
+        
+        // remove everything again just to be sure
+        window.removeEventListener("mousemove", this.resizeHandler);
+        window.removeEventListener("mouseup", this.resizeHandler);
+        window.removeEventListener("selectstart", this.resizeHandler);
+        window.removeEventListener("keyup", this.typingHandler);
+    }
+
+    resizeHandler(e) {
+        if(e.type === "mouseup") {
+            window.removeEventListener("mousemove", this.resizeHandler);
+            window.removeEventListener("mouseup", this.resizeHandler);
+            window.removeEventListener("selectstart", this.resizeHandler);
+            return;
+        } else if(e.type === "mousemove") {
+            var height = this.state.height;
+            height -= e.movementY;
+            if(height < 200) {
+                height = 200;
+            } else if(height > (window.innerHeight - 50)) {
+                height = window.innerHeight - 50;
+            }
+            this.setState({height});
+        } else if(e.type === "selectstart") {
+            e.preventDefault();
+        }
+    }
+
+    startResize() {
+        this.setState({resizing: true});
+        window.addEventListener("mousemove", this.resizeHandler);
+        window.addEventListener("mouseup", this.resizeHandler);
+        window.addEventListener("selectstart", this.resizeHandler);
+    }
+
+    render() {
+        this.bottomRef = null;
+        if(!this.state.visible) {
+            return null;
         }
 
-        main {
-          padding: 5rem 0;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
+        var className = "terminal";
+        var height = this.state.height;
+
+        if(this.state.anim) {
+            className += " anim-" + this.state.anim;
         }
 
-        footer {
-          width: 100%;
-          height: 100px;
-          border-top: 1px solid #eaeaea;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
+        var bottomRef = React.createRef();
+        this.bottomRef = bottomRef;
+        
+        return (
+            <div className={className}>
+                <style jsx>{`
 
-        footer img {
-          margin-left: 0.5rem;
-        }
+                    .terminal {
+                        position: fixed;
+                        bottom: 0px;
+                        width: calc(100vw - 20px);
+                        left: 10px;
+                        right: 10px;
+                        height: ${height}px;
+                        background-color: #111;
+                        font-family: 'Source Code Pro', monospace;
+                        border-top-right-radius: 50px;
+                        border-top-left-radius: 50px;
+                        display: flex;
+                        flex-direction: column;
+                        z-index: 1;
+                    }
 
-        footer a {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
+                    .terminal::before {
+                        content: "  ";
+                        position: absolute;
+                        height: 5px;
+                        width: 50px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        top: 15px;
+                        border-radius: 10px;
+                        background-color: #fff;
+                        pointer-events: none;
+                    }
 
-        a {
-          color: inherit;
-          text-decoration: none;
-        }
+                    .terminal.anim-in {
+                        animation: terminalInOut .5s forwards;
+                    }
 
-        .title a {
-          color: #0070f3;
-          text-decoration: none;
-        }
+                    .terminal.anim-out {
+                        animation: terminalInOut .5s reverse forwards;
+                    }
 
-        .title a:hover,
-        .title a:focus,
-        .title a:active {
-          text-decoration: underline;
-        }
+                    @keyframes terminalInOut {
+                        from {
+                            transform: translateY(${height}px);
+                        }
+                        to {
+                            transform: translateY(0px);
+                        }
+                    }
 
-        .title {
-          margin: 0;
-          line-height: 1.15;
-          font-size: 4rem;
-        }
+                    .terminal-resize-area {
+                        height: 50px;
+                        width: 100%;
+                        cursor: ns-resize;
+                    }
 
-        .title,
-        .description {
-          text-align: center;
-        }
+                    .terminal-lines {
+                        margin: 10px;
+                        flex-grow: 1;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: flex-start;
+                        overflow-y: auto;
+                        overflow-x: hidden;
+                    }
 
-        .description {
-          line-height: 1.5;
-          font-size: 1.5rem;
-        }
+                    .terminal-line {
+                        min-height: max-content;
+                        word-break: break-all;
+                        white-space: pre;
+                    }
 
-        code {
-          background: #fafafa;
-          border-radius: 5px;
-          padding: 0.75rem;
-          font-size: 1.1rem;
-          font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
-            DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
-        }
+                    .empty-terminal-line {
+                        min-height: 1em;
+                    }
 
-        .grid {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-wrap: wrap;
+                    .terminal-cursor {
+                        color: transparent;
+                        background-color: #fff;
+                        animation: cursorBlinking 1.5s infinite;
+                    }
 
-          max-width: 800px;
-          margin-top: 3rem;
-        }
+                    @keyframes cursorBlinking {
+                        0% { opacity: 0; }
+                        49.999% { opacity: 0; }
+                        50% { opacity: 1; }
+                        100% { opacity: 1; }
+                    }
 
-        .card {
-          margin: 1rem;
-          flex-basis: 45%;
-          padding: 1.5rem;
-          text-align: left;
-          color: inherit;
-          text-decoration: none;
-          border: 1px solid #eaeaea;
-          border-radius: 10px;
-          transition: color 0.15s ease, border-color 0.15s ease;
-        }
-
-        .card:hover,
-        .card:focus,
-        .card:active {
-          color: #0070f3;
-          border-color: #0070f3;
-        }
-
-        .card h3 {
-          margin: 0 0 1rem 0;
-          font-size: 1.5rem;
-        }
-
-        .card p {
-          margin: 0;
-          font-size: 1.25rem;
-          line-height: 1.5;
-        }
-
-        .logo {
-          height: 1em;
-        }
-
-        @media (max-width: 600px) {
-          .grid {
-            width: 100%;
-            flex-direction: column;
-          }
-        }
-      `}</style>
-
-      <style jsx global>{`
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-            sans-serif;
-        }
-
-        * {
-          box-sizing: border-box;
-        }
-      `}</style>
-    </div>
-  )
+                `}</style>
+                <div className="terminal-resize-area" onMouseDown={this.startResize}></div>
+                <div className="terminal-lines">
+                    {this.state.lines.map((line, index) => (
+                        <span className={line === "" ? "terminal-line empty-terminal-line" : "terminal-line"} key={index}>{line}</span>
+                    ))}
+                    <span ref={bottomRef} className="terminal-line">
+                        {this.prefix}
+                        {this.state.typingText}
+                        <span className="terminal-cursor">&nbsp;</span>
+                    </span>
+                </div>
+            </div>
+        )
+    }
 }

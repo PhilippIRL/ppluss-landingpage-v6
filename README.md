@@ -1,1 +1,11 @@
-This is a starter template for [Learn Next.js](https://nextjs.org/learn).
+# PplusS Landingpage v6
+WIP
+
+## Todo
+- [x] Basic Page Working
+- [x] Terminal
+- [ ] Terminal Mobile Compatible
+- [ ] Page Design with cards and texts
+- [ ] Legal pages (maybe?)
+- [ ] Page content
+- [ ] Todo list finished
