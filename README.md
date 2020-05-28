@@ -4,7 +4,7 @@ WIP
 ## Todo
 - [x] Basic Page Working
 - [x] Terminal
-- [ ] Terminal Mobile Compatible
+- [x] Terminal Mobile Compatible
 - [ ] Page Design with cards and texts
 - [ ] Legal pages (maybe?)
 - [ ] Page content
