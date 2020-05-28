@@ -295,6 +295,9 @@ export default class Home extends React.Component {
                         box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.75);
                         animation: card-in 1s;
                         transition: .2s;
+                        background-color: #666;
+                        background-size: 100% auto;
+                        /*background-repeat: no-repeat;*/
                     }
 
                     .card:hover {
@@ -308,15 +311,15 @@ export default class Home extends React.Component {
                     }
                     
                     .card-randomcode {
-                        background: url("/assets/v6/cards/randomcode.png") #666;
+                        background-image: url("/assets/v6/cards/randomcode.png");
                     }
 
                     .card-gge {
-                        background: url("/assets/v6/cards/gge.png") #666;
+                        background-image: url("/assets/v6/cards/gge.png");
                     }
 
                     .card-thispage {
-                        background: url("/assets/v6/cards/thispage.png") #666;
+                        background-image: url("/assets/v6/cards/thispage.png");
                     }
 
                     .card-title {
