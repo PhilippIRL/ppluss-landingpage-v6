@@ -355,6 +355,11 @@ export default class Home extends React.Component {
                         display: flex;
                         justify-content: center;
                         align-items: center;
+                        transition: .2s;
+                    }
+
+                    .sociallink:hover {
+                        transform: translateY(-10px);
                     }
 
                     .sociallink img {
