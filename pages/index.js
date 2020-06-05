@@ -273,7 +273,7 @@ export default class Home extends React.Component {
                         <a className="sociallink" href="https://t.me/philippirl" target="_blank"><img src="/assets/v6/socialmediaicons/telegram.svg" alt="Telegram" /></a>
                         <a className="sociallink" href="https://www.snapchat.com/add/ppluss1" target="_blank"><img src="/assets/v6/socialmediaicons/snapchat.svg" alt="Snapchat" /></a>
                         <a className="sociallink" href="https://twitch.tv/philipp_irl" target="_blank"><img src="/assets/v6/socialmediaicons/twitch.svg" alt="Twitch" /></a>
-                        <a className="sociallink" href="https://social.ppluss.de/@philipp" target="_blank"><img src="/assets/v6/socialmediaicons/mastodon.svg" alt="Mastodon" /></a>
+                        <a className="sociallink" href="https://social.ppluss.de/@philipp" target="_blank" rel="me"><img src="/assets/v6/socialmediaicons/mastodon.svg" alt="Mastodon" /></a>
                         <a className="sociallink" href="mailto:pplussinfo@gmail.com?subject=hey.&body=hi."><img src="/assets/v6/socialmediaicons/email.svg" alt="E-Mail" /></a>
                     </div>
                 </div>
