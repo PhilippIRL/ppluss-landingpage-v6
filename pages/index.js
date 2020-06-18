@@ -1,18 +1,41 @@
 import Head from "next/head";
 import React from "react";
+import ContactForm from "../components/ContactForm";
+import Terminal from "../components/Terminal";
+import PermissionPrompt from "../components/PermissionPrompt";
+import SteamNotification from "../components/SteamNotification";
 
 export default class Home extends React.Component {
 
     terminalControl = null;
+    steamNotificationControl = null;
 
     constructor(props) {
         super(props);
 
         this.setTerminalControl = this.setTerminalControl.bind(this);
         this.toggleConsole = this.toggleConsole.bind(this);
-        this.contactButtonPress = this.contactButtonPress.bind(this);
+        this.hasAnnoyanceConsent = this.hasAnnoyanceConsent.bind(this);
+        this.setSteamNotificationControl = this.setSteamNotificationControl.bind(this);
 
-        this.state = {dynamicData: {age: null, terminalPlatform: null}, contactState: {step: 0, medium: null, action: null, text: null}};
+        this.state = {dynamicData: {age: null, terminalPlatform: null}, steamNotificationState: "hide"};
+    }
+
+    setSteamNotificationControl(control) {
+        this.steamNotificationControl = control;
+    }
+
+    hasAnnoyanceConsent(value) {
+        if(!value) {
+            if(this.steamNotificationControl) {
+                this.steamNotificationControl(["schade"]);
+            }
+        } else {
+            if(this.steamNotificationControl) {
+                this.steamNotificationControl(["cool danke", "du hast 5 minuten gewartet", "und auch noch auf zulassen geklickt", "hoffe das war es wert für dieses...", "\"easteregg\"", "(wenn man es so nennen kann)", "naja", "thx 4 playing, i guess", "p.s.:", "hoffe value verklagt mich nicht", "und google sperrt mich nicht", "weil ich ahme ja deren gui nach", "wie es jedem aufgefallen ist", "(hoffentlich)", "p.p.s.:", "folgt mir auf twitter, danke", "link ist unten links"]);
+            }
+        }
+        
     }
 
     setTerminalControl(terminalControl) {
@@ -50,79 +73,6 @@ export default class Home extends React.Component {
 
     }
 
-    contactButtonPress(data, e) {
-        var contactState = this.state.contactState;
-        switch(data) {
-            case "step1_yes":
-                contactState.step = 1;
-                contactState.text = "Jetzt rein hypothetisch: Wenn du mich kontaktieren wollen würdest, welche Kommunikationsmöglichkeit wäre dir da am liebsten?";
-                break;
-            case "step1_no":
-                contactState.step = -1;
-                contactState.text = "Schade.";
-                break;
-            case "step2_discord":
-                contactState.medium = "discord";
-                contactState.action = "Discord öffnen";
-                contactState.text = "Ja, dann lass die Hypothese doch vielleicht wahr werden?";
-                contactState.step = 2;
-                break;
-            case "step2_telegram":
-                contactState.medium = "telegram";
-                contactState.action = "Telegram öffnen";
-                contactState.text = "Ja, dann lass die Hypothese doch vielleicht wahr werden?";
-                contactState.step = 2;
-                break;
-            case "step2_twitter":
-                contactState.medium = "twitter";
-                contactState.action = "Twitter öffnen";
-                contactState.text = "Ja, dann lass die Hypothese doch vielleicht wahr werden?";
-                contactState.step = 2;
-                break;
-            case "step2_mastodon":
-                contactState.medium = "mastodon";
-                contactState.action = "Mastodon öffnen";
-                contactState.text = "Ja, dann lass die Hypothese doch vielleicht wahr werden?";
-                contactState.step = 2;
-                break;
-            case "step2_email":
-                contactState.medium = "email";
-                contactState.action = "E-Mail verfassen";
-                contactState.text = "Ja, dann lass die Hypothese doch vielleicht wahr werden?";
-                contactState.step = 2;
-                break;
-            case "step2_instagram":
-                contactState.medium = "instagram";
-                contactState.action = "Instagram öffnen";
-                contactState.text = "Ja, dann lass die Hypothese doch vielleicht wahr werden?";
-                contactState.step = 2;
-                break;
-            case "step3_action":
-                switch(contactState.medium) {
-                    case "discord":
-                        window.open("https://discord.gg/BRJBhJj");
-                        break;
-                    case "telegram":
-                        window.open("https://t.me/philippirl");
-                        break;
-                    case "twitter":
-                        window.open("https://twitter.com/messages/compose?recipient_id=3400004517");
-                        break;
-                    case "mastodon":
-                        window.open("https://social.ppluss.de/@philipp");
-                        break;
-                    case "email":
-                        window.location.href = "mailto:pplussinfo@gmail.com?subject=Hey!";
-                        break;
-                    case "instagram":
-                        window.open("https://www.instagram.com/philipp_irl");
-                        break;
-                }
-                return;
-        }
-        this.setState({contactState});
-    }
-
     render() {
 
         var agePhrase = this.state.dynamicData.age ? `Laut Berechnungen bin ich derzeit ${this.state.dynamicData.age} Jahre alt.` : "Berechnungen zur Bestimmung meines Alters laufen gerade im Hintergrund oder JavaScript ist deaktiviert.";
@@ -142,89 +92,14 @@ export default class Home extends React.Component {
                 break;
         }
 
-        var contactElements = (
-            <div className="paragraph-rich-content">
-                <span className="rich-content-text">{this.state.contactState.text}</span>
-                {this.state.contactState.step == 0 ?
-                    <div className="rich-content-buttons">
-                        <div className="button button-primary" onClick={(e) => this.contactButtonPress("step1_yes", e)}>Ja</div>
-                        <div className="button" onClick={(e) => this.contactButtonPress("step1_no", e)}>Nein</div>
-                    </div>
-                : null}
-                {this.state.contactState.step == 1 ?
-                    <div className="rich-content-buttons">
-                        <div className="button" onClick={(e) => this.contactButtonPress("step2_discord", e)}>Discord</div>
-                        <div className="button" onClick={(e) => this.contactButtonPress("step2_telegram", e)}>Telegram</div>
-                        <div className="button" onClick={(e) => this.contactButtonPress("step2_twitter", e)}>Twitter</div>
-                        <div className="button" onClick={(e) => this.contactButtonPress("step2_mastodon", e)}>Mastodon</div>
-                        <div className="button" onClick={(e) => this.contactButtonPress("step2_email", e)}>E-Mail</div>
-                        <div className="button" onClick={(e) => this.contactButtonPress("step2_instagram", e)}>Instagram</div>
-                    </div>
-                : null}
-                {this.state.contactState.step == 2 ?
-                    <div className="rich-content-buttons">
-                        <div className="button button-primary" onClick={(e) => this.contactButtonPress("step3_action", e)}>{this.state.contactState.action}</div>
-                    </div>
-                : null}
-                <style jsx>{`
-                    .rich-content-buttons {
-                        display: flex;
-                        justify-content: center;
-                        margin: 10px;
-                        flex-wrap: wrap;
-                        margin-bottom: 0;
-                    }
-
-                    .button {
-                        padding: 10px;
-                        min-width: 75px;
-                        font-weight: bold;
-                        border: 2px solid #fff;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        margin: 10px;
-                        margin-bottom: 0;
-                        border-radius: 7px;
-                        transition: .2s;
-                        cursor: pointer;
-                    }
-
-                    .button-primary, .button:hover {
-                        color: #000;
-                        background-color: #fff;
-                    }
-
-                    .button-primary:hover {
-                        color: #fff;
-                        background-color: transparent;
-                    }
-
-                    .paragraph-rich-content {
-                        animation: paragraph-text-in 1s;
-                        display: flex;
-                        flex-direction: column;
-                    }
-
-                    .rich-content-text {
-                        margin-left: 20px;
-                        margin-right: 20px;
-                    }
-
-                    @keyframes paragraph-text-in {
-                        from { opacity: 0; transform: translateX(25px) }
-                        to { opacity: 1; }
-                    }
-                `}</style>
-            </div>
-        );
-
         return (
             <div className="app-root">
                 <Head>
                     <title>PplusS</title>
                 </Head>
                 <div className="content-wrapper">
+                    <PermissionPrompt hasConsent={this.hasAnnoyanceConsent} />
+                    <SteamNotification setSteamNotificationControl={this.setSteamNotificationControl} />
                     <Terminal setTerminalControl={this.setTerminalControl} />
                     <header>
                         <div className="inner-title-wrapper">
@@ -259,7 +134,7 @@ export default class Home extends React.Component {
                     </div>
                     <div className="paragraph">
                         <span className="paragraph-title">Möchtest du auch noch was sagen?</span>
-                        {contactElements}
+                        <ContactForm />
                     </div>
                     <div className="social-links">
                         <a className="sociallink" href="https://twitter.com/PhilippIRL" target="_blank"><img src="/assets/v6/socialmediaicons/twitter.svg" alt="Twitter" /></a>
@@ -297,7 +172,6 @@ export default class Home extends React.Component {
                         transition: .2s;
                         background-color: #666;
                         background-size: 100% auto;
-                        /*background-repeat: no-repeat;*/
                     }
 
                     .card:hover {
@@ -470,315 +344,6 @@ export default class Home extends React.Component {
                     }
 
                 `}</style>
-            </div>
-        )
-    }
-}
-
-class Terminal extends React.Component {
-
-    timeoutId = -1;
-    prefix = "# ";
-    terminalBrandString = "PplusS Landing Page v6";
-    touchStartY = 0;
-
-    constructor(props) {
-        super(props);
-
-        this.keyHandler = this.keyHandler.bind(this);
-        this.startResize = this.startResize.bind(this);
-        this.resizeHandler = this.resizeHandler.bind(this);
-        this.typingHandler = this.typingHandler.bind(this);
-        this.println = this.println.bind(this);
-        this.onCommand = this.onCommand.bind(this);
-        this.toggleConsole = this.toggleConsole.bind(this);
-        this.terminalControlFunction = this.terminalControlFunction.bind(this);
-
-        if(props.setTerminalControl) {
-            props.setTerminalControl(this.terminalControlFunction);
-        }
-
-        this.state = {visible: false, anim: null, resizing: false, height: 400, typingText: "", lines: [this.terminalBrandString,""]};
-    }
-
-    terminalControlFunction(command) {
-        if(command === "toggle") {
-            this.toggleConsole();
-        }
-    }
-
-    onCommand(command, args) {
-        switch(command) {
-            case "clear":
-            case "cls":
-                this.setState({lines: []});
-                return;
-            case "print":
-            case "echo":
-                this.println(args.join(" "));
-                return;
-            case "reboot":
-            case "reload":
-            case "refresh":
-                window.location.reload();
-                return;
-            case "exit":
-            case "quit":
-            case "close":
-                this.toggleConsole();
-                return;
-            case "":
-                return;
-            case "ver":
-            case "uname":
-            case "lsb_release":
-                this.println();
-                this.println(this.terminalBrandString);
-                this.println();
-                return;
-            case "startx":
-                this.println("Das hier ist nicht PplusSMC 4");
-                return;
-            case "command-not-found":
-            default:
-                this.println(command + ": command not found");
-                return;
-        }
-    }
-
-    componentDidUpdate() {
-        if(this.bottomRef) {
-            this.bottomRef.current.scrollIntoView();
-        }
-    }
-
-    keyHandler(e) {
-        if(!e.shiftKey && !e.metaKey && !e.ctrlKey && e.altKey && e.code === "KeyT") {
-            e.preventDefault();
-            this.toggleConsole();
-        }
-    }
-
-    toggleConsole() {
-        if(!this.state.visible) {
-            this.setState({visible: true, anim: "in"});
-            clearTimeout(this.timeoutId);
-            this.timeoutId = setTimeout(() => {
-                this.setState({anim: null});
-            }, 500);
-            window.addEventListener("keyup", this.typingHandler);
-        } else {
-            this.setState({anim: "out"});
-            clearTimeout(this.timeoutId);
-            this.timeoutId = setTimeout(() => {
-                this.setState({visible: false, anim: null});
-            }, 500);
-            window.removeEventListener("keyup", this.typingHandler);
-        }
-    }
-
-    println(text="") {
-        var lines = this.state.lines;
-        lines.push(text);
-        this.setState({lines});
-    } 
-
-    typingHandler(e) {
-        if(!e.metaKey && !e.ctrlKey && !e.altKey) {
-            var typingText = this.state.typingText;
-            if(e.code === "Backspace") {
-                typingText = typingText.substr(0, typingText.length - 1);
-            } else if(e.code === "Enter") {
-                this.println(this.prefix + typingText);
-
-                var args = typingText.split(" ");
-                var command = args.shift();
-                this.onCommand(command, args);
-
-                typingText = "";
-            } else if(e.key.length === 1) {
-                typingText += e.key;
-            }
-            this.setState({typingText})
-        }
-    }
-
-    componentDidMount() {
-        window.addEventListener("keydown", this.keyHandler);
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener("keydown", this.keyHandler);
-        
-        // remove everything again just to be sure
-        window.removeEventListener("mousemove", this.resizeHandler);
-        window.removeEventListener("mouseup", this.resizeHandler);
-        window.removeEventListener("selectstart", this.resizeHandler);
-        window.removeEventListener("touchmove", this.resizeHandler, {passive: false});
-        window.removeEventListener("touchend", this.resizeHandler);
-        window.removeEventListener("keyup", this.typingHandler);
-    }
-
-    resizeHandler(e) {
-        if(e.type === "mouseup" || e.type === "touchend") {
-            window.removeEventListener("mousemove", this.resizeHandler);
-            window.removeEventListener("mouseup", this.resizeHandler);
-            window.removeEventListener("selectstart", this.resizeHandler);
-            window.removeEventListener("touchmove", this.resizeHandler, {passive: false});
-            window.removeEventListener("touchend", this.resizeHandler);
-        } else if(e.type === "mousemove" || e.type === "touchmove") {
-            var height = this.state.height;
-            if(e.type === "mousemove") {
-                height -= e.movementY;
-            } else if(e.type === "touchmove") {
-                height -= (e.touches[0].screenY - this.touchStartY);
-                this.touchStartY = e.touches[0].screenY;
-            }
-            if(height < 200) {
-                height = 200;
-            } else if(height > (window.innerHeight - 50)) {
-                height = window.innerHeight - 50;
-            }
-            this.setState({height});
-            if(e.cancelable) {
-                e.preventDefault();
-            }
-        } else if(e.type === "selectstart") {
-            e.preventDefault();
-        }
-    }
-
-    startResize(e) {
-        this.setState({resizing: true});
-        window.addEventListener("mousemove", this.resizeHandler);
-        window.addEventListener("mouseup", this.resizeHandler);
-        window.addEventListener("selectstart", this.resizeHandler);
-        window.addEventListener("touchmove", this.resizeHandler, {passive: false});
-        window.addEventListener("touchend", this.resizeHandler);
-        if(e.type === "touchstart") {
-            this.touchStartY = e.touches[0].screenY;
-        }
-    }
-
-    render() {
-        this.bottomRef = null;
-        this.keyboardOpenerRef = null;
-
-        if(!this.state.visible) {
-            return null;
-        }
-
-        var className = "terminal";
-        var height = this.state.height;
-
-        if(this.state.anim) {
-            className += " anim-" + this.state.anim;
-        }
-
-        var bottomRef = React.createRef();
-        this.bottomRef = bottomRef;
-
-        return (
-            <div className={className}>
-                <style jsx>{`
-
-                    .terminal {
-                        position: fixed;
-                        bottom: 0px;
-                        width: calc(100vw - 20px);
-                        left: 10px;
-                        right: 10px;
-                        height: ${height}px;
-                        background-color: #111;
-                        font-family: 'Source Code Pro', monospace;
-                        border-top-right-radius: 50px;
-                        border-top-left-radius: 50px;
-                        display: flex;
-                        flex-direction: column;
-                        z-index: 1;
-                    }
-
-                    .terminal::before {
-                        content: "  ";
-                        position: absolute;
-                        height: 5px;
-                        width: 50px;
-                        left: 50%;
-                        transform: translateX(-50%);
-                        top: 15px;
-                        border-radius: 10px;
-                        background-color: #fff;
-                        pointer-events: none;
-                    }
-
-                    .terminal.anim-in {
-                        animation: terminalInOut .5s forwards;
-                    }
-
-                    .terminal.anim-out {
-                        animation: terminalInOut .5s reverse forwards;
-                    }
-
-                    @keyframes terminalInOut {
-                        from {
-                            transform: translateY(${height}px);
-                        }
-                        to {
-                            transform: translateY(0px);
-                        }
-                    }
-
-                    .terminal-resize-area {
-                        min-height: 50px;
-                        width: 100%;
-                        cursor: ns-resize;
-                    }
-
-                    .terminal-lines {
-                        margin: 10px;
-                        flex-grow: 1;
-                        display: flex;
-                        flex-direction: column;
-                        align-items: flex-start;
-                        overflow-y: auto;
-                        overflow-x: hidden;
-                    }
-
-                    .terminal-line {
-                        min-height: max-content;
-                        word-break: break-all;
-                        white-space: pre;
-                    }
-
-                    .empty-terminal-line {
-                        min-height: 1em;
-                    }
-
-                    .terminal-cursor {
-                        color: transparent;
-                        background-color: #fff;
-                        animation: cursorBlinking 1.5s infinite;
-                    }
-
-                    @keyframes cursorBlinking {
-                        0% { opacity: 0; }
-                        49.999% { opacity: 0; }
-                        50% { opacity: 1; }
-                        100% { opacity: 1; }
-                    }
-
-                `}</style>
-                <div className="terminal-resize-area" onMouseDown={this.startResize} onTouchStart={this.startResize}></div>
-                <div className="terminal-lines" onFocus={this.focusInput}>
-                    {this.state.lines.map((line, index) => (
-                        <span className={line === "" ? "terminal-line empty-terminal-line" : "terminal-line"} key={index}>{line}</span>
-                    ))}
-                    <span ref={bottomRef} className="terminal-line">
-                        {this.prefix}
-                        {this.state.typingText}
-                        <span className="terminal-cursor">&nbsp;</span>
-                    </span>
-                </div>
             </div>
         )
     }
