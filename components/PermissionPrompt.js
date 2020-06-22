@@ -1,4 +1,5 @@
 import React from "react";
+import Head from "next/head";
 
 export default class PermissionPrompt extends React.Component {
 
@@ -38,10 +39,11 @@ export default class PermissionPrompt extends React.Component {
         if(this.state.display) {
             return (
                 <div className="prompt">
+                    <Head>
+                        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;1,300&display=swap"></link>
+                        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"></link>
+                    </Head>
                     <style jsx>{`
-    
-                    @import "https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;1,300&display=swap";
-                    @import "https://fonts.googleapis.com/icon?family=Material+Icons";
     
                     .prompt {
                         width: 320px;

@@ -79,16 +79,14 @@ export default class Home extends React.Component {
         var terminalPhrase;
         switch(this.state.dynamicData.terminalPlatform) {
             case "desktop":
-                terminalPhrase = "ist durch das Drücken von Alt + T wieder aufrufbar. Dachte einfach es wäre vielleicht ein nettes Feature.";
-                break;
             case "mac":
-                terminalPhrase = "ist durch das Drücken von ⌥ + T wieder aufrufbar. Dachte einfach es wäre vielleicht ein nettes Feature.";
+                terminalPhrase = "Das Terminal ist durch das Drücken von " + (this.state.dynamicData.terminalPlatform === "mac" ? "⌥ + T" : "Strg + T") + " oder durch den Button weiter unten wieder aufrufbar. Dachte einfach es wäre vielleicht ein nettes Feature.";
                 break;
             case "mobile":
-                terminalPhrase = "ist auf Desktop-Geräten wieder aufrufbar. Mit deinem Mobilgerät ist es leider nicht kompatibel. Sorry. Du kannst trotzdem versuchen auf den Link \"Terminal\" weiter oben zu tippen, es wird aber leider keine Tastatur erscheinen. Wahrscheinlich fixe ich das in naher Zukunft.";
+                terminalPhrase = "Das Terminal ist auf Desktop-Geräten wieder aufrufbar. Mit deinem Mobilgerät ist es leider nicht kompatibel. Sorry. Du kannst trotzdem versuchen auf den Button \"Terminal öffnen/schließen\" weiter oben zu tippen, es wird aber leider keine Tastatur erscheinen. Wahrscheinlich fixe ich das in naher Zukunft.";
                 break;
             default:
-                terminalPhrase = "ist theoretisch durch das Drücken von Alt + T bzw. Option + T wieder aufrufbar. Bei dir aber wahrscheinlich nicht, weil du JavaScript deaktiviert hast.";
+                terminalPhrase = "Das Terminal ist theoretisch durch das Drücken von Alt + T bzw. Option + T wieder aufrufbar. Bei dir aber wahrscheinlich nicht, weil du JavaScript deaktiviert hast.";
                 break;
         }
 
@@ -96,6 +94,8 @@ export default class Home extends React.Component {
             <div className="app-root">
                 <Head>
                     <title>PplusS</title>
+                    <link rel="dns-prefetch" href="https://fonts.googleapis.com"></link>
+                    <meta name="description" content="Willkommen bei PplusS! Dies ist meine Webseite auf der ich, naja Text stehen hab und so... Und ich verlinke meine Social Media-Accounts!"></meta>
                 </Head>
                 <div className="content-wrapper">
                     <PermissionPrompt hasConsent={this.hasAnnoyanceConsent} />
@@ -130,26 +130,29 @@ export default class Home extends React.Component {
                     </div>
                     <div className="paragraph">
                         <span className="paragraph-title">Möchte ich sonst noch etwas sagen?</span>
-                        <span className="paragraph-text">Ja, sonst hätte ich schließlich diesen Abschnitt nicht eingefügt. Ich möchte darauf aufmerksam machen, dass ein Feature aus PplusSMC4 hier wieder sein Comeback hat. Das <a href="#" onClick={this.toggleConsole}>Terminal</a> {terminalPhrase}</span>
+                        <span className="paragraph-text">Ja, sonst hätte ich schließlich diesen Abschnitt nicht eingefügt. Ich möchte darauf aufmerksam machen, dass ein Feature aus PplusSMC4 hier wieder sein Comeback hat. {terminalPhrase}</span>
+                        <div className="paragraph-button">
+                            <div className="button button-primary" onClick={this.toggleConsole}>Terminal öffnen/schließen</div>
+                        </div>
                     </div>
                     <div className="paragraph">
                         <span className="paragraph-title">Möchtest du auch noch was sagen?</span>
                         <ContactForm />
                     </div>
                     <div className="social-links">
-                        <a className="sociallink" href="https://twitter.com/PhilippIRL" target="_blank"><img src="/assets/v6/socialmediaicons/twitter.svg" alt="Twitter" /></a>
-                        <a className="sociallink" href="https://twitter.com/ppscanary" target="_blank"><img src="/assets/v6/socialmediaicons/twitter.svg" alt="Twitter" /></a>
-                        <a className="sociallink" href="https://youtube.com/PhilippPplusS" target="_blank"><img src="/assets/v6/socialmediaicons/youtube.svg" alt="YouTube" /></a>
-                        <a className="sociallink" href="https://instagram.com/philipp_irl" target="_blank"><img src="/assets/v6/socialmediaicons/instagram.svg" alt="Instagram" /></a>
-                        <a className="sociallink" href="https://discord.gg/BRJBhJj" target="_blank"><img src="/assets/v6/socialmediaicons/discord.svg" alt="Discord" /></a>
-                        <a className="sociallink" href="https://open.spotify.com/user/pplussmc" target="_blank"><img src="/assets/v6/socialmediaicons/spotify.svg" alt="Spotify" /></a>
-                        <a className="sociallink" href="https://tellonym.me/ppluss" target="_blank"><img src="/assets/v6/socialmediaicons/tellonym.png" alt="Tellonym" /></a>
-                        <a className="sociallink" href="https://keybase.io/ppluss" target="_blank"><img src="/assets/v6/socialmediaicons/keybase.svg" alt="Keybase" /></a>
-                        <a className="sociallink" href="https://t.me/philippirl" target="_blank"><img src="/assets/v6/socialmediaicons/telegram.svg" alt="Telegram" /></a>
-                        <a className="sociallink" href="https://www.snapchat.com/add/ppluss1" target="_blank"><img src="/assets/v6/socialmediaicons/snapchat.svg" alt="Snapchat" /></a>
-                        <a className="sociallink" href="https://twitch.tv/philipp_irl" target="_blank"><img src="/assets/v6/socialmediaicons/twitch.svg" alt="Twitch" /></a>
-                        <a className="sociallink" href="https://social.ppluss.de/@philipp" target="_blank" rel="me"><img src="/assets/v6/socialmediaicons/mastodon.svg" alt="Mastodon" /></a>
-                        <a className="sociallink" href="mailto:pplussinfo@gmail.com?subject=hey.&body=hi."><img src="/assets/v6/socialmediaicons/email.svg" alt="E-Mail" /></a>
+                        <a className="sociallink" href="https://twitter.com/PhilippIRL" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/twitter.svg" alt="Twitter" /></a>
+                        <a className="sociallink" href="https://twitter.com/ppscanary" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/twitter.svg" alt="Twitter" /></a>
+                        <a className="sociallink" href="https://youtube.com/PhilippPplusS" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/youtube.svg" alt="YouTube" /></a>
+                        <a className="sociallink" href="https://instagram.com/philipp_irl" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/instagram.svg" alt="Instagram" /></a>
+                        <a className="sociallink" href="https://discord.gg/BRJBhJj" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/discord.svg" alt="Discord" /></a>
+                        <a className="sociallink" href="https://open.spotify.com/user/pplussmc" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/spotify.svg" alt="Spotify" /></a>
+                        <a className="sociallink" href="https://tellonym.me/ppluss" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/tellonym.png" alt="Tellonym" /></a>
+                        <a className="sociallink" href="https://keybase.io/ppluss" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/keybase.svg" alt="Keybase" /></a>
+                        <a className="sociallink" href="https://t.me/philippirl" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/telegram.svg" alt="Telegram" /></a>
+                        <a className="sociallink" href="https://www.snapchat.com/add/ppluss1" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/snapchat.svg" alt="Snapchat" /></a>
+                        <a className="sociallink" href="https://twitch.tv/philipp_irl" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/twitch.svg" alt="Twitch" /></a>
+                        <a className="sociallink" href="https://social.ppluss.de/@philipp" target="_blank" rel="me noopener"><img src="/assets/v6/socialmediaicons/mastodon.svg" alt="Mastodon" /></a>
+                        <a className="sociallink" href="mailto:pplussinfo@gmail.com?subject=hey.&body=hi." rel="noopener"><img src="/assets/v6/socialmediaicons/email.svg" alt="E-Mail" /></a>
                     </div>
                 </div>
                 <style jsx>{`
@@ -341,6 +344,37 @@ export default class Home extends React.Component {
                         flex-direction: column;
                         align-items: center;
                         overflow-x: hidden;
+                    }
+
+                    .button {
+                        padding: 10px;
+                        min-width: 75px;
+                        font-weight: bold;
+                        border: 2px solid #fff;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        margin: 10px;
+                        margin-bottom: 0;
+                        border-radius: 7px;
+                        transition: .2s;
+                        cursor: pointer;
+                    }
+
+                    .button-primary, .button:hover {
+                        color: #000;
+                        background-color: #fff;
+                    }
+
+                    .button-primary:hover {
+                        color: #fff;
+                        background-color: transparent;
+                    }
+
+                    .paragraph-button {
+                        display: flex;
+                        justify-content: center;
+                        animation: paragraph-text-in 1s;
                     }
 
                 `}</style>

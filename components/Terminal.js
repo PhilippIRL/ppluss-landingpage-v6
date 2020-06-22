@@ -18,6 +18,7 @@ export default class Terminal extends React.Component {
         this.onCommand = this.onCommand.bind(this);
         this.toggleConsole = this.toggleConsole.bind(this);
         this.terminalControlFunction = this.terminalControlFunction.bind(this);
+        this.focusInput = this.focusInput.bind(this);
 
         if(props.setTerminalControl) {
             props.setTerminalControl(this.terminalControlFunction);
@@ -64,6 +65,9 @@ export default class Terminal extends React.Component {
             case "startx":
                 this.println("Das hier ist nicht PplusSMC 4");
                 return;
+            case "testing":
+                window.location.href = "https://ppluss.de/hub.html";
+                return;
             case "command-not-found":
             default:
                 this.println(command + ": command not found");
@@ -74,6 +78,13 @@ export default class Terminal extends React.Component {
     componentDidUpdate() {
         if(this.bottomRef) {
             this.bottomRef.current.scrollIntoView();
+        }
+        this.focusInput();
+    }
+
+    focusInput() {
+        if(this.inputRef) {
+            this.inputRef.current.focus();
         }
     }
 
@@ -91,14 +102,12 @@ export default class Terminal extends React.Component {
             this.timeoutId = setTimeout(() => {
                 this.setState({anim: null});
             }, 500);
-            window.addEventListener("keyup", this.typingHandler);
         } else {
             this.setState({anim: "out"});
             clearTimeout(this.timeoutId);
             this.timeoutId = setTimeout(() => {
                 this.setState({visible: false, anim: null});
             }, 500);
-            window.removeEventListener("keyup", this.typingHandler);
         }
     }
 
@@ -109,23 +118,25 @@ export default class Terminal extends React.Component {
     } 
 
     typingHandler(e) {
-        if(!e.metaKey && !e.ctrlKey && !e.altKey) {
-            var typingText = this.state.typingText;
-            if(e.code === "Backspace") {
-                typingText = typingText.substr(0, typingText.length - 1);
-            } else if(e.code === "Enter") {
-                this.println(this.prefix + typingText);
+        var typingText = null;
 
-                var args = typingText.split(" ");
-                var command = args.shift();
-                this.onCommand(command, args);
+        if(e.type === "change") {
+            typingText = e.target.value;
+        } else if(e.type === "submit") {
+            e.preventDefault();
 
-                typingText = "";
-            } else if(e.key.length === 1) {
-                typingText += e.key;
-            }
-            this.setState({typingText})
+            typingText = this.state.typingText;
+
+            this.println(this.prefix + typingText);
+            var args = typingText.split(" ");
+            var command = args.shift();
+            this.onCommand(command, args);
+
+            typingText = "";
+            if(this.inputRef) this.inputRef.current.value = "";
         }
+
+        this.setState({typingText});
     }
 
     componentDidMount() {
@@ -187,6 +198,7 @@ export default class Terminal extends React.Component {
 
     render() {
         this.bottomRef = null;
+        this.inputRef = null;
         this.keyboardOpenerRef = null;
 
         if(!this.state.visible) {
@@ -203,8 +215,11 @@ export default class Terminal extends React.Component {
         var bottomRef = React.createRef();
         this.bottomRef = bottomRef;
 
+        var inputRef = React.createRef();
+        this.inputRef = inputRef;
+
         return (
-            <div className={className} style={{height: height + "px"}}>
+            <div className={className} style={{height: height + "px"}} onClick={this.focusInput}>
                 <style jsx>{`
 
                     .terminal {
@@ -257,6 +272,7 @@ export default class Terminal extends React.Component {
                         min-height: 50px;
                         width: 100%;
                         cursor: ns-resize;
+                        touch-action: none;
                     }
 
                     .terminal-lines {
@@ -282,7 +298,8 @@ export default class Terminal extends React.Component {
                     .terminal-cursor {
                         color: transparent;
                         background-color: #fff;
-                        animation: cursorBlinking 1.5s infinite;
+                        animation: cursorBlinking 1.5s;
+                        animation-iteration-count: infinite;
                     }
 
                     @keyframes cursorBlinking {
@@ -292,9 +309,18 @@ export default class Terminal extends React.Component {
                         100% { opacity: 1; }
                     }
 
+                    .text-input {
+                        position: fixed;
+                        top: 100vh;
+                        left: 0;
+                        font-size: 16px !important;
+                        border: none;
+                        outline: none;
+                    }
+
                 `}</style>
                 <div className="terminal-resize-area" onMouseDown={this.startResize} onTouchStart={this.startResize}></div>
-                <div className="terminal-lines" onFocus={this.focusInput}>
+                <div className="terminal-lines">
                     {this.state.lines.map((line, index) => (
                         <span className={line === "" ? "terminal-line empty-terminal-line" : "terminal-line"} key={index}>{line}</span>
                     ))}
@@ -304,6 +330,9 @@ export default class Terminal extends React.Component {
                         <span className="terminal-cursor">&nbsp;</span>
                     </span>
                 </div>
+                <form className="input-form" onSubmit={this.typingHandler}>
+                    <input ref={inputRef} onChange={this.typingHandler} type="text" className="text-input" autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck="false"></input>
+                </form>
             </div>
         )
     }
