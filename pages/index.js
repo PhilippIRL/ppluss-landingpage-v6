@@ -18,7 +18,7 @@ export default class Home extends React.Component {
         this.hasAnnoyanceConsent = this.hasAnnoyanceConsent.bind(this);
         this.setSteamNotificationControl = this.setSteamNotificationControl.bind(this);
 
-        this.state = {dynamicData: {age: null, terminalPlatform: null}, steamNotificationState: "hide"};
+        this.state = {dynamicData: {age: null, terminalPlatform: null, componentDidMount: false}, steamNotificationState: "hide"};
     }
 
     setSteamNotificationControl(control) {
@@ -69,6 +69,8 @@ export default class Home extends React.Component {
         }
         dynamicData.terminalPlatform = terminalPlatform;
 
+        dynamicData.componentDidMount = true;
+
         this.setState({dynamicData});
 
     }
@@ -83,10 +85,10 @@ export default class Home extends React.Component {
                 terminalPhrase = "Das Terminal ist durch das Drücken von " + (this.state.dynamicData.terminalPlatform === "mac" ? "⌥ + T" : "Strg + T") + " oder durch den Button weiter unten wieder aufrufbar. Dachte einfach es wäre vielleicht ein nettes Feature.";
                 break;
             case "mobile":
-                terminalPhrase = "Das Terminal ist auf Desktop-Geräten wieder aufrufbar. Mit deinem Mobilgerät ist es leider nicht kompatibel. Sorry. Du kannst trotzdem versuchen auf den Button \"Terminal öffnen/schließen\" weiter oben zu tippen, es wird aber leider keine Tastatur erscheinen. Wahrscheinlich fixe ich das in naher Zukunft.";
+                terminalPhrase = "Das Terminal ist wieder aufrufbar. Da du auf einem Mobilgerät bist, kannst du das Terminal nur mit dem Button weiter unten öffnen und nicht per Tastenkombination";
                 break;
             default:
-                terminalPhrase = "Das Terminal ist theoretisch durch das Drücken von Alt + T bzw. Option + T wieder aufrufbar. Bei dir aber wahrscheinlich nicht, weil du JavaScript deaktiviert hast.";
+                terminalPhrase = "Das Terminal ist für alle Nutzer außer dich wieder verfügbar. Du kannst auch zu den anderen gehören, wenn du JavaScript aktiviert.";
                 break;
         }
 
@@ -132,7 +134,9 @@ export default class Home extends React.Component {
                         <span className="paragraph-title">Möchte ich sonst noch etwas sagen?</span>
                         <span className="paragraph-text">Ja, sonst hätte ich schließlich diesen Abschnitt nicht eingefügt. Ich möchte darauf aufmerksam machen, dass ein Feature aus PplusSMC4 hier wieder sein Comeback hat. {terminalPhrase}</span>
                         <div className="paragraph-button">
-                            <div className="button button-primary" onClick={this.toggleConsole}>Terminal öffnen/schließen</div>
+                            {this.state.dynamicData.componentDidMount?
+                                <div className="button button-primary" onClick={this.toggleConsole}>Terminal öffnen/schließen</div>
+                            :null}
                         </div>
                     </div>
                     <div className="paragraph">
