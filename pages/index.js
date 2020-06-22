@@ -88,7 +88,7 @@ export default class Home extends React.Component {
                 terminalPhrase = "Das Terminal ist wieder aufrufbar. Da du auf einem Mobilgerät bist, kannst du das Terminal nur mit dem Button weiter unten öffnen und nicht per Tastenkombination";
                 break;
             default:
-                terminalPhrase = "Das Terminal ist für alle Nutzer außer dich wieder verfügbar. Du kannst auch zu den anderen gehören, wenn du JavaScript aktiviert.";
+                terminalPhrase = "Das Terminal ist für alle Nutzer außer dich wieder verfügbar. Du kannst auch zu den anderen gehören, wenn du JavaScript aktivierst.";
                 break;
         }
 
