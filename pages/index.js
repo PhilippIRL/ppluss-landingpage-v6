@@ -4,6 +4,7 @@ import ContactForm from "../components/ContactForm";
 import Terminal from "../components/Terminal";
 import PermissionPrompt from "../components/PermissionPrompt";
 import SteamNotification from "../components/SteamNotification";
+import Link from "next/link";
 
 export default class Home extends React.Component {
 
@@ -143,6 +144,11 @@ export default class Home extends React.Component {
                         <span className="paragraph-title">Möchtest du auch noch was sagen?</span>
                         <ContactForm />
                     </div>
+                    {/*<Link href="/more">
+                        <div className="more-paragraph">
+                            <span className="more-text">...</span>
+                        </div>
+                    </Link>*/}
                     <div className="social-links">
                         <a className="sociallink" href="https://twitter.com/PhilippIRL" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/twitter.svg" alt="Twitter" /></a>
                         <a className="sociallink" href="https://twitter.com/ppscanary" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/twitter.svg" alt="Twitter" /></a>
@@ -379,6 +385,23 @@ export default class Home extends React.Component {
                         display: flex;
                         justify-content: center;
                         animation: paragraph-text-in 1s;
+                    }
+
+                    .more-text {
+                        font-size: 24px;
+                        letter-spacing: 1px;
+                        transition: letter-spacing .5s;
+                        cursor: pointer;
+                        animation: fadein 1s;
+                    }
+
+                    .more-text:hover {
+                        letter-spacing: 5px;
+                    }
+
+                    @keyframes fadein {
+                        from {opacity: 0}
+                        to {opacity: 1}
                     }
 
                 `}</style>
