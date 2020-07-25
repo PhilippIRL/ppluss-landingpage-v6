@@ -1,10 +1,8 @@
 import Head from "next/head";
 import React from "react";
-import ContactForm from "../components/ContactForm";
 import Terminal from "../components/Terminal";
 import PermissionPrompt from "../components/PermissionPrompt";
 import SteamNotification from "../components/SteamNotification";
-import Link from "next/link";
 
 export default class Home extends React.Component {
 
@@ -114,12 +112,12 @@ export default class Home extends React.Component {
                         <span className="paragraph-text">Hey, ich bin Philipp. {agePhrase} Ich könnte jetzt hier noch mehr Sachen über mich erzählen, mir fällt nur leider nicht viel zu mir ein.</span>
                     </div>
                     <div className="paragraph">
-                        <span className="paragraph-title">Sachen die ich mal so gemacht hab'</span>
-                        <span className="paragraph-text">Irgendwer meinte mal ich hätte auch mal andere Sachen gemacht als diese Seite zu bauen. Weiter unten sind, wenn ich welche finde, Beispiele aufgelistet. Desweiteren hab' ich wie jeder moderne Mensch auch noch Social Media-Accounts zu welchen sich die Links in der Fußzeile befinden.</span>
+                        <span className="paragraph-title">Sachen die ich mal so gemacht hab</span>
+                        <span className="paragraph-text">Irgendwer meinte mal ich hätte auch mal andere Sachen gemacht als diese Seite zu bauen. Weiter unten sind, wenn ich welche finde, Beispiele aufgelistet. Desweiteren hab ich wie jeder moderne Mensch auch noch Social Media-Accounts zu welchen sich die Links in der Fußzeile befinden.</span>
                         <div className="paragraph-cards">
                             <div className="card card-gge">
                                 <span className="card-title">GGE-Vertretung</span>
-                                <span className="card-description">Die GGE-Vertretung ist eine App die ich mal gebaut hab'. Sie kann die Vertretungen des Grashof Gymnasium Essen anzeigen.</span>
+                                <span className="card-description">Die GGE-Vertretung ist eine App die ich mal gebaut hab. Sie kann die Vertretungen des Grashof Gymnasium Essen anzeigen.</span>
                             </div>
                             <div className="card card-thispage">
                                 <span className="card-title">Diese Seite</span>
@@ -141,28 +139,38 @@ export default class Home extends React.Component {
                         </div>
                     </div>
                     <div className="paragraph">
-                        <span className="paragraph-title">Möchtest du auch noch was sagen?</span>
-                        <ContactForm />
+                        <span className="paragraph-title">Du möchtest auch noch was sagen?</span>
+                        {/*<ContactForm />*/}
+                        <span className="paragraph-text">Dann kontaktiere mich gerne über eine der Kontaktmöglichkeiten unten links.</span>
                     </div>
                     {/*<Link href="/more">
                         <div className="more-paragraph">
                             <span className="more-text">...</span>
                         </div>
                     </Link>*/}
-                    <div className="social-links">
-                        <a className="sociallink" href="https://twitter.com/PhilippIRL" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/twitter.svg" alt="Twitter" /></a>
-                        <a className="sociallink" href="https://twitter.com/ppscanary" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/twitter.svg" alt="Twitter" /></a>
-                        <a className="sociallink" href="https://youtube.com/PhilippPplusS" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/youtube.svg" alt="YouTube" /></a>
-                        <a className="sociallink" href="https://instagram.com/philipp_irl" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/instagram.svg" alt="Instagram" /></a>
-                        <a className="sociallink" href="https://discord.gg/BRJBhJj" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/discord.svg" alt="Discord" /></a>
-                        <a className="sociallink" href="https://open.spotify.com/user/pplussmc" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/spotify.svg" alt="Spotify" /></a>
-                        <a className="sociallink" href="https://tellonym.me/ppluss" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/tellonym.png" alt="Tellonym" /></a>
-                        <a className="sociallink" href="https://keybase.io/ppluss" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/keybase.svg" alt="Keybase" /></a>
-                        <a className="sociallink" href="https://t.me/philippirl" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/telegram.svg" alt="Telegram" /></a>
-                        <a className="sociallink" href="https://www.snapchat.com/add/ppluss1" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/snapchat.svg" alt="Snapchat" /></a>
-                        <a className="sociallink" href="https://twitch.tv/philipp_irl" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/twitch.svg" alt="Twitch" /></a>
-                        <a className="sociallink" href="https://social.ppluss.de/@philipp" target="_blank" rel="me noopener"><img src="/assets/v6/socialmediaicons/mastodon.svg" alt="Mastodon" /></a>
-                        <a className="sociallink" href="mailto:pplussinfo@gmail.com?subject=hey.&body=hi." rel="noopener"><img src="/assets/v6/socialmediaicons/email.svg" alt="E-Mail" /></a>
+                    <div className="footer">
+                        <div className="social-links">
+                            <a className="sociallink" href="https://twitter.com/PhilippIRL" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/twitter.svg" alt="Twitter" /></a>
+                            <a className="sociallink" href="https://twitter.com/ppscanary" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/twitter.svg" alt="Twitter" /></a>
+                            <a className="sociallink" href="https://youtube.com/PhilippPplusS" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/youtube.svg" alt="YouTube" /></a>
+                            <a className="sociallink" href="https://instagram.com/philipp_irl" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/instagram.svg" alt="Instagram" /></a>
+                            <a className="sociallink" href="https://discord.gg/BRJBhJj" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/discord.svg" alt="Discord" /></a>
+                            <a className="sociallink" href="https://open.spotify.com/user/pplussmc" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/spotify.svg" alt="Spotify" /></a>
+                            <a className="sociallink" href="https://tellonym.me/ppluss" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/tellonym.png" alt="Tellonym" /></a>
+                            <a className="sociallink" href="https://keybase.io/ppluss" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/keybase.svg" alt="Keybase" /></a>
+                            <a className="sociallink" href="https://t.me/philippirl" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/telegram.svg" alt="Telegram" /></a>
+                            <a className="sociallink" href="https://www.snapchat.com/add/ppluss1" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/snapchat.svg" alt="Snapchat" /></a>
+                            <a className="sociallink" href="https://twitch.tv/philipp_irl" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/twitch.svg" alt="Twitch" /></a>
+                            <a className="sociallink" href="https://social.ppluss.de/@philipp" target="_blank" rel="me noopener"><img src="/assets/v6/socialmediaicons/mastodon.svg" alt="Mastodon" /></a>
+                            <a className="sociallink" href="mailto:pplussinfo@gmail.com?subject=hey.&body=hi." rel="noopener"><img src="/assets/v6/socialmediaicons/email.svg" alt="E-Mail" /></a>
+                        </div>
+                        <div></div>
+                        {/*<div className="language-switcher">
+                            <select className="language-select">
+                                <option name="de">Deutsch</option>
+                                <option name="en">English</option>
+                            </select>
+                        </div>*/}
                     </div>
                 </div>
                 <style jsx>{`
@@ -252,6 +260,13 @@ export default class Home extends React.Component {
                     .sociallink img {
                         width: 24px;
                         fill: white;
+                    }
+
+                    .footer {
+                        display: flex;
+                        justify-content: space-between;
+                        width: 100vw;
+                        align-items: center;
                     }
 
                     .social-links {
@@ -402,6 +417,20 @@ export default class Home extends React.Component {
                     @keyframes fadein {
                         from {opacity: 0}
                         to {opacity: 1}
+                    }
+
+                    .language-select {
+                        background: transparent;
+                        color: #fff;
+                        margin: 25px;
+                        font-size: 18px;
+                        border: 0;
+                        outline: 0;
+                        padding: 0;
+                    }
+
+                    .language-select option {
+                        background-color: #222;
                     }
 
                 `}</style>
