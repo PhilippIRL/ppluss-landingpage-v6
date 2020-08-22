@@ -81,7 +81,7 @@ export default class Home extends React.Component {
         switch(this.state.dynamicData.terminalPlatform) {
             case "desktop":
             case "mac":
-                terminalPhrase = "Das Terminal ist durch das Drücken von " + (this.state.dynamicData.terminalPlatform === "mac" ? "⌥ + T" : "Strg + T") + " oder durch den Button weiter unten wieder aufrufbar. Dachte einfach es wäre vielleicht ein nettes Feature.";
+                terminalPhrase = "Das Terminal ist durch das Drücken von " + (this.state.dynamicData.terminalPlatform === "mac" ? "⌥ + T" : "Alt + T") + " oder durch den Button weiter unten wieder aufrufbar. Dachte einfach es wäre vielleicht ein nettes Feature.";
                 break;
             case "mobile":
                 terminalPhrase = "Das Terminal ist wieder aufrufbar. Da du auf einem Mobilgerät bist, kannst du das Terminal nur mit dem Button weiter unten öffnen und nicht per Tastenkombination";
