@@ -4,11 +4,13 @@ import Head from "next/head";
 export default class PermissionPrompt extends React.Component {
 
     timeoutId = null;
+    eventBus = null;
 
     constructor(props) {
         super(props);
 
         this.onButtonClick = this.onButtonClick.bind(this);
+        this.eventBus = props.eventBus;
 
         this.state = {website: "Diese Webseite", display: false};
     } 
@@ -30,9 +32,7 @@ export default class PermissionPrompt extends React.Component {
 
     onButtonClick(which, e) {
         this.setState({display: false});
-        if(this.props.hasConsent) {
-            this.props.hasConsent(which === "allow");
-        }
+        this.eventBus.post({id: "HAS_CONSENT", data: (which === "allow")});
     }
 
     render() {

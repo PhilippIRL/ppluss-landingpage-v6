@@ -6,6 +6,7 @@ export default class Terminal extends React.Component {
     prefix = "# ";
     terminalBrandString = "PplusS Landing Page v6";
     touchStartY = 0;
+    eventBus = null;
 
     constructor(props) {
         super(props);
@@ -17,18 +18,17 @@ export default class Terminal extends React.Component {
         this.println = this.println.bind(this);
         this.onCommand = this.onCommand.bind(this);
         this.toggleConsole = this.toggleConsole.bind(this);
-        this.terminalControlFunction = this.terminalControlFunction.bind(this);
         this.focusInput = this.focusInput.bind(this);
+        this.onBusEvent = this.onBusEvent.bind(this);
 
-        if(props.setTerminalControl) {
-            props.setTerminalControl(this.terminalControlFunction);
-        }
+        this.eventBus = props.eventBus;
+        this.eventBus.attach(this.onBusEvent);
 
         this.state = {visible: false, anim: null, resizing: false, height: 400, typingText: "", lines: [this.terminalBrandString,""]};
     }
 
-    terminalControlFunction(command) {
-        if(command === "toggle") {
+    onBusEvent(msg) {
+        if(msg.id === "TERMINAL_TOGGLE") {
             this.toggleConsole();
         }
     }
@@ -153,6 +153,8 @@ export default class Terminal extends React.Component {
         window.removeEventListener("touchmove", this.resizeHandler, {passive: false});
         window.removeEventListener("touchend", this.resizeHandler);
         window.removeEventListener("keyup", this.typingHandler);
+
+        this.eventBus.detach(this.onBusEvent);
     }
 
     resizeHandler(e) {

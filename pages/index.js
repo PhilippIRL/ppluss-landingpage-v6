@@ -3,49 +3,39 @@ import React from "react";
 import Terminal from "../components/Terminal";
 import PermissionPrompt from "../components/PermissionPrompt";
 import SteamNotification from "../components/SteamNotification";
+import EventBus from "../scripts/EventBus";
 
 export default class Home extends React.Component {
 
     terminalControl = null;
-    steamNotificationControl = null;
+    eventBus = null;
 
     constructor(props) {
         super(props);
 
-        this.setTerminalControl = this.setTerminalControl.bind(this);
+        this.eventBus = new EventBus();
+
         this.toggleConsole = this.toggleConsole.bind(this);
-        this.hasAnnoyanceConsent = this.hasAnnoyanceConsent.bind(this);
-        this.setSteamNotificationControl = this.setSteamNotificationControl.bind(this);
+        this.onBusEvent = this.onBusEvent.bind(this);
+
+        this.eventBus.attach(this.onBusEvent);
 
         this.state = {dynamicData: {age: null, terminalPlatform: null, componentDidMount: false}, steamNotificationState: "hide"};
     }
 
-    setSteamNotificationControl(control) {
-        this.steamNotificationControl = control;
-    }
-
-    hasAnnoyanceConsent(value) {
-        if(!value) {
-            if(this.steamNotificationControl) {
-                this.steamNotificationControl(["schade"]);
-            }
-        } else {
-            if(this.steamNotificationControl) {
-                this.steamNotificationControl(["cool danke", "du hast 5 minuten gewartet", "und auch noch auf zulassen geklickt", "hoffe das war es wert für dieses...", "\"easteregg\"", "(wenn man es so nennen kann)", "naja", "thx 4 playing, i guess", "p.s.:", "hoffe valve verklagt mich nicht", "bzw. google sperrt mich nicht", "weil ich ahme ja deren gui nach", "wie es jedem aufgefallen ist", "(hoffentlich)", "p.p.s.:", "folgt mir auf twitter, danke", "link ist unten links"]);
+    onBusEvent(msg) {
+        if(msg.id === "HAS_CONSENT") {
+            if(!msg.data) {
+                this.eventBus.post({id: "STEAM_PROMPT", data: ["schade"]});
+            } else {
+                this.eventBus.post({id: "STEAM_PROMPT", data: ["cool danke", "du hast 5 minuten gewartet", "und auch noch auf zulassen geklickt", "hoffe das war es wert für dieses...", "\"easteregg\"", "(wenn man es so nennen kann)", "naja", "thx 4 playing, i guess", "p.s.:", "hoffe valve verklagt mich nicht", "bzw. google sperrt mich nicht", "weil ich ahme ja deren gui nach", "wie es jedem aufgefallen ist", "(hoffentlich)", "p.p.s.:", "folgt mir auf twitter, danke", "link ist unten links"]});
             }
         }
-        
-    }
-
-    setTerminalControl(terminalControl) {
-        this.terminalControl = terminalControl;
     }
 
     toggleConsole(e) {
         e.preventDefault();
-        if(this.terminalControl) {
-            this.terminalControl("toggle");
-        }
+        this.eventBus.post({id: "TERMINAL_TOGGLE"});
     }
 
     componentDidMount() {
@@ -74,6 +64,10 @@ export default class Home extends React.Component {
 
     }
 
+    componentWillUnmount() {
+        this.eventBus.detach(this.onBusEvent);
+    }
+
     render() {
 
         var agePhrase = this.state.dynamicData.age ? `Laut Berechnungen bin ich derzeit ${this.state.dynamicData.age} Jahre alt.` : "Berechnungen zur Bestimmung meines Alters laufen gerade im Hintergrund oder JavaScript ist deaktiviert.";
@@ -99,9 +93,9 @@ export default class Home extends React.Component {
                     <meta name="description" content="Willkommen bei PplusS! Dies ist meine Webseite auf der ich, naja Text stehen hab und so... Und ich verlinke meine Social Media-Accounts!"></meta>
                 </Head>
                 <div className="content-wrapper">
-                    <PermissionPrompt hasConsent={this.hasAnnoyanceConsent} />
-                    <SteamNotification setSteamNotificationControl={this.setSteamNotificationControl} />
-                    <Terminal setTerminalControl={this.setTerminalControl} />
+                    <PermissionPrompt eventBus={this.eventBus} />
+                    <SteamNotification eventBus={this.eventBus} />
+                    <Terminal eventBus={this.eventBus} />
                     <header>
                         <div className="inner-title-wrapper">
                             <span className="header-title">Willkommen bei PplusS<span className="header-version">v6</span></span>

@@ -4,13 +4,17 @@ export default class SteamNotification extends React.Component {
 
     pendingMessages = [];
     intervalId = null;
+    eventBus = null;
 
     constructor(props) {
         super(props);
 
         this.displayMessage = this.displayMessage.bind(this);
-        this.steamNotificationControl = this.steamNotificationControl.bind(this);
         this.nextMessage = this.nextMessage.bind(this);
+        this.onBusEvent = this.onBusEvent.bind(this);
+
+        this.eventBus = props.eventBus;
+        this.eventBus.attach(this.onBusEvent);
 
         this.state = {display: "hide", message: null};
     }
@@ -19,12 +23,7 @@ export default class SteamNotification extends React.Component {
         if(this.intervalId) {
             clearInterval(this.intervalId);
         }
-    }
-
-    componentDidMount() {
-        if(this.props.setSteamNotificationControl) {
-            this.props.setSteamNotificationControl(this.steamNotificationControl);
-        }
+        this.eventBus.detach(this.onBusEvent);
     }
 
     nextMessage() {
@@ -37,11 +36,13 @@ export default class SteamNotification extends React.Component {
         }
     }
 
-    steamNotificationControl(messages) {
-        this.pendingMessages = this.pendingMessages.concat(messages);
-        if(!this.intervalId) {
-            this.nextMessage();
-            this.intervalId = setInterval(this.nextMessage, 4000);
+    onBusEvent(msg) {
+        if(msg.id === "STEAM_PROMPT") {
+            this.pendingMessages = this.pendingMessages.concat(msg.data);
+            if(!this.intervalId) {
+                this.nextMessage();
+                this.intervalId = setInterval(this.nextMessage, 4000);
+            }
         }
     }
 
