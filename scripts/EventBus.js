@@ -1,13 +1,16 @@
 export default class EventBus {
 
-    listeners = []
+    listeners = [console.log]
 
     attach(listener) {
         this.listeners.push(listener);
     }
 
     detach(listener) {
-        this.listeners.splice(listener);
+        let index = this.listeners.indexOf(listener);
+        if(index != -1) {
+            this.listeners.splice(index, 1);
+        }
     }
 
     post(msg) {

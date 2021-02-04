@@ -3,11 +3,12 @@
 
 body {
     margin: 0;
-}
-
-.app-root {
     background: linear-gradient(115deg, #303030 0%, #252525 100%);
     min-height: 100vh;
     font-family: "Nunito", sans-serif;
     color: #fff;
+}
+
+.app-root {
+    min-height: 100vh;
 }

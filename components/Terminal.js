@@ -68,6 +68,12 @@ export default class Terminal extends React.Component {
             case "testing":
                 window.location.href = "https://ppluss.de/hub.html";
                 return;
+            case "more":
+                this.eventBus.post({id: "GOTO", data: "/more"});;
+                return;
+            case "home":
+                this.eventBus.post({id: "GOTO", data: "/"});
+                return;
             case "command-not-found":
             default:
                 this.println(command + ": command not found");

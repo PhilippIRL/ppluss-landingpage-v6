@@ -4,16 +4,16 @@ import Terminal from "../components/Terminal";
 import PermissionPrompt from "../components/PermissionPrompt";
 import SteamNotification from "../components/SteamNotification";
 import EventBus from "../scripts/EventBus";
+import { withRouter } from "next/router";
 
-export default class Home extends React.Component {
+class Home extends React.Component {
 
-    terminalControl = null;
     eventBus = null;
 
     constructor(props) {
         super(props);
 
-        this.eventBus = new EventBus();
+        this.eventBus = props.eventBus;
 
         this.toggleConsole = this.toggleConsole.bind(this);
         this.onBusEvent = this.onBusEvent.bind(this);
@@ -95,7 +95,6 @@ export default class Home extends React.Component {
                 <div className="content-wrapper">
                     <PermissionPrompt eventBus={this.eventBus} />
                     <SteamNotification eventBus={this.eventBus} />
-                    <Terminal eventBus={this.eventBus} />
                     <header>
                         <div className="inner-title-wrapper">
                             <span className="header-title">Willkommen bei PplusS<span className="header-version">v6</span></span>
@@ -432,3 +431,5 @@ export default class Home extends React.Component {
         )
     }
 }
+
+export default withRouter(Home);

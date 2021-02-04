@@ -65,17 +65,17 @@ export default class Header extends React.Component {
                     </div>
                 </Link>
                 <div className="links">
-                    <Link href="/more.html">
+                    <Link href="/more">
                         <div className="header-link">
                             <span className="header-link-text">Test 1</span>
                         </div>
                     </Link>
-                    <Link href="/more2.html">
+                    <Link href="/more/2">
                         <div className="header-link">
                             <span className="header-link-text">Test 2</span>
                         </div>
                     </Link>
-                    <Link href="/more3.html">
+                    <Link href="/more/3">
                         <div className="header-link">
                             <span className="header-link-text">Test 3</span>
                         </div>
