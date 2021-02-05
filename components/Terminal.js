@@ -1,4 +1,5 @@
 import React from "react";
+import { availableLangs } from "../scripts/lang";
 
 export default class Terminal extends React.Component {
 
@@ -74,6 +75,19 @@ export default class Terminal extends React.Component {
             case "home":
                 this.eventBus.post({id: "GOTO", data: "/"});
                 return;
+            case "lang":
+            case "langs":
+                if(args[0]) {
+                    if(availableLangs.includes(args[0])) {
+                        this.eventBus.post({id: "LANG", data: args[0]});
+                    } else {
+                        this.println("Invalid language");
+                    }
+                } else {
+                    this.println("Available languages: " + availableLangs.join(", "))
+                    this.println("Please note that the terminal will always be in English")
+                }
+                return;    
             case "command-not-found":
             default:
                 this.println(command + ": command not found");

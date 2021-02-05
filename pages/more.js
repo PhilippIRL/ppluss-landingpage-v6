@@ -9,7 +9,7 @@ export default class More extends React.Component {
                 <Head>
                     <title>Andere Sachen</title>
                 </Head>
-                <Header />
+                <Header lang={this.props.lang} />
                 <style jsx>{`
 
                     .app-root {
@@ -30,7 +30,7 @@ export default class More extends React.Component {
                     }
                 `}</style>
                 <div className="content-wrapper">
-                    <span className="placeholder">hi. wie bist du hier hin gekom-... äh, egal. also hier ist noch nichts... die links oben rechts gehen übrigens auch noch nicht.</span>
+                    <span className="placeholder">{this.props.lang.getString("more.placeholder")}</span>
                 </div>
             </div>
         )

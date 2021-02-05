@@ -33,7 +33,7 @@ export default class XServer extends React.Component {
 
             ctx.fillStyle = "#fff";
             ctx.font = "24px Source Code Pro";
-            ctx.fillText("hier kommt evtl bald was hin", 50, 50);
+            ctx.fillText(this.props.lang.getString("xserver.wip"), 50, 50);
         }
         if(this.running) window.requestAnimationFrame(this.draw);
     }

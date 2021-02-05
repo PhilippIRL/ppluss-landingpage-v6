@@ -4,6 +4,7 @@ import Terminal from "../components/Terminal";
 import PermissionPrompt from "../components/PermissionPrompt";
 import SteamNotification from "../components/SteamNotification";
 import EventBus from "../scripts/EventBus";
+import LangSwitcher from "../components/langswitcher";
 import { withRouter } from "next/router";
 
 class Home extends React.Component {
@@ -70,18 +71,19 @@ class Home extends React.Component {
 
     render() {
 
-        var agePhrase = this.state.dynamicData.age ? `Laut Berechnungen bin ich derzeit ${this.state.dynamicData.age} Jahre alt.` : "Berechnungen zur Bestimmung meines Alters laufen gerade im Hintergrund oder JavaScript ist deaktiviert.";
+        var agePhrase = this.state.dynamicData.age ? this.props.lang.getString("home.agePhrase").replace("{age}", this.state.dynamicData.age) : this.props.lang.getString("home.calculatingAge");
         var terminalPhrase;
         switch(this.state.dynamicData.terminalPlatform) {
             case "desktop":
             case "mac":
-                terminalPhrase = "Das Terminal ist durch das Drücken von " + (this.state.dynamicData.terminalPlatform === "mac" ? "⌥ + T" : "Alt + T") + " oder durch den Button weiter unten wieder aufrufbar. Dachte einfach es wäre vielleicht ein nettes Feature.";
+                let keyCombo = this.state.dynamicData.terminalPlatform === "mac" ? "⌥ + T" : "Alt + T";
+                terminalPhrase = this.props.lang.getString("home.terminalPhrase.desktop").replace("{keyCombo}", keyCombo);
                 break;
             case "mobile":
-                terminalPhrase = "Das Terminal ist wieder aufrufbar. Da du auf einem Mobilgerät bist, kannst du das Terminal nur mit dem Button weiter unten öffnen und nicht per Tastenkombination";
+                terminalPhrase = this.props.lang.getString("home.terminalPhrase.mobile");
                 break;
             default:
-                terminalPhrase = "Das Terminal ist für alle Nutzer außer dich wieder verfügbar. Du kannst auch zu den anderen gehören, wenn du JavaScript aktivierst.";
+                terminalPhrase = this.props.lang.getString("home.terminalPhrase.disabled");
                 break;
         }
 
@@ -95,46 +97,47 @@ class Home extends React.Component {
                 <div className="content-wrapper">
                     <PermissionPrompt eventBus={this.eventBus} />
                     <SteamNotification eventBus={this.eventBus} />
+                    <LangSwitcher eventBus={this.eventBus} lang={this.props.lang} />
                     <header>
                         <div className="inner-title-wrapper">
-                            <span className="header-title">Willkommen bei PplusS<span className="header-version">v6</span></span>
+                            <span className="header-title">{this.props.lang.getString("home.title")}<span className="header-version">{this.props.lang.getString("home.version")}</span></span>
                         </div>
                     </header>
                     <div className="paragraph">
-                        <span className="paragraph-title">Über mich</span>
-                        <span className="paragraph-text">Hey, ich bin Philipp. {agePhrase} Ich könnte jetzt hier noch mehr Sachen über mich erzählen, mir fällt nur leider nicht viel zu mir ein.</span>
+                        <span className="paragraph-title">{this.props.lang.getString("home.aboutMe.title")}</span>
+                        <span className="paragraph-text">{this.props.lang.getString("home.aboutMe.text").replace("{agePhrase}", agePhrase)}</span>
                     </div>
                     <div className="paragraph">
-                        <span className="paragraph-title">Sachen die ich mal so gemacht hab</span>
-                        <span className="paragraph-text">Irgendwer meinte mal ich hätte auch mal andere Sachen gemacht als diese Seite zu bauen. Weiter unten sind, wenn ich welche finde, Beispiele aufgelistet. Desweiteren hab ich wie jeder moderne Mensch auch noch Social Media-Accounts zu welchen sich die Links in der Fußzeile befinden.</span>
+                        <span className="paragraph-title">{this.props.lang.getString("home.thingsIDid.title")}</span>
+                        <span className="paragraph-text">{this.props.lang.getString("home.thingsIDid.text")}</span>
                         <div className="paragraph-cards">
                             <div className="card card-gge">
-                                <span className="card-title">GGE-Vertretung</span>
-                                <span className="card-description">Die GGE-Vertretung ist eine App die ich mal gebaut hab. Sie kann die Vertretungen des Grashof Gymnasium Essen anzeigen.</span>
+                                <span className="card-title">{this.props.lang.getString("home.cards.gge.title")}</span>
+                                <span className="card-description">{this.props.lang.getString("home.cards.gge.text")}</span>
                             </div>
                             <div className="card card-thispage">
-                                <span className="card-title">Diese Seite</span>
-                                <span className="card-description">Ich meine, die muss ja auch irgendwo erwähnt werden. Diese Seite steht auch stellvertretend für die anderen Homepages die ich gebaut hab' hier.</span>
+                                <span className="card-title">{this.props.lang.getString("home.cards.thispage.title")}</span>
+                                <span className="card-description">{this.props.lang.getString("home.cards.thispage.text")}</span>
                             </div>
                             <div className="card card-randomcode card-large">
-                                <span className="card-title">Spielereien</span>
-                                <span className="card-description">Ich erstelle seit irgendwie immer aus Spaß kleinere Web-Apps, Userscripts, Android-Apps oder ganz andere Sachen. Ich hab' inzwischen schon alleine auf GitLab 80 Projekte rumliegen, dazu kommen noch welche auf GitHub und welche die ich nicht mal in eine Repo gepackt hab'. Solche Sachen erstellen macht aber irgendwie jeder der sich so für die Themen JavaScript, HTML, etc. interessiert. Bei mir machen diese Projekte aber gefühlt 90% aus, weil ich kaum bei Projekten von anderen mitmache, weil es fragt mich ja nie jemand und wieso sollte ich von mir aus fragen, ob ich bei Projekten mitmachen kann. Da kann ich mich höchstens total blamieren. Naja, vielleicht sollte ich das mal überdenken.</span>
+                                <span className="card-title">{this.props.lang.getString("home.cards.things.title")}</span>
+                                <span className="card-description">{this.props.lang.getString("home.cards.things.text")}</span>
                             </div>
                         </div>
                     </div>
                     <div className="paragraph">
-                        <span className="paragraph-title">Möchte ich sonst noch etwas sagen?</span>
-                        <span className="paragraph-text">Ja, sonst hätte ich schließlich diesen Abschnitt nicht eingefügt. Ich möchte darauf aufmerksam machen, dass ein Feature aus PplusSMC4 hier wieder sein Comeback hat. {terminalPhrase}</span>
+                        <span className="paragraph-title">{this.props.lang.getString("home.otherthings.title")}</span>
+                        <span className="paragraph-text">{this.props.lang.getString("home.otherthings.text").replace("{terminalPhrase}", terminalPhrase)}</span>
                         <div className="paragraph-button">
                             {this.state.dynamicData.componentDidMount?
-                                <div className="button button-primary" onClick={this.toggleConsole}>Terminal öffnen/schließen</div>
+                                <div className="button button-primary" onClick={this.toggleConsole}>{this.props.lang.getString("home.otherthings.terminalToggle")}</div>
                             :null}
                         </div>
                     </div>
                     <div className="paragraph">
-                        <span className="paragraph-title">Du möchtest auch noch was sagen?</span>
+                        <span className="paragraph-title">{this.props.lang.getString("home.contactSection.title")}</span>
                         {/*<ContactForm />*/}
-                        <span className="paragraph-text">Dann kontaktiere mich gerne über eine der Kontaktmöglichkeiten unten links.</span>
+                        <span className="paragraph-text">{this.props.lang.getString("home.contactSection.disabled")}</span>
                     </div>
                     {/*<Link href="/more">
                         <div className="more-paragraph">
