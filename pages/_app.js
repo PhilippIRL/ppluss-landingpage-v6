@@ -3,7 +3,7 @@ import React from "react";
 import EventBus from "../scripts/EventBus";
 import Terminal from "../components/Terminal";
 import { withRouter } from "next/router";
-import { getLang } from "../scripts/lang";
+import { getLang, loadLang } from "../scripts/lang";
 
 class App extends React.Component {
 
@@ -14,15 +14,18 @@ class App extends React.Component {
 
         this.eventBus = new EventBus();
         this.eventBus.attach(this.onBusEvent);
+    
+        this.state = {lang: "en"};
+    }
 
-        let lang = "en";
+    componentDidMount() {
         if(typeof navigator !== "undefined" && navigator.language) {
             if(navigator.language.startsWith("de")) {
-                lang = "de";
+                loadLang("de").then(() => {
+                    this.setState({lang: "de"});
+                });
             }
         }
-
-        this.state = {lang};
     }
 
     onBusEvent(e) {

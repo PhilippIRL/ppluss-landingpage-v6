@@ -1,9 +1,8 @@
-import de from "./lang/de";
 import en from "./lang/en";
 
-var langs = {de,en};
+var langs = {en};
 
-export const availableLangs = Object.keys(langs);
+export var availableLangs = Object.keys(langs);
 
 export function getLang(langId) {
     let lang = langs[langId];
@@ -14,4 +13,10 @@ export function getLang(langId) {
             return lang[id] || id;
         },
     };
+}
+
+export async function loadLang(langId) {
+    let lang = await require("./lang/" + langId)
+    langs[langId] = lang.default;
+    availableLangs = Object.keys(langs);
 }
