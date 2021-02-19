@@ -1,11 +1,15 @@
 import Head from "next/head";
 import React from "react";
 import Terminal from "../components/Terminal";
-import PermissionPrompt from "../components/PermissionPrompt";
-import SteamNotification from "../components/SteamNotification";
 import EventBus from "../scripts/EventBus";
 import LangSwitcher from "../components/langswitcher";
 import { withRouter } from "next/router";
+import dynamic from 'next/dynamic';
+
+// race condition, but only if the script fails to load for like 5 minutes
+const PermissionPrompt = dynamic(() => import('../components/PermissionPrompt'))
+const SteamNotification = dynamic(() => import('../components/SteamNotification'))
+
 
 class Home extends React.Component {
 
@@ -91,12 +95,15 @@ class Home extends React.Component {
             <div className="app-root">
                 <Head>
                     <title>PplusS</title>
-                    <link rel="dns-prefetch" href="https://fonts.googleapis.com"></link>
+                    <link rel="preconnect" href="https://fonts.googleapis.com"></link>
+                    <link rel="manifest" href="/manifest.json"/>
                     <meta name="description" content="Willkommen bei PplusS! Dies ist meine Webseite auf der ich, naja Text stehen hab und so... Und ich verlinke meine Social Media-Accounts!"></meta>
                 </Head>
                 <div className="content-wrapper">
-                    <PermissionPrompt eventBus={this.eventBus} />
-                    <SteamNotification eventBus={this.eventBus} />
+                    {this.state.dynamicData.componentDidMount ? <>
+                        <PermissionPrompt eventBus={this.eventBus} />
+                        <SteamNotification eventBus={this.eventBus} />
+                    </> : null}
                     <LangSwitcher eventBus={this.eventBus} lang={this.props.lang} />
                     <header>
                         <div className="inner-title-wrapper">
@@ -152,7 +159,7 @@ class Home extends React.Component {
                             <a className="sociallink" href="https://instagram.com/philipp_irl" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/instagram.svg" alt="Instagram" /></a>
                             <a className="sociallink" href="https://discord.gg/BRJBhJj" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/discord.svg" alt="Discord" /></a>
                             <a className="sociallink" href="https://open.spotify.com/user/pplussmc" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/spotify.svg" alt="Spotify" /></a>
-                            <a className="sociallink" href="https://tellonym.me/ppluss" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/tellonym.png" alt="Tellonym" /></a>
+                            <a className="sociallink" href="https://tellonym.me/ppluss" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/tellonym_square.png" alt="Tellonym" /></a>
                             <a className="sociallink" href="https://keybase.io/ppluss" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/keybase.svg" alt="Keybase" /></a>
                             <a className="sociallink" href="https://t.me/philippirl" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/telegram.svg" alt="Telegram" /></a>
                             <a className="sociallink" href="https://www.snapchat.com/add/ppluss1" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/snapchat.svg" alt="Snapchat" /></a>
@@ -247,6 +254,7 @@ class Home extends React.Component {
                         justify-content: center;
                         align-items: center;
                         transition: .2s;
+                        margin: 2px;
                     }
 
                     .sociallink:hover {
@@ -255,6 +263,7 @@ class Home extends React.Component {
 
                     .sociallink img {
                         width: 24px;
+                        height: 24px;
                         fill: white;
                     }
 
@@ -346,7 +355,7 @@ class Home extends React.Component {
 
                     @keyframes paragraph-title-in {
                         from { opacity: 0; transform: translateX(-25px) }
-                        to { opacity: 1;  } 
+                        to { opacity: 1; }
                     }
 
                     @keyframes paragraph-text-in {
