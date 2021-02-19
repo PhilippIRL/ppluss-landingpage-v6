@@ -19,13 +19,15 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        if(typeof navigator !== "undefined" && navigator.language) {
-            if(navigator.language.startsWith("de")) {
-                loadLang("de").then(() => {
+        loadLang("de").then(() => { // TODO: load only if needed
+            if(typeof navigator !== "undefined" && navigator.language) {
+                if(navigator.language.startsWith("de")) {
                     this.setState({lang: "de"});
-                });
+                } else {
+                    this.setState({lang: this.state.lang});
+                }
             }
-        }
+        });
     }
 
     onBusEvent(e) {
