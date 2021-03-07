@@ -1,9 +1,15 @@
 export const availableLangs = ["de","en"];
 
-export function getLang(languageData) {
-    return function getTranslation(lang) {
-        return function getString(id) {
-            return languageData[lang][id] || id;
+type LanguageData = {
+    [languageName: string]: {
+        [key: string]: string,
+    }
+}
+
+export function getLang(languageData: LanguageData) {
+    return function getTranslation(languageName: string) {
+        return function getString(key: string) {
+            return languageData[languageName][key] || key;
         }
     }
 }
