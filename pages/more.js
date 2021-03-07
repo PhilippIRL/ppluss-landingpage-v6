@@ -1,6 +1,6 @@
 import React from "react";
 import Head from "next/head";
-import Header from "../components/info/header";
+import Header from "../components/header";
 import { getLang } from "../scripts/Lang";
 
 const languageData = {
