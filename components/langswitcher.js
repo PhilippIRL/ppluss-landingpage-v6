@@ -1,5 +1,5 @@
 import React from "react";
-import { availableLangs } from "../scripts/lang";
+import { availableLangs } from "../scripts/Lang";
 
 export default class LangSwitcher extends React.Component {
 
@@ -19,7 +19,7 @@ export default class LangSwitcher extends React.Component {
         return (
             <div className="language-switcher">
                 {availableLangs.map(lang => {
-                    let current = this.props.lang.langId === lang;
+                    let current = this.props.lang === lang;
                     return (
                         <a key={lang} className="language-switcher-link" href="#" onClick={e => this.switchLanguage(e, lang)}>
                             <span className={current ? "language-switcher-lang current" : "language-switcher-lang"}>{lang.toUpperCase()}</span>

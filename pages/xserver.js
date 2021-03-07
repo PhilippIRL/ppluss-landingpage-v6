@@ -1,7 +1,22 @@
 import React from "react";
 import Head from "next/head";
+import { getLang } from "../scripts/Lang";
+
+const languageData = {
+    de: {
+        "xserver.wip": "hier kommt vielleicht bald was hin",
+    },
+    en: {
+        "xserver.wip": "maybe there will be content here soon",
+    },
+}
+
+const getTranslation = getLang(languageData);
 
 export default class XServer extends React.Component {
+
+    t = () => "...";
+
     constructor(props) {
         super(props);
 
@@ -33,12 +48,13 @@ export default class XServer extends React.Component {
 
             ctx.fillStyle = "#fff";
             ctx.font = "24px Source Code Pro";
-            ctx.fillText(this.props.lang.getString("xserver.wip"), 50, 50);
+            ctx.fillText(this.t("xserver.wip"), 50, 50);
         }
         if(this.running) window.requestAnimationFrame(this.draw);
     }
 
     render() {
+        this.t = getTranslation(this.props.lang);
         return (
             <div className="app-root">
                 <Head>

@@ -1,15 +1,66 @@
 import Head from "next/head";
 import React from "react";
-import Terminal from "../components/Terminal";
-import EventBus from "../scripts/EventBus";
 import LangSwitcher from "../components/langswitcher";
 import { withRouter } from "next/router";
 import dynamic from 'next/dynamic';
+import { getLang } from "../scripts/Lang";
 
 // race condition, but only if the script fails to load for like 5 minutes
 const PermissionPrompt = dynamic(() => import('../components/PermissionPrompt'))
 const SteamNotification = dynamic(() => import('../components/SteamNotification'))
 
+const translations = {
+    de: {
+        "home.title": "Willkommen bei PplusS",
+        "home.version": "v6",
+        "home.aboutMe.title": "Über mich",
+        "home.aboutMe.text": "Hey, ich bin Philipp. {agePhrase} Ich könnte jetzt hier noch mehr Sachen über mich erzählen, mir fällt nur leider nicht viel zu mir ein.",
+        "home.calculatingAge": "Berechnungen zur Bestimmung meines Alters laufen gerade im Hintergrund oder JavaScript ist deaktiviert.",
+        "home.agePhrase": "Laut Berechnungen bin ich derzeit {age} Jahre alt.",
+        "home.thingsIDid.title": "Sachen die ich mal so gemacht hab",
+        "home.thingsIDid.text": "Irgendwer meinte mal ich hätte auch mal andere Sachen gemacht als diese Seite zu bauen. Weiter unten sind, wenn ich welche finde, Beispiele aufgelistet.",
+        "home.cards.gge.title": "GGE-Vertretung",
+        "home.cards.gge.text": "Die GGE-Vertretung ist eine App die ich mal gebaut hab. Sie kann die Vertretungen des Grashof Gymnasium Essen anzeigen.",
+        "home.cards.thispage.title": "Diese Seite",
+        "home.cards.thispage.text": "Ich meine, die muss ja auch irgendwo erwähnt werden. Diese Seite steht auch stellvertretend für die anderen Homepages die ich gebaut hab' hier.",
+        "home.cards.things.title": "Spielereien",
+        "home.cards.things.text": "Ich erstelle seit irgendwie immer aus Spaß kleinere Web-Apps, Userscripts, Android-Apps oder ganz andere Sachen. Ich hab' inzwischen schon alleine auf GitLab 80 Projekte rumliegen, dazu kommen noch welche auf GitHub und welche die ich nicht mal in eine Repo gepackt hab'. Solche Sachen erstellen macht aber irgendwie jeder der sich so für die Themen JavaScript, HTML, etc. interessiert. Bei mir machen diese Projekte aber gefühlt 90% aus, weil ich kaum bei Projekten von anderen mitmache, weil es fragt mich ja nie jemand und wieso sollte ich von mir aus fragen, ob ich bei Projekten mitmachen kann. Da kann ich mich höchstens total blamieren. Naja, vielleicht sollte ich das mal überdenken.",
+        "home.otherthings.title": "Möchte ich sonst noch etwas sagen?",
+        "home.otherthings.text": "Ja, sonst hätte ich schließlich diesen Abschnitt nicht eingefügt. Ich möchte darauf aufmerksam machen, dass ein Feature aus PplusSMC4 hier wieder sein Comeback hat. {terminalPhrase}",
+        "home.terminalPhrase.disabled": "Das Terminal ist für alle Nutzer außer dich wieder verfügbar. Du kannst auch zu den anderen gehören, wenn du JavaScript aktivierst.",
+        "home.terminalPhrase.mobile": "Das Terminal ist wieder aufrufbar. Da du auf einem Mobilgerät bist, kannst du das Terminal nur mit dem Button weiter unten öffnen und nicht per Tastenkombination",
+        "home.terminalPhrase.desktop": "Das Terminal ist durch das Drücken von {keyCombo} oder durch den Button weiter unten wieder aufrufbar. Dachte einfach es wäre vielleicht ein nettes Feature.",
+        "home.otherthings.terminalToggle": "Terminal öffnen/schließen",
+        "home.contactSection.title": "Du möchtest auch noch was sagen?",
+        "home.contactSection.disabled": "Dann kontaktiere mich gerne über eine der Kontaktmöglichkeiten unten links.",
+    },
+    en: {
+        "home.title": "Welcome to PplusS",
+        "home.version": "v6",
+        "home.aboutMe.title": "About me",
+        "home.aboutMe.text": "Hey, I'm Philipp. {agePhrase} Here I could write more things about myself. Unfortunately I don't have much to say about myself.",
+        "home.calculatingAge": "Calculation to determine my age are currently running in the background or JavaScript is disabled.",
+        "home.agePhrase": "According to calculations I am currently {age} years old.",
+        "home.thingsIDid.title": "Things I've done so far",
+        "home.thingsIDid.text": "Somebody once told me I once did other things, than building this website. Further down on this page you can find examples for this if I find some.",
+        "home.cards.gge.title": "GGE-Vertretung",
+        "home.cards.gge.text": "The GGE-Vertretung (GGE substitution plan) is an app that I once build. It can show the substitutions at the Grashof Gymnasium Essen.",
+        "home.cards.thispage.title": "This page",
+        "home.cards.thispage.text": "I mean it has to be mentioned somewhere. This page is also here to represent other webpages I build so far.",
+        "home.cards.things.title": "Random code",
+        "home.cards.things.text": "I the German version there is a paragraph here where I cry about that I'm never invite to projects by others and so on. I won't translate this.",
+        "home.otherthings.title": "Do I want to say anything else?",
+        "home.otherthings.text": "Yes. Otherwise I would not have added this paragraph. I want to make you aware that a feature from PplusSMC4 has its comeback here. {terminalPhrase}",
+        "home.terminalPhrase.disabled": "The Terminal is available for all users except you. You can be one of the others if you enable JavaScript.",
+        "home.terminalPhrase.mobile": "The Terminal is available again. Since you are on a mobile device you can only use the button below instead of a keycombo.",
+        "home.terminalPhrase.desktop": "The Terminal is available again by pressing {keyCombo} or clicking the button below. I thought it might be a nice feature.",
+        "home.otherthings.terminalToggle": "Open/Close Terminal",
+        "home.contactSection.title": "Do you want to was anything else?",
+        "home.contactSection.disabled": "Then contact me using one of the contact options in the bottom left.",
+    },
+};
+
+const getTranslation = getLang(translations);
 
 class Home extends React.Component {
 
@@ -75,19 +126,21 @@ class Home extends React.Component {
 
     render() {
 
-        var agePhrase = this.state.dynamicData.age ? this.props.lang.getString("home.agePhrase").replace("{age}", this.state.dynamicData.age) : this.props.lang.getString("home.calculatingAge");
+        const getString = getTranslation(this.props.lang);
+
+        var agePhrase = this.state.dynamicData.age ? getString("home.agePhrase").replace("{age}", this.state.dynamicData.age) : getString("home.calculatingAge");
         var terminalPhrase;
         switch(this.state.dynamicData.terminalPlatform) {
             case "desktop":
             case "mac":
                 let keyCombo = this.state.dynamicData.terminalPlatform === "mac" ? "⌥ + T" : "Alt + T";
-                terminalPhrase = this.props.lang.getString("home.terminalPhrase.desktop").replace("{keyCombo}", keyCombo);
+                terminalPhrase = getString("home.terminalPhrase.desktop").replace("{keyCombo}", keyCombo);
                 break;
             case "mobile":
-                terminalPhrase = this.props.lang.getString("home.terminalPhrase.mobile");
+                terminalPhrase = getString("home.terminalPhrase.mobile");
                 break;
             default:
-                terminalPhrase = this.props.lang.getString("home.terminalPhrase.disabled");
+                terminalPhrase = getString("home.terminalPhrase.disabled");
                 break;
         }
 
@@ -107,44 +160,44 @@ class Home extends React.Component {
                     <LangSwitcher eventBus={this.eventBus} lang={this.props.lang} />
                     <header>
                         <div className="inner-title-wrapper">
-                            <span className="header-title">{this.props.lang.getString("home.title")}<span className="header-version">{this.props.lang.getString("home.version")}</span></span>
+                            <span className="header-title">{getString("home.title")}<span className="header-version">{getString("home.version")}</span></span>
                         </div>
                     </header>
                     <div className="paragraph">
-                        <span className="paragraph-title">{this.props.lang.getString("home.aboutMe.title")}</span>
-                        <span className="paragraph-text">{this.props.lang.getString("home.aboutMe.text").replace("{agePhrase}", agePhrase)}</span>
+                        <span className="paragraph-title">{getString("home.aboutMe.title")}</span>
+                        <span className="paragraph-text">{getString("home.aboutMe.text").replace("{agePhrase}", agePhrase)}</span>
                     </div>
                     <div className="paragraph">
-                        <span className="paragraph-title">{this.props.lang.getString("home.thingsIDid.title")}</span>
-                        <span className="paragraph-text">{this.props.lang.getString("home.thingsIDid.text")}</span>
+                        <span className="paragraph-title">{getString("home.thingsIDid.title")}</span>
+                        <span className="paragraph-text">{getString("home.thingsIDid.text")}</span>
                         <div className="paragraph-cards">
                             <div className="card card-gge">
-                                <span className="card-title">{this.props.lang.getString("home.cards.gge.title")}</span>
-                                <span className="card-description">{this.props.lang.getString("home.cards.gge.text")}</span>
+                                <span className="card-title">{getString("home.cards.gge.title")}</span>
+                                <span className="card-description">{getString("home.cards.gge.text")}</span>
                             </div>
                             <div className="card card-thispage">
-                                <span className="card-title">{this.props.lang.getString("home.cards.thispage.title")}</span>
-                                <span className="card-description">{this.props.lang.getString("home.cards.thispage.text")}</span>
+                                <span className="card-title">{getString("home.cards.thispage.title")}</span>
+                                <span className="card-description">{getString("home.cards.thispage.text")}</span>
                             </div>
                             <div className="card card-randomcode card-large">
-                                <span className="card-title">{this.props.lang.getString("home.cards.things.title")}</span>
-                                <span className="card-description">{this.props.lang.getString("home.cards.things.text")}</span>
+                                <span className="card-title">{getString("home.cards.things.title")}</span>
+                                <span className="card-description">{getString("home.cards.things.text")}</span>
                             </div>
                         </div>
                     </div>
                     <div className="paragraph">
-                        <span className="paragraph-title">{this.props.lang.getString("home.otherthings.title")}</span>
-                        <span className="paragraph-text">{this.props.lang.getString("home.otherthings.text").replace("{terminalPhrase}", terminalPhrase)}</span>
+                        <span className="paragraph-title">{getString("home.otherthings.title")}</span>
+                        <span className="paragraph-text">{getString("home.otherthings.text").replace("{terminalPhrase}", terminalPhrase)}</span>
                         <div className="paragraph-button">
                             {this.state.dynamicData.componentDidMount?
-                                <div className="button button-primary" onClick={this.toggleConsole}>{this.props.lang.getString("home.otherthings.terminalToggle")}</div>
+                                <div className="button button-primary" onClick={this.toggleConsole}>{getString("home.otherthings.terminalToggle")}</div>
                             :null}
                         </div>
                     </div>
                     <div className="paragraph">
-                        <span className="paragraph-title">{this.props.lang.getString("home.contactSection.title")}</span>
+                        <span className="paragraph-title">{getString("home.contactSection.title")}</span>
                         {/*<ContactForm />*/}
-                        <span className="paragraph-text">{this.props.lang.getString("home.contactSection.disabled")}</span>
+                        <span className="paragraph-text">{getString("home.contactSection.disabled")}</span>
                     </div>
                     {/*<Link href="/more">
                         <div className="more-paragraph">
@@ -168,12 +221,6 @@ class Home extends React.Component {
                             <a className="sociallink" href="mailto:pplussinfo@gmail.com?subject=hey.&body=hi." rel="noopener"><img src="/assets/v6/socialmediaicons/email.svg" alt="E-Mail" /></a>
                         </div>
                         <div></div>
-                        {/*<div className="language-switcher">
-                            <select className="language-select">
-                                <option name="de">Deutsch</option>
-                                <option name="en">English</option>
-                            </select>
-                        </div>*/}
                     </div>
                 </div>
                 <style jsx>{`

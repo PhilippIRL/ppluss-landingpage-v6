@@ -1,5 +1,5 @@
 import React from "react";
-import { availableLangs } from "../scripts/lang";
+import { availableLangs } from "../scripts/Lang";
 
 export default class Terminal extends React.Component {
 
