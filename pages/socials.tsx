@@ -1,5 +1,6 @@
 import { getLang } from "../scripts/Lang";
 import Header from "../components/header";
+import Head from "next/head";
 
 const languageData = {
     de: {
@@ -16,6 +17,9 @@ export default function socials({lang}: {lang: string}) {
     const t = getTranslation(lang);
     return (
         <div className="app-root">
+            <Head>
+                <title>{t("socials.title")}</title>
+            </Head>
             <Header lang={lang} />
             <h1>{t("socials.title")}</h1>
             <div className="socials">
