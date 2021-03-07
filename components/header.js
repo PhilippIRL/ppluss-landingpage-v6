@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { getLang } from "../../scripts/Lang";
+import { getLang } from "../scripts/Lang";
 
 const languageData = {
     de: {
@@ -25,6 +25,7 @@ export default class Header extends React.Component {
                         overflow-y: hidden;
                         display: flex;
                         justify-content: space-between;
+                        width: 100%;
                     }
 
                     .back {
@@ -78,7 +79,7 @@ export default class Header extends React.Component {
                     </div>
                 </Link>
                 <div className="links">
-                    <Link href="/more">
+                    {/*<Link href="/more">
                         <div className="header-link">
                             <span className="header-link-text">Test 1</span>
                         </div>
@@ -92,7 +93,7 @@ export default class Header extends React.Component {
                         <div className="header-link">
                             <span className="header-link-text">Test 3</span>
                         </div>
-                    </Link>
+                </Link>*/}
                 </div>
             </header>
         )
