@@ -20,20 +20,23 @@ export function getLang(languageData: LanguageData) {
 export function getLanguagePreference(): string {
     if(typeof window !== undefined) {
         if(window.localStorage[langStorageKey]) {
-            return window.localStorage[langStorageKey];
-        } else {
-            if(window.navigator.languages) {
-                let browserLang = defaultLang;
-                window.navigator.languages
-                    .map(lang => lang.substr(0,2))
-                    .some(lang => {
-                        if(availableLangs.includes(lang)) {
-                            browserLang = lang;
-                            return true;
-                        }
-                    });
-                return browserLang;
+            if(availableLangs.includes(window.localStorage[langStorageKey])) {
+                return window.localStorage[langStorageKey];
+            } else {
+                delete window.localStorage[langStorageKey];
             }
+        }
+        if(window.navigator.languages) {
+            let browserLang = defaultLang;
+            window.navigator.languages
+                .map(lang => lang.substr(0,2))
+                .some(lang => {
+                    if(availableLangs.includes(lang)) {
+                        browserLang = lang;
+                        return true;
+                    }
+                });
+            return browserLang;
         }
     }
     return defaultLang;
