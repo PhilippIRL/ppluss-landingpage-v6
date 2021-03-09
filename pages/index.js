@@ -206,19 +206,19 @@ class Home extends React.Component {
                     </Link>*/}
                     <div className="footer">
                         <div className="social-links">
-                            <a className="sociallink" href="https://twitter.com/PhilippIRL" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/twitter.svg" alt="Twitter" /></a>
-                            <a className="sociallink" href="https://twitter.com/ppscanary" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/twitter.svg" alt="Twitter" /></a>
-                            <a className="sociallink" href="https://youtube.com/PhilippPplusS" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/youtube.svg" alt="YouTube" /></a>
-                            <a className="sociallink" href="https://instagram.com/philipp_irl" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/instagram.svg" alt="Instagram" /></a>
-                            <a className="sociallink" href="https://discord.gg/BRJBhJj" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/discord.svg" alt="Discord" /></a>
-                            <a className="sociallink" href="https://open.spotify.com/user/pplussmc" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/spotify.svg" alt="Spotify" /></a>
-                            <a className="sociallink" href="https://tellonym.me/ppluss" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/tellonym_square.png" alt="Tellonym" /></a>
-                            <a className="sociallink" href="https://keybase.io/ppluss" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/keybase.svg" alt="Keybase" /></a>
-                            <a className="sociallink" href="https://t.me/philippirl" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/telegram.svg" alt="Telegram" /></a>
-                            <a className="sociallink" href="https://www.snapchat.com/add/ppluss1" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/snapchat.svg" alt="Snapchat" /></a>
-                            <a className="sociallink" href="https://twitch.tv/philipp_irl" target="_blank" rel="noopener"><img src="/assets/v6/socialmediaicons/twitch.svg" alt="Twitch" /></a>
-                            <a className="sociallink" href="https://chaos.social/@philippirl" target="_blank" rel="me noopener"><img src="/assets/v6/socialmediaicons/mastodon.svg" alt="Mastodon" /></a>
-                            <a className="sociallink" href="mailto:pplussinfo@gmail.com?subject=hey.&body=hi." rel="noopener"><img src="/assets/v6/socialmediaicons/email.svg" alt="E-Mail" /></a>
+                            <a className="sociallink" href="https://twitter.com/PhilippIRL" target="_blank" rel="noopener"><img width="24" height="24" src="/assets/v6/socialmediaicons/twitter.svg" alt="Twitter" /></a>
+                            <a className="sociallink" href="https://twitter.com/ppscanary" target="_blank" rel="noopener"><img width="24" height="24" src="/assets/v6/socialmediaicons/twitter.svg" alt="Twitter" /></a>
+                            <a className="sociallink" href="https://youtube.com/PhilippPplusS" target="_blank" rel="noopener"><img width="24" height="24" src="/assets/v6/socialmediaicons/youtube.svg" alt="YouTube" /></a>
+                            <a className="sociallink" href="https://instagram.com/philipp_irl" target="_blank" rel="noopener"><img width="24" height="24" src="/assets/v6/socialmediaicons/instagram.svg" alt="Instagram" /></a>
+                            <a className="sociallink" href="https://discord.gg/BRJBhJj" target="_blank" rel="noopener"><img width="24" height="24" src="/assets/v6/socialmediaicons/discord.svg" alt="Discord" /></a>
+                            <a className="sociallink" href="https://open.spotify.com/user/pplussmc" target="_blank" rel="noopener"><img width="24" height="24" src="/assets/v6/socialmediaicons/spotify.svg" alt="Spotify" /></a>
+                            <a className="sociallink" href="https://tellonym.me/ppluss" target="_blank" rel="noopener"><img width="24" height="24" src="/assets/v6/socialmediaicons/tellonym_square.png" alt="Tellonym" /></a>
+                            <a className="sociallink" href="https://keybase.io/ppluss" target="_blank" rel="noopener"><img width="24" height="24" src="/assets/v6/socialmediaicons/keybase.svg" alt="Keybase" /></a>
+                            <a className="sociallink" href="https://t.me/philippirl" target="_blank" rel="noopener"><img width="24" height="24" src="/assets/v6/socialmediaicons/telegram.svg" alt="Telegram" /></a>
+                            <a className="sociallink" href="https://www.snapchat.com/add/ppluss1" target="_blank" rel="noopener"><img width="24" height="24" src="/assets/v6/socialmediaicons/snapchat.svg" alt="Snapchat" /></a>
+                            <a className="sociallink" href="https://twitch.tv/philipp_irl" target="_blank" rel="noopener"><img width="24" height="24" src="/assets/v6/socialmediaicons/twitch.svg" alt="Twitch" /></a>
+                            <a className="sociallink" href="https://chaos.social/@philippirl" target="_blank" rel="me noopener"><img width="24" height="24" src="/assets/v6/socialmediaicons/mastodon.svg" alt="Mastodon" /></a>
+                            <a className="sociallink" href="mailto:pplussinfo@gmail.com?subject=hey.&body=hi." rel="noopener"><img width="24" height="24" src="/assets/v6/socialmediaicons/email.svg" alt="E-Mail" /></a>
                         </div>
                         <div></div>
                     </div>
@@ -256,15 +256,15 @@ class Home extends React.Component {
                     }
                     
                     .card-randomcode {
-                        background-image: url("/assets/v6/cards/randomcode.png");
+                        background-image: url("/assets/v6/cards/randomcode.webp");
                     }
 
                     .card-gge {
-                        background-image: url("/assets/v6/cards/gge.png");
+                        background-image: url("/assets/v6/cards/gge.webp");
                     }
 
                     .card-thispage {
-                        background-image: url("/assets/v6/cards/thispage.png");
+                        background-image: url("/assets/v6/cards/thispage.webp");
                     }
 
                     .card-title {
