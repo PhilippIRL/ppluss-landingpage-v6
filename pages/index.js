@@ -4,6 +4,7 @@ import LangSwitcher from "../components/langswitcher";
 import { withRouter } from "next/router";
 import dynamic from 'next/dynamic';
 import { getLang } from "../scripts/Lang";
+import Card from "../components/Card";
 
 // race condition, but only if the script fails to load for like 5 minutes
 const PermissionPrompt = dynamic(() => import('../components/PermissionPrompt'))
@@ -48,7 +49,7 @@ const translations = {
         "home.cards.thispage.title": "This page",
         "home.cards.thispage.text": "I mean it has to be mentioned somewhere. This page is also here to represent other webpages I build so far.",
         "home.cards.things.title": "Random code",
-        "home.cards.things.text": "I the German version there is a paragraph here where I cry about that I'm never invite to projects by others and so on. I won't translate this.",
+        "home.cards.things.text": "I the German version there is a paragraph here where I cry about that I'm never invited to projects by others and so on. I won't translate this.",
         "home.otherthings.title": "Do I want to say anything else?",
         "home.otherthings.text": "Yes. Otherwise I would not have added this paragraph. I want to make you aware that a feature from PplusSMC4 has its comeback here. {terminalPhrase}",
         "home.terminalPhrase.disabled": "The Terminal is available for all users except you. You can be one of the others if you enable JavaScript.",
@@ -171,18 +172,9 @@ class Home extends React.Component {
                         <span className="paragraph-title">{getString("home.thingsIDid.title")}</span>
                         <span className="paragraph-text">{getString("home.thingsIDid.text")}</span>
                         <div className="paragraph-cards">
-                            <div className="card card-gge">
-                                <span className="card-title">{getString("home.cards.gge.title")}</span>
-                                <span className="card-description">{getString("home.cards.gge.text")}</span>
-                            </div>
-                            <div className="card card-thispage">
-                                <span className="card-title">{getString("home.cards.thispage.title")}</span>
-                                <span className="card-description">{getString("home.cards.thispage.text")}</span>
-                            </div>
-                            <div className="card card-randomcode card-large">
-                                <span className="card-title">{getString("home.cards.things.title")}</span>
-                                <span className="card-description">{getString("home.cards.things.text")}</span>
-                            </div>
+                            <Card title={getString("home.cards.gge.title")} description={getString("home.cards.gge.text")} background="/assets/v6/cards/gge.webp" />
+                            <Card title={getString("home.cards.thispage.title")} description={getString("home.cards.thispage.text")} background="/assets/v6/cards/thispage.webp" />
+                            <Card title={getString("home.cards.things.title")} description={getString("home.cards.things.text")} background="/assets/v6/cards/randomcode.webp" largeCard={true} />
                         </div>
                     </div>
                     <div className="paragraph">
@@ -223,63 +215,7 @@ class Home extends React.Component {
                         <div></div>
                     </div>
                 </div>
-                <style jsx>{`
-
-                    .card {
-                        display: flex;
-                        min-height: 350px;
-                        width: 100vw;
-                        max-width: 350px;
-                        padding: 25px;
-                        flex-direction: column;
-                        justify-content: flex-end;
-                        align-items: flex-end;
-                        text-align: right;
-                        border-radius: 10px;
-                        background-blend-mode: multiply;
-                        margin: 10px;
-                        box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.75);
-                        animation: card-in 1s;
-                        transition: .2s;
-                        background-color: #666;
-                        background-size: 100% auto;
-                    }
-
-                    .card:hover {
-                        transform: translateY(-10px);
-                    }
-
-                    @media only screen and (min-width: 870px)  {
-                        .card-large {
-                            max-width: 760px;
-                        }
-                    }
-                    
-                    .card-randomcode {
-                        background-image: url("/assets/v6/cards/randomcode.webp");
-                    }
-
-                    .card-gge {
-                        background-image: url("/assets/v6/cards/gge.webp");
-                    }
-
-                    .card-thispage {
-                        background-image: url("/assets/v6/cards/thispage.webp");
-                    }
-
-                    .card-title {
-                        font-weight: bold;
-                        font-size: 24px;
-                    }
-
-                    .card-description {
-                        font-size: 18px;
-                    }
-
-                    @keyframes card-in {
-                        from { opacity: 0; transform: translateY(25px) }
-                        to { opacity: 1; }
-                    }
+                <style jsx>{`                
 
                     .paragraph-cards {
                         margin-top: 20px;
