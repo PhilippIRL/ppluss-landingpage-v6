@@ -8,19 +8,14 @@ const cardAnim = keyframes`
 
 const SocialCardDiv: any = styled.div`
     display: flex;
-    min-height: ${(props: any) => props.sizeNumber}px;
-    min-width: ${(props: any) => props.sizeNumber}px;
-    max-height: ${(props: any) => props.sizeNumber}px;
-    max-width: ${(props: any) => props.sizeNumber}px;
-    padding: 25px;
+    padding: 15px;
     flex-direction: column;
     justify-content: flex-end;
-    align-items: flex-end;
+    align-items: flex-start;
     text-align: right;
     border-radius: 10px;
     background-blend-mode: multiply;
-    margin: 10px;
-    box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.75);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
     animation: ${cardAnim} .5s;
     transition: .2s;
     background-color: #666;
@@ -42,6 +37,7 @@ const SocialCardTitle: any = styled.span`
     @media (max-width: 500px) {
         font-size: 20px;
     }
+    margin-left: 5px;
 `;
 
 const SocialCardText: any = styled.span`
@@ -50,6 +46,7 @@ const SocialCardText: any = styled.span`
     @media (max-width: 500px) {
         font-size: 16px;
     }
+    margin-left: 5px;
 `;
 
 const SocialCardIcon: any = styled.img`
@@ -62,7 +59,7 @@ const SocialCardIcon: any = styled.img`
     transform: translate(-50%, -50%);
     @media (max-width: 400px) {
         opacity: .3;
-        filter: blur(1px);
+        filter: blur(3px);
     }
 `;
 
@@ -96,9 +93,10 @@ export default function SocialCard({title, description, color, size, icon}: {tit
 
     let transform = hover ? `scale(1.05) perspective(1000px) rotateX(${vert*3}deg) rotateY(${-hor*3}deg)` : null;
     let transition = enableTransition ? ".2s" : "none";
+    let sizeTag = (size + 20) + "px";
 
     return (
-        <SocialCardDiv ref={ref} color={color} sizeNumber={size} style={{transform, transition}} onMouseMove={(e: any) => setState({x: e.clientX, y: e.clientY, mouseHere: true})} onMouseLeave={(e: any) => setState({x: 0, y: 0, mouseHere: false})}>
+        <SocialCardDiv ref={ref} color={color} hasText={Boolean(description)} style={{transform, transition, minHeight: sizeTag, maxHeight: sizeTag, minWidth: sizeTag, maxWidth: sizeTag}} onMouseMove={(e: any) => setState({x: e.clientX, y: e.clientY, mouseHere: true})} onMouseLeave={(e: any) => setState({x: 0, y: 0, mouseHere: false})}>
             <SocialCardTitle>{title}</SocialCardTitle>
             <SocialCardText>{description}</SocialCardText>
             <SocialCardIcon src={icon} />

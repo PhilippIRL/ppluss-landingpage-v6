@@ -24,10 +24,9 @@ const AppRoot = styled.div`
 `;
 
 const SocialsContainer = styled.div`
-    width: 100%;
     display: flex;
     flex-grow: 1;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     flex-wrap: wrap;
     overflow: hidden;
@@ -36,6 +35,7 @@ const SocialsContainer = styled.div`
 const UndecoratedLink = styled.a`
     color: #fff;
     text-decoration: none;
+    margin: 10px;
 `;
 
 const socialsData = [
@@ -124,15 +124,50 @@ const socialsData = [
         link: "https://twitch.tv/philipp_irl"
     },
     {
-        title: "Mastodon",
-        text: "",
+        title: "chaos.social",
+        text: "Mastodon",
         color: "#657786",
         icon: "/assets/v6/socialmediaicons/mastodon.svg",
         link: "https://chaos.social/@philippirl"
     },
+    {
+        title: "Last.fm",
+        text: "",
+        color: "#d51007",
+        icon: "/assets/v6/socialmediaicons/lastfm.svg",
+        link: "https://www.last.fm/user/PhilippIRL"
+    },
+    {
+        title: "GitHub",
+        text: "",
+        color: "#333",
+        icon: "/assets/v6/socialmediaicons/github.svg",
+        link: "https://github.com/PhilippIRL"
+    },
+    {
+        title: "GitLab",
+        text: "",
+        color: "#e24329",
+        icon: "/assets/v6/socialmediaicons/gitlab.svg",
+        link: "https://gitlab.com/PhilippIRL"
+    },
+    {
+        title: "TikTok",
+        text: "",
+        color: "#333",
+        icon: "/assets/v6/socialmediaicons/tiktok.svg",
+        link: "https://www.tiktok.com/@pplussmc"
+    },
+    {
+        title: "Steam",
+        text: "",
+        color: "#1b2838",
+        icon: "/assets/v6/socialmediaicons/steam.svg",
+        link: "https://steamcommunity.com/id/PplusS/"
+    },
 ];
 
-export default function socials({lang}: {lang: string}) {
+export default function Socials({lang}: {lang: string}) {
     const t = getTranslation(lang);
 
     let [pageWidth, setPageWidth] = useState(-1);
@@ -148,7 +183,7 @@ export default function socials({lang}: {lang: string}) {
 
         window.addEventListener("resize", resizehandler);
         return () => window.removeEventListener("resize", resizehandler);
-    });
+    }, []);
 
     let itemsPerRow = Math.floor(pageWidth / 200);
     if(itemsPerRow > 6) itemsPerRow = 6;
