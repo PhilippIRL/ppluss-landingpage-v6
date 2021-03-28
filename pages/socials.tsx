@@ -4,7 +4,6 @@ import Head from "next/head";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import SocialCard from "../components/SocialCard";
-import Link from "next/link";
 
 const languageData = {
     de: {
@@ -189,7 +188,6 @@ export default function Socials({lang}: {lang: string}) {
     if(itemsPerRow > 6) itemsPerRow = 6;
     else if(itemsPerRow < 2) itemsPerRow = 2;
     let itemWidth = Math.floor((pageWidth / itemsPerRow) - 70 - (25 / itemsPerRow));
-
     return (
         <AppRoot>
             <Head>

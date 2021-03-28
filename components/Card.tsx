@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import styled, {keyframes} from "styled-components";
 
 const cardAnim = keyframes`
@@ -26,7 +26,11 @@ const CardDiv: any = styled.div`
     background-size: 100% auto;
     will-change: transform, transition;
     transform-style: preserve-3d;
-    ${(props: any) => props.largeCard ? "@media only screen and (min-width: 870px) { max-width: 770px; }" : ""}
+    ${(props: any) => props.largeCard ? `
+        @media only screen and (min-width: 870px) {
+            max-width: 770px;
+        }
+    ` : undefined}
 `;
 
 const CardTitle: any = styled.span`

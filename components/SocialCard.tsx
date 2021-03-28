@@ -1,10 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import styled, {keyframes} from "styled-components";
-
-const cardAnim = keyframes`
-    from { opacity: 0; transform: scale(0.75) }
-    to { opacity: 1; transform: scale(1) }
-`;
+import React, { useRef, useState } from "react";
+import styled from "styled-components";
 
 const SocialCardDiv: any = styled.div`
     display: flex;
@@ -16,7 +11,6 @@ const SocialCardDiv: any = styled.div`
     border-radius: 10px;
     background-blend-mode: multiply;
     box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-    animation: ${cardAnim} .5s;
     transition: .2s;
     background-color: #666;
     background-size: 100% auto;
@@ -28,6 +22,8 @@ const SocialCardDiv: any = styled.div`
         justify-content: center;
         align-items: center;
     }
+    width: calc(50vw - 75px);
+    height: calc(50vw - 75px);
 `;
 
 const SocialCardTitle: any = styled.span`
@@ -61,6 +57,7 @@ const SocialCardIcon: any = styled.img`
         opacity: .3;
         filter: blur(3px);
     }
+    -webkit-user-drag: none;
 `;
 
 export default function SocialCard({title, description, color, size, icon}: {title: string, description?: string, color: string, size: number, icon: string}) {

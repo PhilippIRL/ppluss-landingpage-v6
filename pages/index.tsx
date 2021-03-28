@@ -2,14 +2,14 @@ import Head from "next/head";
 import React from "react";
 import LangSwitcher from "../components/langswitcher";
 import { withRouter } from "next/router";
-import dynamic from 'next/dynamic';
 import { getLang } from "../scripts/Lang";
 import Card from "../components/Card";
 import Link from "next/link";
+import PermissionPrompt from '../components/PermissionPrompt';
+import SteamNotification from '../components/SteamNotification';
 
-// race condition, but only if the script fails to load for like 5 minutes
-const PermissionPrompt = dynamic(() => import('../components/PermissionPrompt'))
-const SteamNotification = dynamic(() => import('../components/SteamNotification'))
+import type { BusEvent } from "../scripts/EventBus";
+import type { SyntheticEvent } from "react";
 
 const translations = {
     de: {
@@ -64,11 +64,12 @@ const translations = {
 
 const getTranslation = getLang(translations);
 
-class Home extends React.Component {
+class Home extends React.Component<any> {
 
-    eventBus = null;
+    eventBus: any = null;
+    state: any = null;
 
-    constructor(props) {
+    constructor(props: any) {
         super(props);
 
         this.eventBus = props.eventBus;
@@ -81,7 +82,7 @@ class Home extends React.Component {
         this.state = {dynamicData: {age: null, terminalPlatform: null, componentDidMount: false}, steamNotificationState: "hide"};
     }
 
-    onBusEvent(msg) {
+    onBusEvent(msg: BusEvent) {
         if(msg.id === "HAS_CONSENT") {
             if(!msg.data) {
                 this.eventBus.post({id: "STEAM_PROMPT", data: ["schade"]});
@@ -91,14 +92,14 @@ class Home extends React.Component {
         }
     }
 
-    toggleConsole(e) {
+    toggleConsole(e: SyntheticEvent) {
         e.preventDefault();
         this.eventBus.post({id: "TERMINAL_TOGGLE"});
     }
 
     componentDidMount() {
 
-        var dynamicData = {};
+        var dynamicData: any = {};
 
         var birthday = [26, 8, 2003];
         var dateObj = new Date();
@@ -150,15 +151,12 @@ class Home extends React.Component {
             <div className="app-root">
                 <Head>
                     <title>PplusS</title>
-                    <link rel="preconnect" href="https://fonts.googleapis.com"></link>
                     <link rel="manifest" href="/manifest.json"/>
                     <meta name="description" content="Willkommen bei PplusS! Dies ist meine Webseite auf der ich, naja Text stehen hab und so... Und ich verlinke meine Social Media-Accounts!"></meta>
                 </Head>
                 <div className="content-wrapper">
-                    {this.state.dynamicData.componentDidMount ? <>
-                        <PermissionPrompt eventBus={this.eventBus} />
-                        <SteamNotification eventBus={this.eventBus} />
-                    </> : null}
+                    <PermissionPrompt eventBus={this.eventBus} />
+                    <SteamNotification eventBus={this.eventBus} />
                     <LangSwitcher eventBus={this.eventBus} lang={this.props.lang} />
                     <header>
                         <div className="inner-title-wrapper">
@@ -173,8 +171,8 @@ class Home extends React.Component {
                         <span className="paragraph-title">{getString("home.thingsIDid.title")}</span>
                         <span className="paragraph-text">{getString("home.thingsIDid.text")}</span>
                         <div className="paragraph-cards">
-                            <Card title={getString("home.cards.gge.title")} description={getString("home.cards.gge.text")} background="/assets/v6/cards/gge.webp" />
-                            <Card title={getString("home.cards.thispage.title")} description={getString("home.cards.thispage.text")} background="/assets/v6/cards/thispage.webp" />
+                            <Card title={getString("home.cards.gge.title")} description={getString("home.cards.gge.text")} background="/assets/v6/cards/gge.webp" largeCard={false} />
+                            <Card title={getString("home.cards.thispage.title")} description={getString("home.cards.thispage.text")} background="/assets/v6/cards/thispage.webp" largeCard={false} />
                             <Card title={getString("home.cards.things.title")} description={getString("home.cards.things.text")} background="/assets/v6/cards/randomcode.webp" largeCard={true} />
                         </div>
                     </div>
@@ -189,25 +187,14 @@ class Home extends React.Component {
                     </div>
                     <div className="paragraph">
                         <span className="paragraph-title">{getString("home.contactSection.title")}</span>
-                        {/*<ContactForm />*/}
                         <span className="paragraph-text">{getString("home.contactSection.disabled")}</span>
                     </div>
-                    {/*<Link href="/more">
-                        <div className="more-paragraph">
-                            <span className="more-text">...</span>
-                        </div>
-                    </Link>*/}
                     <div className="footer">
                         <div className="social-links">
                             <a className="sociallink" href="https://twitter.com/PhilippIRL" target="_blank" rel="noopener"><img width="24" height="24" src="/assets/v6/socialmediaicons/twitter.svg" alt="Twitter" /></a>
                             <a className="sociallink" href="https://chaos.social/@philippirl" target="_blank" rel="me noopener"><img width="24" height="24" src="/assets/v6/socialmediaicons/mastodon.svg" alt="Mastodon" /></a>
-                            {/*<a className="sociallink" href="https://twitter.com/ppscanary" target="_blank" rel="noopener"><img width="24" height="24" src="/assets/v6/socialmediaicons/twitter.svg" alt="Twitter" /></a>
-                            <a className="sociallink" href="https://youtube.com/PhilippPplusS" target="_blank" rel="noopener"><img width="24" height="24" src="/assets/v6/socialmediaicons/youtube.svg" alt="YouTube" /></a>*/}
                             <a className="sociallink" href="https://instagram.com/philipp_irl" target="_blank" rel="noopener"><img width="24" height="24" src="/assets/v6/socialmediaicons/instagram.svg" alt="Instagram" /></a>
                             <a className="sociallink" href="https://discord.gg/BRJBhJj" target="_blank" rel="noopener"><img width="24" height="24" src="/assets/v6/socialmediaicons/discord.svg" alt="Discord" /></a>
-                            {/*<a className="sociallink" href="https://open.spotify.com/user/pplussmc" target="_blank" rel="noopener"><img width="24" height="24" src="/assets/v6/socialmediaicons/spotify.svg" alt="Spotify" /></a>
-                            <a className="sociallink" href="https://tellonym.me/ppluss" target="_blank" rel="noopener"><img width="24" height="24" src="/assets/v6/socialmediaicons/tellonym_square.png" alt="Tellonym" /></a>
-                            <a className="sociallink" href="https://keybase.io/ppluss" target="_blank" rel="noopener"><img width="24" height="24" src="/assets/v6/socialmediaicons/keybase.svg" alt="Keybase" /></a>*/}
                             <a className="sociallink" href="https://t.me/philippirl" target="_blank" rel="noopener"><img width="24" height="24" src="/assets/v6/socialmediaicons/telegram.svg" alt="Telegram" /></a>
                             <a className="sociallink" href="https://www.snapchat.com/add/ppluss1" target="_blank" rel="noopener"><img width="24" height="24" src="/assets/v6/socialmediaicons/snapchat.svg" alt="Snapchat" /></a>
                             <a className="sociallink" href="https://twitch.tv/philipp_irl" target="_blank" rel="noopener"><img width="24" height="24" src="/assets/v6/socialmediaicons/twitch.svg" alt="Twitch" /></a>

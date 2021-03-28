@@ -1,21 +1,39 @@
-import "../styles/global.css";
 import React from "react";
 import EventBus from "../scripts/EventBus";
 import Terminal from "../components/Terminal";
 import { withRouter } from "next/router";
 import { defaultLang, getLanguagePreference, saveLanguagePreference } from "../scripts/Lang";
+import { createGlobalStyle } from "styled-components";
+import Head from "next/head";
 
-class App extends React.Component {
+import type { BusEvent } from "../scripts/EventBus";
 
-    constructor(props) {
+const GlobalStyle = createGlobalStyle`
+    body {
+        margin: 0;
+        background: linear-gradient(115deg, #303030 0%, #252525 100%);
+        min-height: 100vh;
+        font-family: "Nunito", sans-serif;
+        color: #fff;
+    }
+
+    .app-root {
+        min-height: 100vh;
+    }
+`;
+
+class App extends React.Component<any> {
+
+    eventBus: EventBus;
+    state = {lang: defaultLang};
+
+    constructor(props: any) {
         super(props);
 
         this.onBusEvent = this.onBusEvent.bind(this);
 
         this.eventBus = new EventBus();
         this.eventBus.attach(this.onBusEvent);
-    
-        this.state = {lang: defaultLang};
     }
 
     componentDidMount() {
@@ -23,7 +41,7 @@ class App extends React.Component {
         this.setState({lang: languagePreference});
     }
 
-    onBusEvent(e) {
+    onBusEvent(e: BusEvent) {
         if(e.id === "GOTO" && e.data) {
             this.props.router.push(e.data);
         } else if(e.id === "LANG" && e.data) {
@@ -39,6 +57,11 @@ class App extends React.Component {
     render() {
         return (
             <>
+                <Head>
+                    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" />
+                    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" />
+                </Head>
+                <GlobalStyle />
                 <this.props.Component {...this.props.pageProps} eventBus={this.eventBus} lang={this.state.lang} />
                 <Terminal eventBus={this.eventBus} />
             </>

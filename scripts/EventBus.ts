@@ -1,19 +1,26 @@
+export type BusEvent = {
+    id: string,
+    data: any,
+}
+
+export type BusListener = (e: BusEvent) => void;
+
 export default class EventBus {
 
     listeners = [console.log]
 
-    attach(listener) {
+    attach(listener: BusListener) {
         this.listeners.push(listener);
     }
 
-    detach(listener) {
+    detach(listener: BusListener) {
         let index = this.listeners.indexOf(listener);
         if(index != -1) {
             this.listeners.splice(index, 1);
         }
     }
 
-    post(msg) {
+    post(msg: any) {
         this.listeners.forEach(listener => listener(msg));
     }
 
