@@ -59,7 +59,7 @@ class App extends React.Component<any> {
             <>
                 <Head>
                     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" />
-                    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" />
+                    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet" />
                 </Head>
                 <GlobalStyle />
                 <this.props.Component {...this.props.pageProps} eventBus={this.eventBus} lang={this.state.lang} />

@@ -29,13 +29,14 @@ const TerminalRoot: any = styled.div`
     max-width: 700px;
     left: 10px;
     height: 400px;
-    background-color: #22222288;
-    font-family: 'Source Code Pro', monospace;
+    background-color: #222222aa;
+    font-family: 'VT323', monospace;
     border-radius: 15px;
     display: flex;
     flex-direction: column;
     z-index: 1;
     backdrop-filter: blur(40px);
+    font-size: 20px;
     @media (max-width: 600px) {
         width: 100vw;
         left: 0;
@@ -53,7 +54,7 @@ const TerminalRoot: any = styled.div`
 `;
 
 const TerminalBar = styled.div`
-    height: 30px;
+    height: 35px;
     width: 100%;
     cursor: ns-resize;
     touch-action: none;
@@ -75,7 +76,7 @@ const TerminalBarArea: any = styled.div`
 `;
 
 const TerminalLines = styled.div`
-    margin: 10px;
+    margin: 15px;
     margin-top: 0;
     flex-grow: 1;
     display: flex;
@@ -93,7 +94,7 @@ const TerminalLine: any = styled.span`
         min-height: 1em;
     `}
     @media (max-width: 500px) {
-        font-size: 14px;
+        font-size: 18px;
     }
 `;
 
@@ -125,7 +126,7 @@ const TerminalCloseIcon = styled.svg`
     width: 25px;
     fill: #fff;
     cursor: pointer;
-    margin-right: 5px;
+    margin-right: 10px;
 `;
 
 const TerminalResizeIndicator = styled.div`
@@ -149,6 +150,7 @@ export default class Terminal extends React.Component<TerminalProps> {
     bottomRef: any = null;
     inputRef: any = null;
     state: any = null;
+    lastCommands: any = [];
 
     constructor(props: TerminalProps) {
         super(props);
@@ -162,6 +164,7 @@ export default class Terminal extends React.Component<TerminalProps> {
         this.toggleConsole = this.toggleConsole.bind(this);
         this.focusInput = this.focusInput.bind(this);
         this.onBusEvent = this.onBusEvent.bind(this);
+        this.arrowKeyHandler = this.arrowKeyHandler.bind(this);
 
         this.eventBus = props.eventBus;
         this.eventBus.attach(this.onBusEvent);
@@ -244,6 +247,22 @@ export default class Terminal extends React.Component<TerminalProps> {
             case "socials":
                 this.eventBus.post({id: "GOTO", data: "/socials"});
                 return;
+            case "help":
+            case "commands":
+                this.println("==============");
+                this.println("   Commands   ");
+                this.println("==============");
+                this.println();
+                this.println("home, socials, more: Directly jump to a page");
+                //this.println("startx: Start the X-Server");
+                this.println("echo: Just a normal echo command");
+                this.println("ver: Version information");
+                this.println("help: Show this message");
+                this.println("clear: Clear the console");
+                this.println("reload: Refresh the page");
+                this.println("lang: Change the page language");
+                this.println("exit: Close the console");
+                return;
             case "command-not-found":
             default:
                 this.println(command + ": command not found");
@@ -298,12 +317,43 @@ export default class Terminal extends React.Component<TerminalProps> {
         let typingText = this.state.typingText;
 
         this.println(this.prefix + typingText);
+        this.lastCommands.push(typingText);
+        this.upPresses = 0;
 
         let args = typingText.split(" ");
         let command = args.shift();
         this.onCommand(command, args);
 
         this.setState({typingText: ""});
+    }
+
+    upPresses = 0;
+    lastCommand = "";
+
+    arrowKeyHandler(e: any) {
+        if(e.code === "ArrowUp" || e.code === "ArrowDown") {
+            if(this.upPresses == 0) {
+                this.lastCommand = this.state.typingText;
+            }
+
+            if(e.code === "ArrowUp") {
+                this.upPresses++;
+            } else {
+                this.upPresses--;
+            }
+
+            if(this.upPresses > this.lastCommands.length) {
+                this.upPresses = this.lastCommands.length;
+            }
+            if(this.upPresses < 0) {
+                this.upPresses = 0;
+            }
+
+            let index = this.lastCommands.length - this.upPresses;
+            let text = this.upPresses === 0 ? this.lastCommand : this.lastCommands[index];
+            this.setState({typingText: text});
+            
+        }
     }
 
     componentDidMount() {
@@ -403,7 +453,7 @@ export default class Terminal extends React.Component<TerminalProps> {
                     </TerminalLine>
                 </TerminalLines>
                 <form onSubmit={this.typingHandler}>
-                    <HiddenInput value={this.state.typingText} onChange={e => this.setState({typingText: e.target.value})} ref={inputRef as any} type="text" autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck="false" />
+                    <HiddenInput value={this.state.typingText} onChange={e => this.setState({typingText: e.target.value})} onKeyDown={this.arrowKeyHandler} ref={inputRef as any} type="text" autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck="false" />
                 </form>
             </TerminalRoot>
         )
