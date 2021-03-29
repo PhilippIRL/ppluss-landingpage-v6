@@ -1,15 +1,156 @@
 import React from "react";
+import styled, { css, keyframes } from "styled-components";
+import type EventBus from "../scripts/EventBus";
+import type { BusEvent } from "../scripts/EventBus";
 import { availableLangs } from "../scripts/Lang";
 
-export default class Terminal extends React.Component {
+const terminalInOut = keyframes`
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0px);
+    }
+`;
 
-    timeoutId = -1;
+const terminalInOutMobile = keyframes`
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0px);
+    }
+`;
+
+const TerminalRoot: any = styled.div`
+    position: fixed;
+    bottom: 10px;
+    width: calc(100vw - 20px);
+    max-width: 700px;
+    left: 10px;
+    height: 400px;
+    background-color: #22222288;
+    font-family: 'Source Code Pro', monospace;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+    backdrop-filter: blur(40px);
+    @media (max-width: 600px) {
+        width: 100vw;
+        left: 0;
+        bottom: 0;
+        border-radius: 0;
+        background-color: #222222;
+        backdrop-filter: none;
+    }
+    ${({anim}: {anim: string}) => anim && css`
+        animation: ${terminalInOut} .5s ${anim === "out" ? "reverse" : ""} forwards;
+        @media (max-width: 600px) {
+            animation: ${terminalInOutMobile} .5s ${anim === "out" ? "reverse" : ""} forwards;
+        }
+    `}
+`;
+
+const TerminalBar = styled.div`
+    height: 30px;
+    width: 100%;
+    cursor: ns-resize;
+    touch-action: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`;
+
+const TerminalBarArea: any = styled.div`
+    flex-basis: 0;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    ${(props: any) => props.at && css`
+        ${props.at === "start" && "justify-content: flex-start;"}
+        ${props.at === "center" && "justify-content: center;"}
+        ${props.at === "end" && "justify-content: flex-end;"}
+    `}
+`;
+
+const TerminalLines = styled.div`
+    margin: 10px;
+    margin-top: 0;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    overflow-y: auto;
+    overflow-x: hidden;
+`;
+
+const TerminalLine: any = styled.span`
+    min-height: max-content;
+    word-break: break-all;
+    white-space: pre;
+    ${({empty}: {empty: boolean}) => empty && css`
+        min-height: 1em;
+    `}
+    @media (max-width: 500px) {
+        font-size: 14px;
+    }
+`;
+
+const cursorBlinking = keyframes`
+    0% { opacity: 0; }
+    49.999% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 1; }
+`;
+
+const TerminalCursor = styled.span`
+    color: transparent;
+    background-color: #fff;
+    animation: ${cursorBlinking} 1.5s;
+    animation-iteration-count: infinite;
+`;
+
+const HiddenInput = styled.input`
+    position: fixed;
+    top: 100vh;
+    left: 0;
+    font-size: 16px !important;
+    border: none;
+    outline: none;
+`;
+
+const TerminalCloseIcon = styled.svg`
+    height: 25px;
+    width: 25px;
+    fill: #fff;
+    cursor: pointer;
+    margin-right: 5px;
+`;
+
+const TerminalResizeIndicator = styled.div`
+    height: 4px;
+    width: 40px;
+    border-radius: 10px;
+    background-color: #fff;
+`;
+
+interface TerminalProps {
+    eventBus: EventBus,
+}
+
+export default class Terminal extends React.Component<TerminalProps> {
+
+    timeoutId: any = -1;
     prefix = "# ";
     terminalBrandString = "PplusS Landing Page v6";
     touchStartY = 0;
-    eventBus = null;
+    eventBus: any = null;
+    bottomRef: any = null;
+    inputRef: any = null;
+    state: any = null;
 
-    constructor(props) {
+    constructor(props: TerminalProps) {
         super(props);
 
         this.keyHandler = this.keyHandler.bind(this);
@@ -28,13 +169,15 @@ export default class Terminal extends React.Component {
         this.state = {visible: false, anim: null, resizing: false, height: 400, typingText: "", lines: [this.terminalBrandString,""]};
     }
 
-    onBusEvent(msg) {
+    onBusEvent(msg: BusEvent) {
         if(msg.id === "TERMINAL_TOGGLE") {
             this.toggleConsole();
+        } else if(msg.id === "TERMINAL_FORCE") {
+            this.setState({visible: true, anim: null});
         }
     }
 
-    onCommand(command, args) {
+    onCommand(command: string, args: string[]) {
         switch(command) {
             case "clear":
             case "cls":
@@ -64,7 +207,8 @@ export default class Terminal extends React.Component {
                 this.println();
                 return;
             case "startx":
-                this.println("Das hier ist nicht PplusSMC 4");
+            case "xserver":
+                this.eventBus.post({id: "GOTO", data: "/xserver"});
                 return;
             case "testing":
                 window.location.href = "https://ppluss.de/hub.html";
@@ -87,7 +231,19 @@ export default class Terminal extends React.Component {
                     this.println("Available languages: " + availableLangs.join(", "))
                     this.println("Please note that the terminal will always be in English")
                 }
-                return;    
+                return;
+            case "emptytest":
+                this.println();
+                this.println();
+                this.println();
+                this.println("Working?");
+                this.println();
+                this.println();
+                this.println();
+                return;
+            case "socials":
+                this.eventBus.post({id: "GOTO", data: "/socials"});
+                return;
             case "command-not-found":
             default:
                 this.println(command + ": command not found");
@@ -108,7 +264,7 @@ export default class Terminal extends React.Component {
         }
     }
 
-    keyHandler(e) {
+    keyHandler(e: any) {
         if(!e.shiftKey && !e.metaKey && !e.ctrlKey && e.altKey && e.code === "KeyT") {
             e.preventDefault();
             this.toggleConsole();
@@ -137,26 +293,17 @@ export default class Terminal extends React.Component {
         this.setState({lines});
     } 
 
-    typingHandler(e) {
-        var typingText = null;
+    typingHandler(e: any) {
+        e.preventDefault();
+        let typingText = this.state.typingText;
 
-        if(e.type === "change") {
-            typingText = e.target.value;
-        } else if(e.type === "submit") {
-            e.preventDefault();
+        this.println(this.prefix + typingText);
 
-            typingText = this.state.typingText;
+        let args = typingText.split(" ");
+        let command = args.shift();
+        this.onCommand(command, args);
 
-            this.println(this.prefix + typingText);
-            var args = typingText.split(" ");
-            var command = args.shift();
-            this.onCommand(command, args);
-
-            typingText = "";
-            if(this.inputRef) this.inputRef.current.value = "";
-        }
-
-        this.setState({typingText});
+        this.setState({typingText: ""});
     }
 
     componentDidMount() {
@@ -170,19 +317,19 @@ export default class Terminal extends React.Component {
         window.removeEventListener("mousemove", this.resizeHandler);
         window.removeEventListener("mouseup", this.resizeHandler);
         window.removeEventListener("selectstart", this.resizeHandler);
-        window.removeEventListener("touchmove", this.resizeHandler, {passive: false});
+        window.removeEventListener("touchmove", this.resizeHandler);
         window.removeEventListener("touchend", this.resizeHandler);
         window.removeEventListener("keyup", this.typingHandler);
 
         this.eventBus.detach(this.onBusEvent);
     }
 
-    resizeHandler(e) {
+    resizeHandler(e: any) {
         if(e.type === "mouseup" || e.type === "touchend") {
             window.removeEventListener("mousemove", this.resizeHandler);
             window.removeEventListener("mouseup", this.resizeHandler);
             window.removeEventListener("selectstart", this.resizeHandler);
-            window.removeEventListener("touchmove", this.resizeHandler, {passive: false});
+            window.removeEventListener("touchmove", this.resizeHandler);
             window.removeEventListener("touchend", this.resizeHandler);
         } else if(e.type === "mousemove" || e.type === "touchmove") {
             var height = this.state.height;
@@ -206,7 +353,7 @@ export default class Terminal extends React.Component {
         }
     }
 
-    startResize(e) {
+    startResize(e: any) {
         this.setState({resizing: true});
         window.addEventListener("mousemove", this.resizeHandler);
         window.addEventListener("mouseup", this.resizeHandler);
@@ -221,18 +368,12 @@ export default class Terminal extends React.Component {
     render() {
         this.bottomRef = null;
         this.inputRef = null;
-        this.keyboardOpenerRef = null;
 
         if(!this.state.visible) {
             return null;
         }
 
-        var className = "terminal";
         var height = this.state.height;
-
-        if(this.state.anim) {
-            className += " anim-" + this.state.anim;
-        }
 
         var bottomRef = React.createRef();
         this.bottomRef = bottomRef;
@@ -241,121 +382,30 @@ export default class Terminal extends React.Component {
         this.inputRef = inputRef;
 
         return (
-            <div className={className} style={{height: height + "px"}} onClick={this.focusInput}>
-                <style jsx>{`
-
-                    .terminal {
-                        position: fixed;
-                        bottom: 0px;
-                        width: calc(100vw - 20px);
-                        left: 10px;
-                        right: 10px;
-                        height: 400px;
-                        background-color: #111;
-                        font-family: 'Source Code Pro', monospace;
-                        border-top-right-radius: 50px;
-                        border-top-left-radius: 50px;
-                        display: flex;
-                        flex-direction: column;
-                        z-index: 1;
-                    }
-
-                    .terminal::before {
-                        content: "  ";
-                        position: absolute;
-                        height: 5px;
-                        width: 50px;
-                        left: 50%;
-                        transform: translateX(-50%);
-                        top: 15px;
-                        border-radius: 10px;
-                        background-color: #fff;
-                        pointer-events: none;
-                    }
-
-                    .terminal.anim-in {
-                        animation: terminalInOut .5s forwards;
-                    }
-
-                    .terminal.anim-out {
-                        animation: terminalInOut .5s reverse forwards;
-                    }
-
-                    @keyframes terminalInOut {
-                        from {
-                            transform: translateY(100%);
-                        }
-                        to {
-                            transform: translateY(0px);
-                        }
-                    }
-
-                    .terminal-resize-area {
-                        min-height: 50px;
-                        width: 100%;
-                        cursor: ns-resize;
-                        touch-action: none;
-                    }
-
-                    .terminal-lines {
-                        margin: 10px;
-                        flex-grow: 1;
-                        display: flex;
-                        flex-direction: column;
-                        align-items: flex-start;
-                        overflow-y: auto;
-                        overflow-x: hidden;
-                    }
-
-                    .terminal-line {
-                        min-height: max-content;
-                        word-break: break-all;
-                        white-space: pre;
-                    }
-
-                    .empty-terminal-line {
-                        min-height: 1em;
-                    }
-
-                    .terminal-cursor {
-                        color: transparent;
-                        background-color: #fff;
-                        animation: cursorBlinking 1.5s;
-                        animation-iteration-count: infinite;
-                    }
-
-                    @keyframes cursorBlinking {
-                        0% { opacity: 0; }
-                        49.999% { opacity: 0; }
-                        50% { opacity: 1; }
-                        100% { opacity: 1; }
-                    }
-
-                    .text-input {
-                        position: fixed;
-                        top: 100vh;
-                        left: 0;
-                        font-size: 16px !important;
-                        border: none;
-                        outline: none;
-                    }
-
-                `}</style>
-                <div className="terminal-resize-area" onMouseDown={this.startResize} onTouchStart={this.startResize}></div>
-                <div className="terminal-lines">
-                    {this.state.lines.map((line, index) => (
-                        <span className={line === "" ? "terminal-line empty-terminal-line" : "terminal-line"} key={index}>{line}</span>
+            <TerminalRoot anim={this.state.anim} style={{height: height + "px"}} onClick={this.focusInput}>
+                <TerminalBar onMouseDown={this.startResize} onTouchStart={this.startResize}>
+                    <TerminalBarArea at="start"></TerminalBarArea>
+                    <TerminalBarArea at="center">
+                        <TerminalResizeIndicator />
+                    </TerminalBarArea>
+                    <TerminalBarArea at="end">
+                        <TerminalCloseIcon viewBox="0 0 24 24" onClick={() => this.toggleConsole()}><path d="M0 0h24v24H0z" fill="none"/><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></TerminalCloseIcon>
+                    </TerminalBarArea>
+                </TerminalBar>
+                <TerminalLines>
+                    {this.state.lines.map((line: any, index: number) => (
+                        <TerminalLine empty={line === ""} key={index}>{line}</TerminalLine>
                     ))}
-                    <span ref={bottomRef} className="terminal-line">
+                    <TerminalLine ref={bottomRef as any}>
                         {this.prefix}
                         {this.state.typingText}
-                        <span className="terminal-cursor">&nbsp;</span>
-                    </span>
-                </div>
-                <form className="input-form" onSubmit={this.typingHandler}>
-                    <input ref={inputRef} onChange={this.typingHandler} type="text" className="text-input" autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck="false"></input>
+                        <TerminalCursor>&nbsp;</TerminalCursor>
+                    </TerminalLine>
+                </TerminalLines>
+                <form onSubmit={this.typingHandler}>
+                    <HiddenInput value={this.state.typingText} onChange={e => this.setState({typingText: e.target.value})} ref={inputRef as any} type="text" autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck="false" />
                 </form>
-            </div>
+            </TerminalRoot>
         )
     }
 }

@@ -78,6 +78,7 @@ export default class SteamNotification extends React.Component {
                         padding-left: 18px;
                         font-family: "Motiva Sans", "Arial", "Nunito", sans-serif;
                         animation: slidein .25s linear;
+                        z-index: 5;
                     }
 
                     .fadeout {
