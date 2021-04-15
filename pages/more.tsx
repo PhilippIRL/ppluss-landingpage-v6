@@ -14,7 +14,7 @@ const languageData = {
 
 var getTranslation = getLang(languageData);
 
-export default class More extends React.Component {
+export default class More extends React.Component<{lang: string}> {
     render() {
         let t = getTranslation(this.props.lang);
         return (

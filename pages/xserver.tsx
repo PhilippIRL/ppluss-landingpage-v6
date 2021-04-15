@@ -13,15 +13,17 @@ const languageData = {
 
 const getTranslation = getLang(languageData);
 
-export default class XServer extends React.Component {
+export default class XServer extends React.Component<{lang: string}> {
 
-    t = () => "...";
+    t = (key: string) => "...";
 
-    constructor(props) {
+    running = true;
+    canvasRef: any = null;
+
+    constructor(props: {lang: string}) {
         super(props);
 
         this.canvasRef = React.createRef();
-        this.running = true;
 
         this.draw = this.draw.bind(this);
     }

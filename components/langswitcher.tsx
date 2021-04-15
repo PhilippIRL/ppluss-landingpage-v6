@@ -31,7 +31,7 @@ const LanguageSwitcherLang: any = styled.span`
     `}
 `;
 
-export default function LangSwitcher({lang, eventBus}: {lang: "de", eventBus: EventBus}) {
+export default function LangSwitcher({lang, eventBus}: {lang: string, eventBus: EventBus}) {
     return (
         <LangSwitcherRoot>
             {availableLangs.map(curLang => {

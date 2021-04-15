@@ -1,4 +1,4 @@
-export const availableLangs = ["de","en"];
+export const availableLangs = ["en","de"];
 export const defaultLang = "en";
 
 const langStorageKey = "pplussLandingpageLanguage";
