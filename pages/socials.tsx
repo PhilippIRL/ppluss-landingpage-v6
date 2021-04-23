@@ -1,7 +1,7 @@
 import { getLang } from "../scripts/Lang";
 import Header from "../components/header";
 import Head from "next/head";
-import styled from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import { useEffect, useState } from "react";
 import SocialCard from "../components/SocialCard";
 
@@ -35,6 +35,21 @@ const UndecoratedLink = styled.a`
     color: #fff;
     text-decoration: none;
     margin: 10px;
+`;
+
+const colorRotateAnim = keyframes`
+    to {
+        filter: hue-rotate(360deg);
+    }
+`;
+
+const SocialsTitle: any = styled.h1`
+    font-size: 38px;
+    color: #fff;
+    ${(props: any) => props.colorRotate && css`
+        color: #f00;
+        animation: 3s ${colorRotateAnim} linear infinite;
+    `}
 `;
 
 const socialsData = [
@@ -170,6 +185,7 @@ export default function Socials({lang}: {lang: string}) {
     const t = getTranslation(lang);
 
     let [pageWidth, setPageWidth] = useState(-1);
+    let [colorRotate, setColorRotate] = useState(false);
 
     useEffect(() => {
         if(pageWidth === -1) {
@@ -194,7 +210,7 @@ export default function Socials({lang}: {lang: string}) {
                 <title>{t("socials.title")}</title>
             </Head>
             <Header lang={lang} />
-            <h1>{t("socials.title")}</h1>
+            <SocialsTitle onClick={() => setColorRotate(!colorRotate)} colorRotate={colorRotate}>{t("socials.title")}</SocialsTitle>
             <SocialsContainer>
                 {socialsData.map((data, index) => {
                     return (
