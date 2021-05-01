@@ -268,15 +268,16 @@ export default class Terminal extends React.Component<TerminalProps> {
                     this.println("host <ppluss | vercel | local>");
                     return;
                 }
+                let path = window.location.pathname + window.location.search + "#term";
                 switch(args[0]) {
                     case "ppluss":
-                        window.location.host = "ppluss.de:443";
+                        window.location.href = "https://ppluss.de" + path;
                         return;
                     case "vercel":
-                        window.location.host = "vercel.ppluss.de:443";
+                        window.location.href = "https://vercel.ppluss.de" + path;
                         return;
                     case "local":
-                        window.location.host = "localhost:3000";
+                        window.location.href = "http://localhost:3000" + path;
                         return;
                     default:
                         this.println("Error: Unknown host");

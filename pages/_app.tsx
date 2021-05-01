@@ -7,6 +7,7 @@ import { createGlobalStyle } from "styled-components";
 import Head from "next/head";
 
 import type { BusEvent } from "../scripts/EventBus";
+import parseHash from "../scripts/hashparser";
 
 const GlobalStyle = createGlobalStyle`
     body {
@@ -19,6 +20,19 @@ const GlobalStyle = createGlobalStyle`
 
     .app-root {
         min-height: 100vh;
+    }
+
+    body::-webkit-scrollbar {
+        width: 0.4em;
+    }
+    
+    body::-webkit-scrollbar-track {
+        background-color: #252525;
+    }
+
+    body::-webkit-scrollbar-thumb {
+        border-radius: 4px;
+        background-color: #999;
     }
 `;
 
@@ -39,6 +53,22 @@ class App extends React.Component<any> {
     componentDidMount() {
         let languagePreference = getLanguagePreference();
         this.setState({lang: languagePreference});
+        let hash = parseHash();
+
+        if(hash.term !== undefined) {
+            this.eventBus.post({id: "TERMINAL_FORCE"});
+        }
+
+        if(hash.perm !== undefined) {
+            this.eventBus.post({id: "FORCE_PERM_PROMPT"});
+        }
+
+        if(hash.prmt) {
+            let data = hash.prmt.split(",");
+            this.eventBus.post({id: "STEAM_PROMPT", data});
+        }
+
+        window.location.hash = "";
     }
 
     onBusEvent(e: BusEvent) {

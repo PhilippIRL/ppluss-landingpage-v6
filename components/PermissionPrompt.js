@@ -12,8 +12,18 @@ export default class PermissionPrompt extends React.Component {
         this.onButtonClick = this.onButtonClick.bind(this);
         this.eventBus = props.eventBus;
 
+        this.onBusEvent = this.onBusEvent.bind(this);
+        this.eventBus.attach(this.onBusEvent);
+
         this.state = {website: "Diese Webseite", display: false};
     } 
+
+    onBusEvent(msg) {
+        if(msg.id === "FORCE_PERM_PROMPT") {
+            clearTimeout(this.timeoutId);
+            this.setState({display: true});
+        }
+    }
 
     componentDidMount() {
         if(!navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) { // if desktop
@@ -28,6 +38,7 @@ export default class PermissionPrompt extends React.Component {
         if(this.timeoutId) {
             clearTimeout(this.timeoutId);
         }
+        this.eventBus.detach(this.onBusEvent);
     }
 
     onButtonClick(which, e) {
