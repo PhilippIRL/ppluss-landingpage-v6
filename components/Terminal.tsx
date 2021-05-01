@@ -263,6 +263,25 @@ export default class Terminal extends React.Component<TerminalProps> {
                 this.println("lang: Change the page language");
                 this.println("exit: Close the console");
                 return;
+            case "host":
+                if(args.length !== 1) {
+                    this.println("host <ppluss | vercel | local>");
+                    return;
+                }
+                switch(args[0]) {
+                    case "ppluss":
+                        window.location.host = "ppluss.de:443";
+                        return;
+                    case "vercel":
+                        window.location.host = "vercel.ppluss.de:443";
+                        return;
+                    case "local":
+                        window.location.host = "localhost:3000";
+                        return;
+                    default:
+                        this.println("Error: Unknown host");
+                        return;
+                }
             case "command-not-found":
             default:
                 this.println(command + ": command not found");
