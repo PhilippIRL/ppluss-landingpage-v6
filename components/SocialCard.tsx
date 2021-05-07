@@ -24,6 +24,7 @@ const SocialCardDiv: any = styled.div`
     }
     width: calc(50vw - 75px);
     height: calc(50vw - 75px);
+    position: relative;
 `;
 
 const SocialCardTitle: any = styled.span`
