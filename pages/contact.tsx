@@ -2,10 +2,8 @@ import styled from "styled-components";
 import Head from "next/head";
 import { getLang } from "../scripts/Lang";
 import Header from "../components/header";
-import Suspense from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { spawn } from "node:child_process";
 
 const AppRoot = styled.div`
     display: flex;
