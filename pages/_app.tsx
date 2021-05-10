@@ -68,6 +68,12 @@ class App extends React.Component<any> {
             this.eventBus.post({id: "STEAM_PROMPT", data});
         }
 
+        if(hash.modal && (hash.modal === "impressum" || hash.modal === "datenschutz")) {
+            if(window.location.pathname === "/") {
+                this.props.router.push("/contact");
+            }
+        }
+
         window.location.hash = "";
     }
 

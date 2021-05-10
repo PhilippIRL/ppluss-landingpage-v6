@@ -299,7 +299,9 @@ export default class Terminal extends React.Component<TerminalProps> {
 
     focusInput() {
         if(this.inputRef) {
-            this.inputRef.current.focus();
+            const field = this.inputRef.current;
+            field.focus();
+            field.selectionStart = field.selectionEnd = field.value.length;
         }
     }
 
@@ -307,6 +309,9 @@ export default class Terminal extends React.Component<TerminalProps> {
         if(!e.shiftKey && !e.metaKey && !e.ctrlKey && e.altKey && e.code === "KeyT") {
             e.preventDefault();
             this.toggleConsole();
+        }
+        if(this.state.visible) {
+            this.focusInput();
         }
     }
 
