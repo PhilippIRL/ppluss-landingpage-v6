@@ -363,6 +363,7 @@ class Home extends React.Component<any> {
                         border-radius: 7px;
                         transition: .2s;
                         cursor: pointer;
+                        text-align: center;
                     }
 
                     .button-primary, .button:hover {

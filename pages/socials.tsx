@@ -2,7 +2,7 @@ import { getLang } from "../scripts/Lang";
 import Header from "../components/header";
 import Head from "next/head";
 import styled, { css, keyframes } from "styled-components";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import SocialCard from "../components/SocialCard";
 
 const languageData = {
@@ -104,10 +104,10 @@ const socialsData = [
     },
     {
         title: "Spotify",
-        text: "Artist",
+        text: "Podcast",
         color: "#1db954",
         icon: "/assets/v6/socialmediaicons/spotify.svg",
-        link: "https://open.spotify.com/artist/4El3b2uCyp4Qj68gSkvRDg"
+        link: "https://open.spotify.com/show/6wMzZDhlXOiuGZ657OeFVt"
     },
     {
         title: "Tellonym",
@@ -184,26 +184,8 @@ const socialsData = [
 export default function Socials({lang}: {lang: string}) {
     const t = getTranslation(lang);
 
-    let [pageWidth, setPageWidth] = useState(-1);
     let [colorRotate, setColorRotate] = useState(false);
 
-    useEffect(() => {
-        if(pageWidth === -1) {
-            setPageWidth(window.innerWidth);
-        }
-
-        function resizehandler() {
-            setPageWidth(window.innerWidth);
-        }
-
-        window.addEventListener("resize", resizehandler);
-        return () => window.removeEventListener("resize", resizehandler);
-    }, []);
-
-    let itemsPerRow = Math.floor(pageWidth / 200);
-    if(itemsPerRow > 6) itemsPerRow = 6;
-    else if(itemsPerRow < 2) itemsPerRow = 2;
-    let itemWidth = Math.floor((pageWidth / itemsPerRow) - 70 - (25 / itemsPerRow));
     return (
         <AppRoot>
             <Head>
@@ -215,7 +197,7 @@ export default function Socials({lang}: {lang: string}) {
                 {socialsData.map((data, index) => {
                     return (
                         <UndecoratedLink key={index} href={data.link} target="_blank">
-                            <SocialCard size={itemWidth} title={data.title} description={data.text} icon={data.icon} color={data.color} />
+                            <SocialCard title={data.title} description={data.text} icon={data.icon} color={data.color} />
                         </UndecoratedLink>
                     );
                 })}
