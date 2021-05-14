@@ -106,10 +106,9 @@ const cursorBlinking = keyframes`
 `;
 
 const TerminalCursor = styled.span`
-    color: transparent;
-    background-color: #fff;
     animation: ${cursorBlinking} 1.5s;
     animation-iteration-count: infinite;
+    font-size: 16px;
 `;
 
 const HiddenInput = styled.input`
@@ -474,7 +473,7 @@ export default class Terminal extends React.Component<TerminalProps> {
                     <TerminalLine ref={bottomRef as any}>
                         {this.prefix}
                         {this.state.typingText}
-                        <TerminalCursor>&nbsp;</TerminalCursor>
+                        <TerminalCursor>&#x2588;</TerminalCursor>
                     </TerminalLine>
                 </TerminalLines>
                 <form onSubmit={this.typingHandler}>
