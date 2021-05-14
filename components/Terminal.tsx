@@ -37,6 +37,7 @@ const TerminalRoot: any = styled.div`
     z-index: 1;
     backdrop-filter: blur(40px);
     font-size: 20px;
+    user-select: none;
     @media (max-width: 600px) {
         width: 100vw;
         left: 0;
@@ -304,13 +305,20 @@ export default class Terminal extends React.Component<TerminalProps> {
         }
     }
 
-    keyHandler(e: any) {
+    keyHandler(e: KeyboardEvent) {
         if(!e.shiftKey && !e.metaKey && !e.ctrlKey && e.altKey && e.code === "KeyT") {
             e.preventDefault();
             this.toggleConsole();
         }
         if(this.state.visible) {
             this.focusInput();
+            if(!e.metaKey && !e.shiftKey && !e.altKey && e.ctrlKey && e.code === "KeyC") {
+                e.preventDefault();
+                let typed = this.state.typingText + "^C";
+                this.lastCommands.push(typed);
+                this.println(this.prefix + typed);
+                this.setState({typingText: ""})
+            }
         }
     }
 
