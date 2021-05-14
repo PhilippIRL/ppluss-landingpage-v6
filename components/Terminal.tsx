@@ -314,9 +314,7 @@ export default class Terminal extends React.Component<TerminalProps> {
             this.focusInput();
             if(!e.metaKey && !e.shiftKey && !e.altKey && e.ctrlKey && e.code === "KeyC") {
                 e.preventDefault();
-                let typed = this.state.typingText + "^C";
-                this.lastCommands.push(typed);
-                this.println(this.prefix + typed);
+                this.println(this.prefix + this.state.typingText + "^C");
                 this.setState({typingText: ""})
             }
         }
