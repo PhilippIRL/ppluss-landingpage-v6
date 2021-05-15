@@ -379,8 +379,7 @@ export default class Terminal extends React.Component<TerminalProps> {
                 this.upPresses = 0;
             }
 
-            let index = this.lastCommands.length - this.upPresses;
-            let text = this.upPresses === 0 ? this.lastCommand : this.lastCommands[index];
+            let text = this.upPresses === 0 ? this.lastCommand : this.lastCommands[this.lastCommands.length - this.upPresses];
             this.setState({typingText: text});
             
         }
@@ -388,10 +387,12 @@ export default class Terminal extends React.Component<TerminalProps> {
 
     componentDidMount() {
         window.addEventListener("keydown", this.keyHandler);
+        window.addEventListener("resize", this.resizeHandler);
     }
 
     componentWillUnmount() {
         window.removeEventListener("keydown", this.keyHandler);
+        window.removeEventListener("resize", this.resizeHandler);
         
         // remove everything again just to be sure
         window.removeEventListener("mousemove", this.resizeHandler);
@@ -399,7 +400,6 @@ export default class Terminal extends React.Component<TerminalProps> {
         window.removeEventListener("selectstart", this.resizeHandler);
         window.removeEventListener("touchmove", this.resizeHandler);
         window.removeEventListener("touchend", this.resizeHandler);
-        window.removeEventListener("keyup", this.typingHandler);
 
         this.eventBus.detach(this.onBusEvent);
     }
@@ -430,6 +430,10 @@ export default class Terminal extends React.Component<TerminalProps> {
             }
         } else if(e.type === "selectstart") {
             e.preventDefault();
+        } else if(this.state.visible && e.type === "resize") {
+            if(this.state.height > window.innerHeight) {
+                this.setState({height: window.innerHeight});
+            }
         }
     }
 
