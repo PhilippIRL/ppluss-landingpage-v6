@@ -283,6 +283,9 @@ export default class Terminal extends React.Component<TerminalProps> {
                         this.println("Error: Unknown host");
                         return;
                 }
+            case "newhome":
+                this.eventBus.post({id: "GOTO", data: "/new"});;
+                return;
             case "command-not-found":
             default:
                 this.println(command + ": command not found");

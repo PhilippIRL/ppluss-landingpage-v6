@@ -19,19 +19,25 @@ const LanguageSwitcherLang: any = styled.span`
     margin-left: 5px;
     color: #fff;
     text-decoration: none;
-    ${(props: any) => props.current && css`
+    font-size: 16px;
+    ${(props: any) => props.loaded === false && css`
+        color: #444;
+        background-color: #444;
+        border-radius: 3px;
+    `}
+    ${(props: any) => props.current && props.loaded !== false && css`
         font-weight: bold;
         :after {
             content: "-";
             position: absolute;
-            font-weigth: bold;
-            font-size: 24px;
-            transform: translate(-16px, 3px)
+            font-weight: bold;
+            font-size: 30px;
+            transform: translate(-17px, -1px)
         }
     `}
 `;
 
-export default function LangSwitcher({lang, eventBus}: {lang: string, eventBus: EventBus}) {
+export default function LangSwitcher({lang, eventBus, loaded}: {lang: string, eventBus: EventBus, loaded?: boolean}) {
     return (
         <LangSwitcherRoot>
             {availableLangs.map(curLang => {
@@ -41,7 +47,7 @@ export default function LangSwitcher({lang, eventBus}: {lang: string, eventBus: 
                         e.preventDefault();
                         eventBus.post({id: "LANG", data: curLang});
                     }}>
-                        <LanguageSwitcherLang current={current}>{curLang.toUpperCase()}</LanguageSwitcherLang>
+                        <LanguageSwitcherLang loaded={loaded} current={current}>{curLang.toUpperCase()}</LanguageSwitcherLang>
                     </UndecoratedLink>
                 );
             })}

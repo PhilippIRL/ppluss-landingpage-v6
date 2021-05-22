@@ -3,7 +3,7 @@ import React from "react";
 import LangSwitcher from "../components/langswitcher";
 import { withRouter } from "next/router";
 import { getLang } from "../scripts/Lang";
-import Card from "../components/Card";
+import Card from "../components/LegacyCard";
 import Link from "next/link";
 import PermissionPrompt from '../components/PermissionPrompt';
 import SteamNotification from '../components/SteamNotification';

@@ -1,5 +1,10 @@
 import React, { useRef, useState } from "react";
-import styled from "styled-components";
+import styled, {css, keyframes} from "styled-components";
+
+const cardAnim = keyframes`
+    from { opacity: 0; transform: translateY(25px) }
+    to { opacity: 1; }
+`;
 
 const CardDiv: any = styled.div`
     display: flex;
@@ -11,16 +16,18 @@ const CardDiv: any = styled.div`
     justify-content: flex-end;
     align-items: flex-end;
     text-align: right;
-    border-radius: 30px;
+    border-radius: 10px;
     background-blend-mode: multiply;
-    box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.25);
+    margin: 10px;
+    box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.65);
+    animation: ${cardAnim} 1s;
     transition: .2s;
     background-color: #666;
     background-size: 100% auto;
     will-change: transform, transition;
     transform-style: preserve-3d;
-    ${(props: any) => props.large ? `
-        @media only screen and (min-width: 845px) {
+    ${(props: any) => props.largeCard ? `
+        @media only screen and (min-width: 870px) {
             max-width: 770px;
         }
     ` : undefined}
@@ -35,7 +42,7 @@ const CardText: any = styled.span`
     font-size: 18px;
 `;
 
-export default function Card({title, description, background, large}: {title: string, description?: string, background: string, large?: boolean}) {
+export default function Card({title, description, background, largeCard}: {title: string, description?: string, background: string, largeCard: boolean}) {
 
     const [state, setState] = useState({x: 0, y: 0, mouseHere: false});
     const ref = useRef(null);
@@ -67,7 +74,7 @@ export default function Card({title, description, background, large}: {title: st
     let transition = enableTransition ? ".2s" : "none";
 
     return (
-        <CardDiv large={large} ref={ref} style={{backgroundImage: `url("${background}")`, transform, transition}} onMouseMove={(e: any) => setState({x: e.clientX, y: e.clientY, mouseHere: true})} onMouseLeave={(e: any) => setState({x: 0, y: 0, mouseHere: false})}>
+        <CardDiv ref={ref} largeCard={largeCard} style={{backgroundImage: `url("${background}")`, transform, transition}} onMouseMove={(e: any) => setState({x: e.clientX, y: e.clientY, mouseHere: true})} onMouseLeave={(e: any) => setState({x: 0, y: 0, mouseHere: false})}>
             <CardTitle>{title}</CardTitle>
             <CardText>{description}</CardText>
         </CardDiv>

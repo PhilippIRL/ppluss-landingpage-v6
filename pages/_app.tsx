@@ -12,7 +12,7 @@ import parseHash from "../scripts/hashparser";
 const GlobalStyle = createGlobalStyle`
     body {
         margin: 0;
-        background: linear-gradient(115deg, #303030 0%, #252525 100%);
+        background: linear-gradient(153deg, rgba(34,34,34,1) 0%, rgba(20,20,20,1) 100%);
         min-height: 100vh;
         font-family: "Nunito", sans-serif;
         color: #fff;
@@ -27,12 +27,12 @@ const GlobalStyle = createGlobalStyle`
     }
     
     body::-webkit-scrollbar-track {
-        background-color: #252525;
+        background-color: #151515;
     }
 
     body::-webkit-scrollbar-thumb {
         border-radius: 4px;
-        background-color: #999;
+        background-color: #bbb;
     }
 `;
 
