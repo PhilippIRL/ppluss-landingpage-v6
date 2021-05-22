@@ -89,7 +89,7 @@ export default function contact({lang}: {lang: string}) {
             <Head>
                 <title>{t("contact.title")}</title>
             </Head>
-            <Header lang={lang} />
+            <Header />
             <h1>{t("contact.title")}</h1>
             {innerContent}
         </AppRoot>

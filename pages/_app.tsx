@@ -3,13 +3,19 @@ import EventBus from "../scripts/EventBus";
 import Terminal from "../components/Terminal";
 import { withRouter } from "next/router";
 import { defaultLang, getLanguagePreference, saveLanguagePreference } from "../scripts/Lang";
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle, keyframes } from "styled-components";
 import Head from "next/head";
+import { LangContext, EventBusContext } from "../scripts/Contexts";
 
 import type { BusEvent } from "../scripts/EventBus";
 import parseHash from "../scripts/hashparser";
 
 const GlobalStyle = createGlobalStyle`
+
+    html {
+        overflow-x: hidden;
+    }
+
     body {
         margin: 0;
         background: linear-gradient(153deg, rgba(34,34,34,1) 0%, rgba(20,20,20,1) 100%);
@@ -92,15 +98,17 @@ class App extends React.Component<any> {
 
     render() {
         return (
-            <>
-                <Head>
-                    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" />
-                    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet" />
-                </Head>
-                <GlobalStyle />
-                <this.props.Component {...this.props.pageProps} eventBus={this.eventBus} lang={this.state.lang} />
-                <Terminal eventBus={this.eventBus} />
-            </>
+            <LangContext.Provider value={this.state.lang}>
+                <EventBusContext.Provider value={this.eventBus}>
+                    <Head>
+                        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" />
+                        <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet" />
+                    </Head>
+                    <GlobalStyle />
+                    <this.props.Component {...this.props.pageProps} eventBus={this.eventBus} lang={this.state.lang} />
+                    <Terminal eventBus={this.eventBus} />
+                </EventBusContext.Provider>
+            </LangContext.Provider>
         );
     }
 }

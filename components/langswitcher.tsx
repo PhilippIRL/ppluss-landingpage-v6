@@ -2,6 +2,8 @@ import React from "react";
 import { availableLangs } from "../scripts/Lang";
 import type EventBus from "../scripts/EventBus";
 import styled, { css } from "styled-components";
+import { useContext } from "react";
+import { EventBusContext, LangContext } from "../scripts/Contexts";
 
 const LangSwitcherRoot = styled.div`
     position: absolute;
@@ -37,7 +39,10 @@ const LanguageSwitcherLang: any = styled.span`
     `}
 `;
 
-export default function LangSwitcher({lang, eventBus, loaded}: {lang: string, eventBus: EventBus, loaded?: boolean}) {
+export default function LangSwitcher({loaded}: {loaded?: boolean}) {
+    let lang = useContext(LangContext)
+    let eventBus = useContext(EventBusContext);
+
     return (
         <LangSwitcherRoot>
             {availableLangs.map(curLang => {
@@ -45,7 +50,7 @@ export default function LangSwitcher({lang, eventBus, loaded}: {lang: string, ev
                 return (
                     <UndecoratedLink key={curLang} href="#" onClick={(e) => {
                         e.preventDefault();
-                        eventBus.post({id: "LANG", data: curLang});
+                        eventBus?.post({id: "LANG", data: curLang});
                     }}>
                         <LanguageSwitcherLang loaded={loaded} current={current}>{curLang.toUpperCase()}</LanguageSwitcherLang>
                     </UndecoratedLink>

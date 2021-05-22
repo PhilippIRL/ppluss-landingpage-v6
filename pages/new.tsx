@@ -1,13 +1,33 @@
 import styled from "styled-components"
 import Head from "next/head"
 import LangSwitcher from "../components/langswitcher"
-import type EventBus from "../scripts/EventBus"
 import Card from "../components/Card"
-import { FrontPage as socialsData } from "../scripts/Socials"
 import Link from "next/link"
-import { useState } from "react"
 import { getLang } from "../scripts/Lang"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+import { EventBusContext, LangContext } from "../scripts/Contexts"
+import { useContext } from "react"
+import type { Translation } from "../scripts/Lang" 
+import EventBus from "../scripts/EventBus"
+import type { SyntheticEvent } from "react"
+
+const socialsData = [
+    {
+        title: "Twitter",
+        icon: "/assets/v6/socialmediaicons/twitter.svg",
+        link: "https://twitter.com/PhilippIRL"
+    },
+    {
+        title: "Telegram",
+        icon: "/assets/v6/socialmediaicons/telegram.svg",
+        link: "https://t.me/philippirl"
+    },
+    {
+        title: "Discord",
+        icon: "/assets/v6/socialmediaicons/discord.svg",
+        link: "https://discord.gg/BRJBhJj"
+    },
+];
 
 const translations = {
     de: {
@@ -16,6 +36,9 @@ const translations = {
         "newhome.aboutMe.text": "{agePhrase} Ich könnte jetzt hier noch mehr Sachen über mich erzählen, mir fällt nur leider nicht viel zu mir ein.",
         "newhome.calculatingAge": "Also Berechnungen zur Bestimmung meines Alters laufen gerade im Hintergrund oder JavaScript ist deaktiviert.",
         "newhome.agePhrase": "Also laut Berechnungen bin ich derzeit {age} Jahre alt.",
+        "newhome.footer.socials": "Socials",
+        "newhome.footer.contact": "Impressum",
+        "newhome.footer.terminal": "Terminal",
     },
     en: {
         "newhome.title": "Hi, I'm Philipp!",
@@ -59,6 +82,7 @@ const SocialIcon = styled.img`
     width: 35px;
     height: 35px;
     transition: .2s;
+    cursor: pointer;
     :hover {
         transform: scale(1.2);
     }
@@ -114,36 +138,78 @@ const StyledLink = styled.a`
     color: #fff;
     text-decoration: underline;
     cursor: pointer;
+    width: max-content;
 `
 
 const ContactText = styled.h2`
-    margin: 10px;
+    margin: 20px;
+`
+
+const FooterElem = styled.footer`
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 10px;
+    justify-content: flex-end;
+    width: calc(100vw - 20px);
+    gap: 10px;
+    @media only screen and (max-width: 600px)  {
+        justify-content: center;
+    }
+    font-size: 18px;
+    font-weight: bold;
 `
 
 const getTranslation = getLang(translations)
 
-export default function NewHome({lang, eventBus}: {lang: string, eventBus: EventBus}) {
-    let t = getTranslation(lang)
-
-    let [dynamicData, setDynamicData] = useState({
-        age: 0,
-        loaded: false,
-    })
+function AgeParagraph({t}: {t: Translation}) {
+    let [age, setAge] = useState(-1)
 
     useEffect(() => {
-
         var birthday = [26, 8, 2003];
         var dateObj = new Date();
         var age = dateObj.getFullYear() - birthday[2];
         var hasHadBD = (dateObj.getMonth() >= birthday[1]) || (dateObj.getMonth() == (birthday[1] - 1) && dateObj.getDate() >= birthday[0]);
         if(!hasHadBD) age--;
+        setAge(age);
+    }, []);
 
-        setDynamicData({
-            age,
-            loaded: true,
-        })
+    let agePhrase = age !== -1 ? t("newhome.agePhrase").replace("{age}", age.toString()) : t("newhome.calculatingAge");
 
-    }, [lang])
+    return (
+        <GenericParagraph>{t("newhome.aboutMe.text").replace("{agePhrase}", agePhrase)}</GenericParagraph>
+    )
+}
+
+function Footer({t, eventBus}: {t: Translation, eventBus: EventBus}) {
+    function openTerminal(e: SyntheticEvent) {
+        e.preventDefault()
+        eventBus.post({id: "TERMINAL_TOGGLE"})
+    }
+    return (
+        <FooterElem>
+            <Link href="/socials">
+                <StyledLink href="/socials">{t("newhome.footer.socials")}</StyledLink>
+            </Link>
+            <Link href="/contact">
+                <StyledLink href="/contact">{t("newhome.footer.contact")}</StyledLink>
+            </Link>
+            <StyledLink href="/terminal" onClick={openTerminal}>{t("newhome.footer.terminal")}</StyledLink>
+        </FooterElem>
+    )
+}
+
+export default function NewHome() {
+    let lang = useContext(LangContext)
+    let eventBus: any = useContext(EventBusContext)
+
+    let t = getTranslation(lang)
+
+    let [loaded, setLoaded] = useState(false)
+
+    useEffect(() => {
+        setLoaded(true);
+    }, [])
 
     return (
         <AppRoot>
@@ -153,7 +219,7 @@ export default function NewHome({lang, eventBus}: {lang: string, eventBus: Event
                     <link rel="manifest" href="/manifest.json"/>
                     <meta name="description" content="Willkommen bei PplusS! Dies ist meine Webseite auf der ich, naja Text stehen hab und so... Und ich verlinke meine Social Media-Accounts!"></meta>
                 </Head>
-                <LangSwitcher eventBus={eventBus} lang={lang} loaded={dynamicData.loaded} />
+                <LangSwitcher loaded={loaded} />
                 <PageHeader>
                     <HeaderContent>
                         <HeaderTitle>{t("newhome.title")}</HeaderTitle>
@@ -165,12 +231,15 @@ export default function NewHome({lang, eventBus}: {lang: string, eventBus: Event
                                     </a>
                                 )
                             })}
+                            <Link href="/socials">
+                                <SocialIcon src="/assets/v6/socialmediaicons/arrow.svg" alt="More" />
+                            </Link>
                         </SocialLinks>
                     </HeaderContent>
                 </PageHeader>
                 <GenericSection>
                     <SectionTitle>{t("newhome.aboutMe.title")}</SectionTitle>
-                    <GenericParagraph>{t("newhome.aboutMe.text").replace("{agePhrase}", dynamicData.loaded ? t("newhome.agePhrase").replace("{age}", dynamicData.age.toString()) : t("newhome.calculatingAge"))}</GenericParagraph>
+                    <AgeParagraph t={t} />
                 </GenericSection>
                 <GenericSection>
                     <SectionTitle>Lorem ipsum</SectionTitle>
@@ -186,6 +255,7 @@ export default function NewHome({lang, eventBus}: {lang: string, eventBus: Event
                 <GenericSection>
                     <ContactText>Feel free to <Link href="/socials"><StyledLink>contact me</StyledLink></Link>, cheers!</ContactText>
                 </GenericSection>
+                <Footer eventBus={eventBus} t={t} />
             </MainContainer>
             <a hidden rel="me" href="https://chaos.social/@philippirl">a link to verify my website on mastodon</a>
         </AppRoot>

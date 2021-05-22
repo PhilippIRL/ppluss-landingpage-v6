@@ -157,7 +157,7 @@ class Home extends React.Component<any> {
                 <div className="content-wrapper">
                     <PermissionPrompt eventBus={this.eventBus} />
                     <SteamNotification eventBus={this.eventBus} />
-                    <LangSwitcher eventBus={this.eventBus} lang={this.props.lang} />
+                    <LangSwitcher />
                     <header>
                         <div className="inner-title-wrapper">
                             <span className="header-title">{getString("home.title")}<span className="header-version">{getString("home.version")}</span></span>

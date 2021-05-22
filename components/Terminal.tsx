@@ -294,14 +294,14 @@ export default class Terminal extends React.Component<TerminalProps> {
     }
 
     componentDidUpdate() {
-        if(this.bottomRef) {
+        if(this.bottomRef && this.bottomRef.current) {
             this.bottomRef.current.scrollIntoView();
         }
         this.focusInput();
     }
 
     focusInput() {
-        if(this.inputRef) {
+        if(this.inputRef && this.inputRef.current) {
             const field = this.inputRef.current;
             field.focus();
             field.selectionStart = field.selectionEnd = field.value.length;
@@ -453,9 +453,6 @@ export default class Terminal extends React.Component<TerminalProps> {
     }
 
     render() {
-        this.bottomRef = null;
-        this.inputRef = null;
-
         if(!this.state.visible) {
             return null;
         }

@@ -22,7 +22,7 @@ export default class More extends React.Component<{lang: string}> {
                 <Head>
                     <title>Andere Sachen</title>
                 </Head>
-                <Header lang={this.props.lang} />
+                <Header />
                 <style jsx>{`
 
                     .app-root {

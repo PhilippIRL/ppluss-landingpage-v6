@@ -19,6 +19,7 @@ const CardDiv: any = styled.div`
     background-size: 100% auto;
     will-change: transform, transition;
     transform-style: preserve-3d;
+    position: relative;
     ${(props: any) => props.large ? `
         @media only screen and (min-width: 845px) {
             max-width: 770px;

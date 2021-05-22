@@ -9,8 +9,10 @@ type LanguageData = {
     }
 }
 
+export type Translation = (key: string) => string
+
 export function getLang(languageData: LanguageData) {
-    return function getTranslation(languageName: string) {
+    return function getTranslation(languageName: string): Translation {
         return function getString(key: string) {
             return languageData[languageName][key] || key;
         }
