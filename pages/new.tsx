@@ -46,6 +46,9 @@ const translations = {
         "newhome.aboutMe.text": "{agePhrase} Here I could write more things about myself. Unfortunately I don't have much to say about myself.",
         "newhome.calculatingAge": "So calculations to determine my age are currently running in the background or JavaScript is disabled.",
         "newhome.agePhrase": "So according to calculations I am currently {age} years old.",
+        "newhome.footer.socials": "Socials",
+        "newhome.footer.contact": "Imprint",
+        "newhome.footer.terminal": "Terminal",
     },
 }
 
