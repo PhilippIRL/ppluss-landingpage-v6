@@ -198,7 +198,7 @@ export default function Socials() {
             <SocialsContainer>
                 {socialsData.map((data, index) => {
                     return (
-                        <UndecoratedLink key={index} href={data.link} target="_blank">
+                        <UndecoratedLink key={index} href={data.link} target="_blank" rel="noreferrer">
                             <SocialCard title={data.title} description={data.text} icon={data.icon} color={data.color} />
                         </UndecoratedLink>
                     );

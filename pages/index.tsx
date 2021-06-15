@@ -191,14 +191,14 @@ class Home extends React.Component<any> {
                     </div>
                     <div className="footer">
                         <div className="social-links">
-                            <a className="sociallink" href="https://twitter.com/PhilippIRL" target="_blank" rel="noopener"><img width="24" height="24" src="/assets/v6/socialmediaicons/twitter.svg" alt="Twitter" /></a>
-                            <a className="sociallink" href="https://chaos.social/@philippirl" target="_blank" rel="me noopener"><img width="24" height="24" src="/assets/v6/socialmediaicons/mastodon.svg" alt="Mastodon" /></a>
-                            <a className="sociallink" href="https://instagram.com/philipp_irl" target="_blank" rel="noopener"><img width="24" height="24" src="/assets/v6/socialmediaicons/instagram.svg" alt="Instagram" /></a>
-                            <a className="sociallink" href="https://discord.gg/BRJBhJj" target="_blank" rel="noopener"><img width="24" height="24" src="/assets/v6/socialmediaicons/discord.svg" alt="Discord" /></a>
-                            <a className="sociallink" href="https://t.me/philippirl" target="_blank" rel="noopener"><img width="24" height="24" src="/assets/v6/socialmediaicons/telegram.svg" alt="Telegram" /></a>
-                            <a className="sociallink" href="https://www.snapchat.com/add/ppluss1" target="_blank" rel="noopener"><img width="24" height="24" src="/assets/v6/socialmediaicons/snapchat.svg" alt="Snapchat" /></a>
-                            <a className="sociallink" href="https://twitch.tv/philipp_irl" target="_blank" rel="noopener"><img width="24" height="24" src="/assets/v6/socialmediaicons/twitch.svg" alt="Twitch" /></a>
-                            <a className="sociallink" href="mailto:pplussinfo@gmail.com?subject=hey.&body=hi." rel="noopener"><img width="24" height="24" src="/assets/v6/socialmediaicons/email.svg" alt="E-Mail" /></a>
+                            <a className="sociallink" href="https://twitter.com/PhilippIRL" target="_blank" rel="noreferrer"><img width="24" height="24" src="/assets/v6/socialmediaicons/twitter.svg" alt="Twitter" /></a>
+                            <a className="sociallink" href="https://chaos.social/@philippirl" target="_blank" rel="me noreferrer"><img width="24" height="24" src="/assets/v6/socialmediaicons/mastodon.svg" alt="Mastodon" /></a>
+                            <a className="sociallink" href="https://instagram.com/philipp_irl" target="_blank" rel="noreferrer"><img width="24" height="24" src="/assets/v6/socialmediaicons/instagram.svg" alt="Instagram" /></a>
+                            <a className="sociallink" href="https://discord.gg/BRJBhJj" target="_blank" rel="noreferrer"><img width="24" height="24" src="/assets/v6/socialmediaicons/discord.svg" alt="Discord" /></a>
+                            <a className="sociallink" href="https://t.me/philippirl" target="_blank" rel="noreferrer"><img width="24" height="24" src="/assets/v6/socialmediaicons/telegram.svg" alt="Telegram" /></a>
+                            <a className="sociallink" href="https://www.snapchat.com/add/ppluss1" target="_blank" rel="noreferrer"><img width="24" height="24" src="/assets/v6/socialmediaicons/snapchat.svg" alt="Snapchat" /></a>
+                            <a className="sociallink" href="https://twitch.tv/philipp_irl" target="_blank" rel="noreferrer"><img width="24" height="24" src="/assets/v6/socialmediaicons/twitch.svg" alt="Twitch" /></a>
+                            <a className="sociallink" href="mailto:pplussinfo@gmail.com?subject=hey.&body=hi." rel="noreferrer"><img width="24" height="24" src="/assets/v6/socialmediaicons/email.svg" alt="E-Mail" /></a>
                             <Link href="/socials">
                                 <a className="sociallink" rel="noopener"><img width="24" height="24" src="/assets/v6/socialmediaicons/more.svg" alt="..." /></a>
                             </Link>

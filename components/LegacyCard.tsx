@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import styled, {css, keyframes} from "styled-components";
+import styled, {keyframes} from "styled-components";
 
 const cardAnim = keyframes`
     from { opacity: 0; transform: translateY(25px) }

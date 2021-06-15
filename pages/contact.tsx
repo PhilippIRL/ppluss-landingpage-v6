@@ -57,13 +57,13 @@ const Gray = styled.span`
 
 const getTranslation = getLang(languageData);
 
-export default function contact({lang}: {lang: string}) {
+export default function Contact({lang}: {lang: string}) {
     const t = getTranslation(lang);
     let [secondRender, setSecondRender] = useState(false);
 
     useEffect(() => {
         setSecondRender(true);
-    });
+    },[]);
 
     let innerContent = secondRender ? (
         <ContentWrapper>

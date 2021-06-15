@@ -191,10 +191,10 @@ function Footer({t, eventBus}: {t: Translation, eventBus: EventBus}) {
     }
     return (
         <FooterElem>
-            <Link href="/socials">
+            <Link href="/socials" passHref>
                 <StyledLink href="/socials">{t("newhome.footer.socials")}</StyledLink>
             </Link>
-            <Link href="/contact">
+            <Link href="/contact" passHref>
                 <StyledLink href="/contact">{t("newhome.footer.contact")}</StyledLink>
             </Link>
             <StyledLink href="/terminal" onClick={openTerminal}>{t("newhome.footer.terminal")}</StyledLink>
@@ -229,7 +229,7 @@ export default function NewHome() {
                         <SocialLinks>
                             {socialsData.map((data, index) => {
                                 return (
-                                    <a key={index} href={data.link} rel="noopener" target="_blank">
+                                    <a key={index} href={data.link} rel="noreferrer" target="_blank">
                                         <SocialIcon src={data.icon} alt={data.title} />
                                     </a>
                                 )
@@ -256,7 +256,7 @@ export default function NewHome() {
                     </CardGrid>
                 </GenericSection>
                 <GenericSection>
-                    <ContactText>Feel free to <Link href="/socials"><StyledLink>contact me</StyledLink></Link>, cheers!</ContactText>
+                    <ContactText>Feel free to <Link href="/socials" passHref><StyledLink>contact me</StyledLink></Link>, cheers!</ContactText>
                 </GenericSection>
                 <Footer eventBus={eventBus} t={t} />
             </MainContainer>
