@@ -42,10 +42,16 @@ const GlobalStyle = createGlobalStyle`
     }
 `;
 
+const LowerCaseSpeech = createGlobalStyle`
+    * {
+        text-transform: lowercase;
+    }
+`;
+
 class App extends React.Component<any> {
 
     eventBus: EventBus;
-    state = {lang: defaultLang};
+    state = {lang: defaultLang, lowerCaseSpeech: false};
 
     constructor(props: any) {
         super(props);
@@ -89,6 +95,10 @@ class App extends React.Component<any> {
         } else if(e.id === "LANG" && e.data) {
             saveLanguagePreference(e.data);
             this.setState({lang:e.data});
+        } else if(e.id === "LOWERCASE_SET") {
+            this.setState({lowerCaseSpeech: e.data as boolean})
+        } else if(e.id === "LOWERCASE_TOGGLE") {
+            this.setState({lowerCaseSpeech: !this.state.lowerCaseSpeech})
         }
     }
     
@@ -105,6 +115,7 @@ class App extends React.Component<any> {
                         <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet" />
                     </Head>
                     <GlobalStyle />
+                    {this.state.lowerCaseSpeech ? <LowerCaseSpeech /> : null}
                     <this.props.Component {...this.props.pageProps} eventBus={this.eventBus} lang={this.state.lang} />
                     <Terminal eventBus={this.eventBus} />
                 </EventBusContext.Provider>

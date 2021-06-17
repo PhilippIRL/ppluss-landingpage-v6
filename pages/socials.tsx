@@ -131,7 +131,7 @@ const socialsData = [
         text: "",
         color: "#1b2838",
         icon: "/assets/v6/socialmediaicons/steam.svg",
-        link: "https://steamcommunity.com/id/PplusS/"
+        link: "https://steamcommunity.com/id/PhilippIRL/"
     },
 ];
 

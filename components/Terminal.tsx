@@ -286,6 +286,13 @@ export default class Terminal extends React.Component<TerminalProps> {
             case "newhome":
                 this.eventBus.post({id: "GOTO", data: "/new"});;
                 return;
+            case "adri":
+                this.println("<3");
+                return;
+            case "lowercase":
+                this.eventBus.post({id: "LOWERCASE_TOGGLE"});
+                this.println("UwU");
+                return;
             case "command-not-found":
             default:
                 this.println(command + ": command not found");
