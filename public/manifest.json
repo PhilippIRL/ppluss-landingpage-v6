@@ -3,7 +3,7 @@
     "name": "PplusS",
     "icons": [
         {
-            "src": "/logo.png",
+            "src": "https://ppluss.de/logo.png",
             "type": "image/png",
             "sizes": "400x400"
         }

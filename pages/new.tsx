@@ -234,8 +234,10 @@ export default function NewHome() {
                                     </a>
                                 )
                             })}
-                            <Link href="/socials">
-                                <SocialIcon src="/assets/v6/socialmediaicons/arrow.svg" alt="More" />
+                            <Link href="/socials" passHref>
+                                <a>
+                                    <SocialIcon src="/assets/v6/socialmediaicons/arrow.svg" alt="More" />
+                                </a>
                             </Link>
                         </SocialLinks>
                     </HeaderContent>
