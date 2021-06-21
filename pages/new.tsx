@@ -219,7 +219,6 @@ export default function NewHome() {
             <MainContainer>
                 <Head>
                     <title>ppluss.de</title>
-                    <link rel="manifest" href="/manifest.json"/>
                     <meta name="description" content="Willkommen bei PplusS! Dies ist meine Webseite auf der ich, naja Text stehen hab und so... Und ich verlinke meine Social Media-Accounts!"></meta>
                 </Head>
                 <LangSwitcher loaded={loaded} />

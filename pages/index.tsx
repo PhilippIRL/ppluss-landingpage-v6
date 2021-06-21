@@ -151,7 +151,6 @@ class Home extends React.Component<any> {
             <div className="app-root">
                 <Head>
                     <title>PplusS</title>
-                    <link rel="manifest" href="/manifest.json"/>
                     <meta name="description" content="Willkommen bei PplusS! Dies ist meine Webseite auf der ich, naja Text stehen hab und so... Und ich verlinke meine Social Media-Accounts!"></meta>
                 </Head>
                 <div className="content-wrapper">

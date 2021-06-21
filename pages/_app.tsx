@@ -113,6 +113,7 @@ class App extends React.Component<any> {
                     <Head>
                         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" />
                         <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet" />
+                        <link rel="manifest" href="/manifest.json"/>
                     </Head>
                     <GlobalStyle />
                     {this.state.lowerCaseSpeech ? <LowerCaseSpeech /> : null}
