@@ -16,21 +16,17 @@ const languageData = {
         "contact.title": "Kontakt",
         "contact.nojs": "Aktiviere Javascript um die Kontaktdaten einzusehen",
         "contact.provider": "Diensteanbieter",
-        "contact.address": "- Adresse auf Anfrage -",
         "contact.email": "Email",
         "contact.phone": "Telefon",
-        "contact.phoneNumber": "- Auf Anfrage -",
-        "contact.further": "Weitere Daten auf Anfrage",
+        "contact.further": "Volle Daten auf Anfrage",
     },
     en: {
         "contact.title": "Contact",
         "contact.nojs": "Enable Javascript to view the contact data",
         "contact.provider": "Provider identification",
-        "contact.address": "- Address at request -",
         "contact.email": "Email",
         "contact.phone": "Phone",
-        "contact.phoneNumber": "- At request -",
-        "contact.further": "Further details at request",
+        "contact.further": "Full details on request",
     },
 };
 
@@ -51,9 +47,11 @@ const Paragraph = styled.span`
     margin-bottom: 5px;
 `;
 
-const Gray = styled.span`
-    color: #aaa;
-`;
+const Censored = styled.span`
+    background-color: #444;
+    color: #444;
+    user-select: none;
+`
 
 const getTranslation = getLang(languageData);
 
@@ -69,15 +67,16 @@ export default function Contact({lang}: {lang: string}) {
         <ContentWrapper>
             <Paragraph>
                 <h2>{t("contact.provider")}</h2>
-                <b>Philipp S.</b><br/>
-                <Gray>{t("contact.address")}</Gray>
+                <b>Philipp <Censored>AAAAAAAA</Censored></b><br/>
+                <Censored>Hauptstr. -12b</Censored><br/>
+                <Censored>12345 leel0</Censored>
             </Paragraph>
             <Paragraph>
                 {t("contact.email")}: <UndecoratedLink href="mailto:pplussinfo@gmail.com">pplussinfo@gmail.com</UndecoratedLink><br/>
-                {t("contact.phone")}: <Gray>{t("contact.phoneNumber")}</Gray>
+                {t("contact.phone")}: <span>+49 <Censored>666 12345678</Censored></span>
             </Paragraph>
             <Paragraph>
-                <Gray>{t("contact.further")}</Gray>
+                <b>{t("contact.further")}</b><br/>
             </Paragraph>
         </ContentWrapper>
     ) : (
