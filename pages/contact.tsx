@@ -14,7 +14,7 @@ const AppRoot = styled.div`
 const languageData = {
     de: {
         "contact.title": "Kontakt",
-        "contact.nojs": "Aktiviere Javascript um die Kontaktdaten einzusehen",
+        "contact.nojs": "Javascript muss aktiviert sein um die Kontaktdaten einzusehen",
         "contact.provider": "Diensteanbieter",
         "contact.email": "Email",
         "contact.phone": "Telefon",

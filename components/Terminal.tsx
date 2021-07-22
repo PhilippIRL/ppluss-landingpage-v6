@@ -188,8 +188,12 @@ export default class Terminal extends React.Component<TerminalProps> {
                 return;
             case "print":
             case "echo":
-                this.println(args.join(" "));
-                return;
+                let text = args.join(" ")
+                if(text.includes("<script>")) {
+                    this.println("no xss here lol")
+                }
+                this.println(text)
+                return
             case "reboot":
             case "reload":
             case "refresh":
@@ -326,6 +330,8 @@ export default class Terminal extends React.Component<TerminalProps> {
                 e.preventDefault();
                 this.println(this.prefix + this.state.typingText + "^C");
                 this.setState({typingText: ""})
+            } else if(!e.shiftKey && !e.metaKey && !e.ctrlKey && !e.altKey && e.code === "Escape") {
+                this.toggleConsole()
             }
         }
     }
