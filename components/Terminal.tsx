@@ -136,6 +136,10 @@ const TerminalResizeIndicator = styled.div`
     background-color: #fff;
 `;
 
+const Hint = styled.span`
+    color: #ccc;
+`;
+
 interface TerminalProps {
     eventBus: EventBus,
 }
@@ -158,18 +162,19 @@ export default class Terminal extends React.Component<TerminalProps> {
         this.keyHandler = this.keyHandler.bind(this);
         this.startResize = this.startResize.bind(this);
         this.resizeHandler = this.resizeHandler.bind(this);
-        this.typingHandler = this.typingHandler.bind(this);
+        this.commandHander = this.commandHander.bind(this);
         this.println = this.println.bind(this);
         this.onCommand = this.onCommand.bind(this);
         this.toggleConsole = this.toggleConsole.bind(this);
         this.focusInput = this.focusInput.bind(this);
         this.onBusEvent = this.onBusEvent.bind(this);
-        this.arrowKeyHandler = this.arrowKeyHandler.bind(this);
+        this.inputKeyHandler = this.inputKeyHandler.bind(this);
+        this.type = this.type.bind(this);
 
         this.eventBus = props.eventBus;
         this.eventBus.attach(this.onBusEvent);
 
-        this.state = {visible: false, anim: null, resizing: false, height: 400, typingText: "", lines: [this.terminalBrandString,""]};
+        this.state = {visible: false, anim: null, resizing: false, height: 400, typingText: "", lines: [this.terminalBrandString,""], forcedCommand: false};
     }
 
     onBusEvent(msg: BusEvent) {
@@ -177,6 +182,8 @@ export default class Terminal extends React.Component<TerminalProps> {
             this.toggleConsole();
         } else if(msg.id === "TERMINAL_FORCE") {
             this.setState({visible: true, anim: null});
+        } else if(msg.id === "TERMINAL_FORCE_COMMAND") {
+            this.setState({visible: true, anim: null, typingText: msg.data, forcedCommand: true});
         }
     }
 
@@ -358,7 +365,7 @@ export default class Terminal extends React.Component<TerminalProps> {
         this.setState({lines});
     } 
 
-    typingHandler(e: any) {
+    commandHander(e: any) {
         e.preventDefault();
         let typingText = this.state.typingText;
 
@@ -370,13 +377,13 @@ export default class Terminal extends React.Component<TerminalProps> {
         let command = args.shift();
         this.onCommand(command, args);
 
-        this.setState({typingText: ""});
+        this.setState({typingText: "", forcedCommand: false});
     }
 
     upPresses = 0;
     lastCommand = "";
 
-    arrowKeyHandler(e: any) {
+    inputKeyHandler(e: any) {
         if(e.code === "ArrowUp" || e.code === "ArrowDown") {
             if(this.upPresses == 0) {
                 this.lastCommand = this.state.typingText;
@@ -465,6 +472,12 @@ export default class Terminal extends React.Component<TerminalProps> {
         }
     }
 
+    type(e: any) {
+        if(!this.state.forcedCommand) {
+            this.setState({typingText: e.target.value})
+        }
+    }
+
     render() {
         if(!this.state.visible) {
             return null;
@@ -498,9 +511,17 @@ export default class Terminal extends React.Component<TerminalProps> {
                         {this.state.typingText}
                         <TerminalCursor>&#x2588;</TerminalCursor>
                     </TerminalLine>
+                    {this.state.forcedCommand ? (
+                        <>
+                            <TerminalLine empty />
+                            <TerminalLine>
+                                <Hint>Press enter to execute</Hint>
+                            </TerminalLine>
+                        </>
+                    ) : null}
                 </TerminalLines>
-                <form onSubmit={this.typingHandler}>
-                    <HiddenInput value={this.state.typingText} onChange={e => this.setState({typingText: e.target.value})} onKeyDown={this.arrowKeyHandler} ref={inputRef as any} type="text" autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck="false" />
+                <form onSubmit={this.commandHander}>
+                    <HiddenInput value={this.state.typingText} onChange={this.type} onKeyDown={this.inputKeyHandler} ref={inputRef as any} type="text" autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck="false" />
                 </form>
             </TerminalRoot>
         )

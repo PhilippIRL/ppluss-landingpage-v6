@@ -80,6 +80,10 @@ class App extends React.Component<any> {
             this.eventBus.post({id: "STEAM_PROMPT", data});
         }
 
+        if(hash.forcecommand !== undefined) {
+            this.eventBus.post({id: "TERMINAL_FORCE_COMMAND", data: hash.forcecommand});
+        }
+
         if(hash.modal && (hash.modal === "impressum" || hash.modal === "datenschutz")) {
             if(window.location.pathname === "/") {
                 this.props.router.push("/contact");
