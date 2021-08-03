@@ -14,6 +14,9 @@ export default function Terminal({eventBus}: {eventBus: EventBus}) {
     return (
         <>
             <span>Redirecting...</span>
+            <noscript>
+                <h1>Enable Javascript!</h1>
+            </noscript>
         </>
     );
 

@@ -4,6 +4,7 @@ import { useEffect } from "react"
 import styled from "styled-components"
 import { getLang } from "../scripts/Lang"
 import type { Translation } from "../scripts/Lang"
+import type { SyntheticEvent } from "react"
 import Header from "./header"
 
 const AppRoot = styled.div`
@@ -22,7 +23,7 @@ const InnerContent = styled.div`
 `
 
 const StatusCode = styled.span`
-    position: absolute;
+    position: fixed;
     right: -100px;
     pointer-events: none;
     top: -220px;
@@ -30,12 +31,19 @@ const StatusCode = styled.span`
     font-weight: bold;
     font-size: 500px;
     margin: 0;
-    @media screen and (max-width: 800px) {
+    overflow: hidden;
+    @media screen and (max-width: 1000px) {
         font-size: 300px;
         top: -130px;
         right: -50px;
     }
     @media screen and (max-width: 600px) {
+        font-size: 150px;
+        top: initial;
+        bottom: -30px;
+        right: 20px;
+    }
+    @media screen and (max-width: 350px) {
         display: none;
     }
 `
@@ -77,7 +85,7 @@ const VideoPlayerBackdrop = styled.img`
     z-index: 1;
 `
 
-const VideoPlayerOverlay = styled.div`
+const VideoPlayerOverlay = styled.a`
     position: absolute;
     width: 100%;
     height: 100%;
@@ -88,6 +96,8 @@ const VideoPlayerOverlay = styled.div`
     flex-direction: column;
     gap: 25px;
     cursor: pointer;
+    color: #fff;
+    text-decoration: none;
 `
 
 const VideoPlayerTitle = styled.span`
@@ -179,7 +189,8 @@ function VideoPlayer({t}: {t: Translation}) {
         setVideoId(Videos[Math.floor(Math.random() * Videos.length)])
     }, [])
 
-    const activatePlayer = () => {
+    const activatePlayer = (e: SyntheticEvent) => {
+        e.preventDefault()
         setEnabled(true)
     }
 
@@ -193,7 +204,7 @@ function VideoPlayer({t}: {t: Translation}) {
         return (
             <VideoPlayerFrame>
                 <VideoPlayerBackdrop src={`https://i.ytimg.com/vi/${videoId}/mqdefault.jpg`}></VideoPlayerBackdrop>
-                <VideoPlayerOverlay onClick={activatePlayer}>
+                <VideoPlayerOverlay href={`https://youtu.be/${videoId}`} onClick={activatePlayer} target="_blank" rel="noopener">
                     <VideoPlayerTitle>{t("errorpage.video.title")}</VideoPlayerTitle>
                     <VideoPlayerSubtitle>{t("errorpage.video.subtitle")}</VideoPlayerSubtitle>
                 </VideoPlayerOverlay>
