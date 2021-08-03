@@ -43,9 +43,6 @@ const BackText = styled.span`
     font-weight: bold;
     font-size: 18px;
     white-space: nowrap;
-    @media (pointer: coarse) {
-        display: none;
-    }
 `;
 
 const getTranslation = getLang(languageData);
