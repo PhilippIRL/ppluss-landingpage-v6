@@ -34,7 +34,7 @@ const TerminalRoot: any = styled.div`
     border-radius: 15px;
     display: flex;
     flex-direction: column;
-    z-index: 1;
+    z-index: 1000;
     backdrop-filter: blur(40px);
     font-size: 20px;
     user-select: none;

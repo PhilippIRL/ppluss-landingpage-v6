@@ -32,6 +32,7 @@ const StatusCode = styled.span`
     font-size: 500px;
     margin: 0;
     overflow: hidden;
+    z-index: -1;
     @media screen and (max-width: 1000px) {
         font-size: 300px;
         top: -130px;
