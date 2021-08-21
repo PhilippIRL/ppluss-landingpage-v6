@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  ppluss-landingpage:
+    image: ghcr.io/philippirl/ppluss-landingpage-v6:master
+    restart: unless-stopped
+    labels:
+      - traefik.http.routers.ppluss-landingpage.rule=Host(`ppluss.de`)
+      - traefik.http.routers.ppluss-landingpage.tls.certResolver=letsencrypt
+
+networks:
+  default:
+    external: true
+    name: traefik
