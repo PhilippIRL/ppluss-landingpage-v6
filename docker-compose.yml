@@ -5,6 +5,7 @@ services:
     image: ghcr.io/philippirl/ppluss-landingpage-v6:master
     restart: unless-stopped
     labels:
+      - traefik.enable=true
       - traefik.http.routers.ppluss-landingpage.rule=Host(`ppluss.de`)
       - traefik.http.routers.ppluss-landingpage.tls.certResolver=letsencrypt
 
