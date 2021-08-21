@@ -225,7 +225,7 @@ export default class Terminal extends React.Component<TerminalProps> {
                 this.eventBus.post({id: "GOTO", data: "/xserver"});
                 return;
             case "testing":
-                window.location.href = "https://ppluss.de/hub.html";
+                window.location.href = "https://stuff.ppluss.de/hub.html";
                 return;
             case "more":
                 this.eventBus.post({id: "GOTO", data: "/more"});;
