@@ -1,5 +1,6 @@
 // stolen from https://github.com/vercel/next.js/blob/canary/examples/with-styled-components/pages/_document.js
 
+// eslint-disable-next-line @next/next/no-document-import-in-page
 import Document from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
 
