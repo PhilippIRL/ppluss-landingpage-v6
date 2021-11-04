@@ -57,7 +57,7 @@ const translations = {
         "newhome.footer.contact": "Imprint",
         "newhome.footer.terminal": "Terminal",
         "newhome.rainbowice.title": "Wo ist der Regenbogen ICE? (Where\'s the rainbow ICE?)",
-        "newhome.rainbowice.description": "oha",
+        "newhome.rainbowice.description": "regenbogen-ice.de uses public train data to locate the rainbow ICE (or other ICEs). It can also show at what time the train will be at which station.",
     },
 }
 
