@@ -27,6 +27,11 @@ const socialsData = [
         icon: "/assets/v6/socialmediaicons/discord.svg",
         link: "https://discord.gg/BRJBhJj"
     },
+    /*{
+        title: "Regenbogen ICE",
+        icon: "/assets/v6/socialmediaicons/ice.svg",
+        link: "https://regenbogen-ice.de/"
+    },*/
 ];
 
 const translations = {
@@ -39,6 +44,8 @@ const translations = {
         "newhome.footer.socials": "Socials",
         "newhome.footer.contact": "Impressum",
         "newhome.footer.terminal": "Terminal",
+        "newhome.rainbowice.title": "Wo ist der Regenbogen ICE?",
+        "newhome.rainbowice.description": "regenbogen-ice.de ermittelt mithilfe von öffentlichen Zugdaten, wo sich der Regenbogen ICE (oder andere ICEs) befindet und zu welcher Zeit der Zug an welchem Bahnhof fährt.",
     },
     en: {
         "newhome.title": "Hi, I'm Philipp!",
@@ -49,6 +56,8 @@ const translations = {
         "newhome.footer.socials": "Socials",
         "newhome.footer.contact": "Imprint",
         "newhome.footer.terminal": "Terminal",
+        "newhome.rainbowice.title": "Wo ist der Regenbogen ICE? (Where\'s the rainbow ICE?)",
+        "newhome.rainbowice.description": "oha",
     },
 }
 
@@ -142,6 +151,11 @@ const StyledLink = styled.a`
     text-decoration: underline;
     cursor: pointer;
     width: max-content;
+`
+
+const UndecoredLink = styled.a`
+    color: #fff;
+    text-decoration: none;
 `
 
 const ContactText = styled.h2`
@@ -251,6 +265,9 @@ export default function NewHome() {
                 </GenericSection>
                 <GenericSection>
                     <CardGrid>
+                        <UndecoredLink href="https://regenbogen-ice.de/" target="_blank" rel="noreferrer">
+                            <Card title={t("newhome.rainbowice.title")} description={t("newhome.rainbowice.description")} background="/assets/v6/cards/regenbogenice.png" /> {/* TODO: Better picture and use WEBP */}
+                        </UndecoredLink>
                         <Card title={"PLACEHOLDER"} description={"PLACEHOLDER"} background="/assets/v6/cards/gge.webp" />
                         <Card title={"PLACEHOLDER"} description={"PLACEHOLDER"} background="/assets/v6/cards/gge.webp" />
                         <Card large={true} title={"PLACEHOLDER"} description={"PLACEHOLDER"} background="/assets/v6/cards/gge.webp" />

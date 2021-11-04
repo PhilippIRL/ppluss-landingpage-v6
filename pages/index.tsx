@@ -197,6 +197,7 @@ class Home extends React.Component<any> {
                             <a className="sociallink" href="https://t.me/philippirl" target="_blank" rel="noreferrer"><img width="24" height="24" src="/assets/v6/socialmediaicons/telegram.svg" alt="Telegram" /></a>
                             <a className="sociallink" href="https://www.snapchat.com/add/ppluss1" target="_blank" rel="noreferrer"><img width="24" height="24" src="/assets/v6/socialmediaicons/snapchat.svg" alt="Snapchat" /></a>
                             <a className="sociallink" href="https://twitch.tv/philipp_irl" target="_blank" rel="noreferrer"><img width="24" height="24" src="/assets/v6/socialmediaicons/twitch.svg" alt="Twitch" /></a>
+                            <a className="sociallink" href="https://regenbogen-ice.de/" target="_blank" rel="noreferrer"><img width="24" height="24" src="/assets/v6/socialmediaicons/ice.svg" alt="Regenbogen ICE" /></a>
                             <a className="sociallink" href="mailto:pplussinfo@gmail.com?subject=hey.&body=hi." rel="noreferrer"><img width="24" height="24" src="/assets/v6/socialmediaicons/email.svg" alt="E-Mail" /></a>
                             <Link href="/socials">
                                 <a className="sociallink" rel="noopener"><img width="24" height="24" src="/assets/v6/socialmediaicons/more.svg" alt="..." /></a>
