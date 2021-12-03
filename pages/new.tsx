@@ -156,6 +156,8 @@ const StyledLink = styled.a`
 const UndecoredLink = styled.a`
     color: #fff;
     text-decoration: none;
+    display: flex;
+    max-width: calc(100vw - 20px);
 `
 
 const ContactText = styled.h2`
@@ -268,7 +270,6 @@ export default function NewHome() {
                         <UndecoredLink href="https://regenbogen-ice.de/" target="_blank" rel="noreferrer">
                             <Card title={t("newhome.rainbowice.title")} description={t("newhome.rainbowice.description")} background="/assets/v6/cards/regenbogenice.png" /> {/* TODO: Better picture and use WEBP */}
                         </UndecoredLink>
-                        <Card title={"PLACEHOLDER"} description={"PLACEHOLDER"} background="/assets/v6/cards/gge.webp" />
                         <Card title={"PLACEHOLDER"} description={"PLACEHOLDER"} background="/assets/v6/cards/gge.webp" />
                         <Card large={true} title={"PLACEHOLDER"} description={"PLACEHOLDER"} background="/assets/v6/cards/gge.webp" />
                     </CardGrid>
