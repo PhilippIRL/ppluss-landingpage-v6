@@ -148,7 +148,7 @@ export default class Terminal extends React.Component<TerminalProps> {
 
     timeoutId: any = -1;
     prefix = "# ";
-    terminalBrandString = "PplusS Landing Page v6";
+    terminalBrandString = "PplusS Landing Page v6 (" + process.env.NEXT_PUBLIC_APP_VERSION + ")";
     touchStartY = 0;
     eventBus: any = null;
     bottomRef: any = null;
