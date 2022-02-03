@@ -14,6 +14,7 @@ const GlobalStyle = createGlobalStyle`
 
     html {
         overflow-x: hidden;
+        background-color: rgba(34,34,34,1);
     }
 
     body {
