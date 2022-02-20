@@ -1,22 +1,25 @@
 import styled, { createGlobalStyle } from 'styled-components'
 import Link from 'next/link'
 import Head from 'next/head';
+import { useContext, useEffect, useState } from 'react';
+import { EventBusContext } from '../scripts/Contexts'
+import type { SyntheticEvent } from 'react'
 
 const socialsData = [
     {
-        title: "Twitter",
-        icon: "/assets/v6/socialmediaicons/twitter.svg",
-        link: "https://twitter.com/PhilippIRL"
+        title: 'Twitter',
+        icon: '/assets/v6/socialmediaicons/twitter.svg',
+        link: 'https://twitter.com/PhilippIRL'
     },
     {
-        title: "Matrix",
-        icon: "/assets/v6/socialmediaicons/matrix.svg",
-        link: "https://matrix.to/#/@philippirl:matrix.org"
+        title: 'Matrix',
+        icon: '/assets/v6/socialmediaicons/matrix.svg',
+        link: 'https://matrix.to/#/@philippirl:matrix.org'
     },
     {
-        title: "Discord",
-        icon: "/assets/v6/socialmediaicons/discord.svg",
-        link: "https://discord.gg/BRJBhJj"
+        title: 'Discord',
+        icon: '/assets/v6/socialmediaicons/discord.svg',
+        link: 'https://discord.gg/BRJBhJj'
     },
 ];
 
@@ -217,65 +220,134 @@ const UndecoredLink = styled.a`
     color: inherit;
 `
 
+const Punchline = styled.span`
+    font-size: 4rem;
+    margin: 12rem 0;
+    align-self: flex-start;
+    font-weight: bold;
+`
+
+const DecoredLink = styled(UndecoredLink)`
+    border-bottom: 4px solid white;
+`
+
 const SocialLink = styled.a`
     display: flex;
 `
 
+const Footer = styled.footer`
+    width: 100vw;
+    display: flex;
+    padding: .5rem;
+    justify-content: flex-end;
+`
+
+const FooterIcon = styled.img`
+    height: 4rem;
+    margin-right: 1rem;
+`
+
+function useAge() {
+    const [age, setAge] = useState(0)
+
+    useEffect(() => {
+        const birthday = [26, 8, 2003];
+        const dateObj = new Date();
+        let age = dateObj.getFullYear() - birthday[2];
+        const hasHadBD = (dateObj.getMonth() >= birthday[1]) || (dateObj.getMonth() == (birthday[1] - 1) && dateObj.getDate() >= birthday[0]);
+        if(!hasHadBD) age--;
+        setAge(age);
+    }, []);
+
+    return age
+}
+
+const hobbies = ['developer', 'railway fan', 'person interested in politics']
+
+function useRandomHobby() {
+    const [hobby, setHobby] = useState('...')
+
+    useEffect(() => {
+        setHobby(hobbies[Math.floor(hobbies.length * Math.random())])
+    }, [])
+
+    return hobby
+}
+
 export default function NewHome({}) {
+    const eventBus = useContext(EventBusContext)
+
+    function openTerminal(e: SyntheticEvent) {
+        e.preventDefault()
+        eventBus!.post({id: 'TERMINAL_TOGGLE'})
+    }
+
+    const age = useAge()
+    const hobby = useRandomHobby()
+
     return (
         <AppRoot>
             <GlobalStyles />
             <Head>
                 <title>ppluss.de</title>
-                {/* eslint-disable-next-line */}
-                <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap' />
-                <meta name="description" content="Willkommen bei PplusS! Dies ist meine Webseite auf der ich, naja Text stehen hab und so... Und ich verlinke meine Social Media-Accounts!"></meta>
+                <meta name='description' content='Willkommen bei PplusS! Dies ist meine Webseite auf der ich, naja Text stehen hab und so... Und ich verlinke meine Social Media-Accounts!'></meta>
             </Head>
             <Page>
                 <Header>
                     <TopHeader>
-                        <TitleContainer as="h1">
-                            <Title as="span">Hey,</Title>
-                            <Subtitle as="span">I&apos;m Philipp!</Subtitle>
+                        <TitleContainer as='h1'>
+                            <Title as='span'>Hey,</Title>
+                            <Subtitle as='span'>I&apos;m Philipp!</Subtitle>
                         </TitleContainer>
-                        <Logo src="/logo.png" />
+                        <Logo src='/logo.png' />
                     </TopHeader>
-                    <DescriptionText>Just another 18yo developer</DescriptionText>
+                    <DescriptionText>Just another {age || '...'}yo {hobby}</DescriptionText>
                     <SocialsBar>
                         {socialsData.map(data => (
                         <Link href={data.link} key={data.title} passHref>
-                            <SocialLink target="_blank">
+                            <SocialLink target='_blank'>
                                 <SocialsIcon src={data.icon} />
                             </SocialLink>
                         </Link>
                         ))}
-                        <Link href="/socials/" passHref>
+                        <Link href='/socials/' passHref>
                             <SocialLink>
-                                <SocialsIcon src="/assets/v6/socialmediaicons/arrow.svg" />
+                                <SocialsIcon src='/assets/v6/socialmediaicons/arrow.svg' />
                             </SocialLink>
                         </Link>
                     </SocialsBar>
                 </Header>
                 <ProjectsTitle>Projects</ProjectsTitle>
                 <ProjectLeft>
-                    <UndecoredLink href="https://regenbogen-ice.de/" target="_blank">
+                    <UndecoredLink href='https://regenbogen-ice.de/' target='_blank'>
                         <ProjectTitle>Where&apos;s the Rainbow ICE?</ProjectTitle>
                         <ProjectSubtitle>Track the rainbow ICE and other ICE trains</ProjectSubtitle>
                         <ProjectGallery>
-                            <ProjectImage src="/assets/v6/cards/regenbogenice.png" />
+                            <ProjectImage src='/assets/v6/cards/regenbogenice.png' />
                         </ProjectGallery>
                     </UndecoredLink>
                 </ProjectLeft>
                 <ProjectRight>
-                    <UndecoredLink href="https://github.com/philippirl" target="_blank">
+                    <UndecoredLink href='https://github.com/philippirl' target='_blank'>
                         <ProjectTitle>Random stuff</ProjectTitle>
                         <ProjectSubtitle>Some small random code projects</ProjectSubtitle>
                         <ProjectGallery>
-                            <ProjectImage src="https://cdn.discordapp.com/attachments/790953646501789728/945055841378246666/unknown.png" />
+                            <ProjectImage src='https://cdn.discordapp.com/attachments/790953646501789728/945055841378246666/unknown.png' />
                         </ProjectGallery>
                     </UndecoredLink>
                 </ProjectRight>
+                <Punchline>Feel free to <Link href='/socials/' passHref><DecoredLink>contact me</DecoredLink></Link>.</Punchline>
             </Page>
+            <Footer>
+                <Link href='/contact/' passHref>
+                    <UndecoredLink>
+                        <FooterIcon src='/assets/v6/bottomicons/contact.svg' />
+                    </UndecoredLink>
+                </Link>
+                <UndecoredLink href='/terminal/' target='_blank' onClick={openTerminal}>
+                    <FooterIcon src='/assets/v6/bottomicons/terminal.svg' />
+                </UndecoredLink>
+            </Footer>
         </AppRoot>
     )
 }
