@@ -2,8 +2,10 @@ import styled, { createGlobalStyle } from 'styled-components'
 import Link from 'next/link'
 import Head from 'next/head';
 import { useContext, useEffect, useState } from 'react';
-import { EventBusContext } from '../scripts/Contexts'
+import { EventBusContext, LangContext } from '../scripts/Contexts'
 import type { SyntheticEvent } from 'react'
+import { getLang } from '../scripts/Lang'
+import type { Translation } from '../scripts/Lang'
 
 const socialsData = [
     {
@@ -22,6 +24,41 @@ const socialsData = [
         link: 'https://discord.gg/BRJBhJj'
     },
 ];
+
+const translations = {
+    de: {
+        'home.title': 'Hey,',
+        'home.subtitle': 'ich bin Philipp!',
+        'home.description': 'So ein {age} jähriger {hobby}',
+        'home.hobby.0': 'Webentwickler',
+        'home.hobby.1': 'Zugfan',
+        'home.hobby.2': 'Politikinteressierter',
+        'home.projects.title': 'Projekte',
+        'home.projects.rainbowice.title': 'Wo ist der Regenbogen-ICE?',
+        'home.projects.rainbowice.subtitle': 'Tracke den Regenbogen-ICE und andere ICEs',
+        'home.projects.randomstuff.title': 'Random Stuff',
+        'home.projects.randomstuff.subtitle': 'Kleinere Random Code-Projekte',
+        'home.contact.before': 'Gerne kannst du mich auch ',
+        'home.contact.text': 'kontaktieren',
+        'home.contact.after': '.',
+    },
+    en: {
+        'home.title': 'Hey,',
+        'home.subtitle': 'I\'m Philipp!',
+        'home.description': 'Just another {age}yo {hobby}',
+        'home.hobby.0': 'web developer',
+        'home.hobby.1': 'railway fan',
+        'home.hobby.2': 'person interested in politics',
+        'home.projects.title': 'Projects',
+        'home.projects.rainbowice.title': 'Where\'s the Rainbow ICE?',
+        'home.projects.rainbowice.subtitle': 'Track the rainbow ICE and other ICE trains',
+        'home.projects.randomstuff.title': 'Random stuff',
+        'home.projects.randomstuff.subtitle': 'Some small random code projects',
+        'home.contact.before': 'Feel free to ',
+        'home.contact.text': 'contact me',
+        'home.contact.after': '.',
+    },
+}
 
 const GlobalStyles = createGlobalStyle`
     html {
@@ -262,20 +299,25 @@ function useAge() {
     return age
 }
 
-const hobbies = ['developer', 'railway fan', 'person interested in politics']
+const hobbyCount = 3
 
-function useRandomHobby() {
+function useRandomHobby(t: Translation) {
     const [hobby, setHobby] = useState('...')
 
     useEffect(() => {
-        setHobby(hobbies[Math.floor(hobbies.length * Math.random())])
-    }, [])
+        setHobby(t('home.hobby.' + Math.floor(hobbyCount * Math.random())))
+    }, [t])
 
     return hobby
 }
 
-export default function NewHome({}) {
+const getTranslation = getLang(translations)
+
+export default function Home({}) {
+    const lang = useContext(LangContext)
     const eventBus = useContext(EventBusContext)
+
+    const t = getTranslation(lang)
 
     function openTerminal(e: SyntheticEvent) {
         e.preventDefault()
@@ -283,7 +325,7 @@ export default function NewHome({}) {
     }
 
     const age = useAge()
-    const hobby = useRandomHobby()
+    const hobby = useRandomHobby(t)
 
     return (
         <AppRoot>
@@ -296,12 +338,12 @@ export default function NewHome({}) {
                 <Header>
                     <TopHeader>
                         <TitleContainer as='h1'>
-                            <Title as='span'>Hey,</Title>
-                            <Subtitle as='span'>I&apos;m Philipp!</Subtitle>
+                            <Title as='span'>{t('home.title')}</Title>
+                            <Subtitle as='span'>{t('home.subtitle')}</Subtitle>
                         </TitleContainer>
                         <Logo src='/logo.png' />
                     </TopHeader>
-                    <DescriptionText>Just another {age || '...'}yo {hobby}</DescriptionText>
+                    <DescriptionText>{t('home.description').replace('{age}', String(age)).replace('{hobby}', hobby)}</DescriptionText>
                     <SocialsBar>
                         {socialsData.map(data => (
                         <Link href={data.link} key={data.title} passHref>
@@ -317,11 +359,11 @@ export default function NewHome({}) {
                         </Link>
                     </SocialsBar>
                 </Header>
-                <ProjectsTitle>Projects</ProjectsTitle>
+                <ProjectsTitle>{t('home.projects.title')}</ProjectsTitle>
                 <ProjectLeft>
                     <UndecoredLink href='https://regenbogen-ice.de/' target='_blank'>
-                        <ProjectTitle>Where&apos;s the Rainbow ICE?</ProjectTitle>
-                        <ProjectSubtitle>Track the rainbow ICE and other ICE trains</ProjectSubtitle>
+                        <ProjectTitle>{t('home.projects.rainbowice.title')}</ProjectTitle>
+                        <ProjectSubtitle>{t('home.projects.rainbowice.subtitle')}</ProjectSubtitle>
                         <ProjectGallery>
                             <ProjectImage src='/assets/v6/cards/regenbogenice.png' />
                         </ProjectGallery>
@@ -329,14 +371,14 @@ export default function NewHome({}) {
                 </ProjectLeft>
                 <ProjectRight>
                     <UndecoredLink href='https://github.com/philippirl' target='_blank'>
-                        <ProjectTitle>Random stuff</ProjectTitle>
-                        <ProjectSubtitle>Some small random code projects</ProjectSubtitle>
+                        <ProjectTitle>{t('home.projects.randomstuff.title')}</ProjectTitle>
+                        <ProjectSubtitle>{t('home.projects.randomstuff.subtitle')}</ProjectSubtitle>
                         <ProjectGallery>
                             <ProjectImage src='https://cdn.discordapp.com/attachments/790953646501789728/945055841378246666/unknown.png' />
                         </ProjectGallery>
                     </UndecoredLink>
                 </ProjectRight>
-                <Punchline>Feel free to <Link href='/socials/' passHref><DecoredLink>contact me</DecoredLink></Link>.</Punchline>
+                <Punchline>{t('home.contact.before')}<Link href='/socials/' passHref><DecoredLink>{t('home.contact.text')}</DecoredLink></Link>{t('home.contact.after')}</Punchline>
             </Page>
             <Footer>
                 <Link href='/contact/' passHref>
