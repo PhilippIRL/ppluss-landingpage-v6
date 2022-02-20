@@ -1,15 +1,6 @@
-import styled from "styled-components"
-import Head from "next/head"
-import LangSwitcher from "../components/langswitcher"
-import Card from "../components/Card"
-import Link from "next/link"
-import { getLang } from "../scripts/Lang"
-import { useEffect, useState } from "react"
-import { EventBusContext, LangContext } from "../scripts/Contexts"
-import { useContext } from "react"
-import type { Translation } from "../scripts/Lang" 
-import EventBus from "../scripts/EventBus"
-import type { SyntheticEvent } from "react"
+import styled, { createGlobalStyle } from 'styled-components'
+import Link from 'next/link'
+import Head from 'next/head';
 
 const socialsData = [
     {
@@ -18,268 +9,273 @@ const socialsData = [
         link: "https://twitter.com/PhilippIRL"
     },
     {
-        title: "Telegram",
-        icon: "/assets/v6/socialmediaicons/telegram.svg",
-        link: "https://t.me/philippirl"
+        title: "Matrix",
+        icon: "/assets/v6/socialmediaicons/matrix.svg",
+        link: "https://matrix.to/#/@philippirl:matrix.org"
     },
     {
         title: "Discord",
         icon: "/assets/v6/socialmediaicons/discord.svg",
         link: "https://discord.gg/BRJBhJj"
     },
-    /*{
-        title: "Regenbogen ICE",
-        icon: "/assets/v6/socialmediaicons/ice.svg",
-        link: "https://regenbogen-ice.de/"
-    },*/
 ];
 
-const translations = {
-    de: {
-        "newhome.title": "Hi, ich bin Philipp!",
-        "newhome.aboutMe.title": "Über mich",
-        "newhome.aboutMe.text": "{agePhrase} Ich könnte jetzt hier noch mehr Sachen über mich erzählen, mir fällt nur leider nicht viel zu mir ein.",
-        "newhome.calculatingAge": "Also Berechnungen zur Bestimmung meines Alters laufen gerade im Hintergrund oder JavaScript ist deaktiviert.",
-        "newhome.agePhrase": "Also laut Berechnungen bin ich derzeit {age} Jahre alt.",
-        "newhome.footer.socials": "Socials",
-        "newhome.footer.contact": "Impressum",
-        "newhome.footer.terminal": "Terminal",
-        "newhome.rainbowice.title": "Wo ist der Regenbogen ICE?",
-        "newhome.rainbowice.description": "regenbogen-ice.de ermittelt mithilfe von öffentlichen Zugdaten, wo sich der Regenbogen ICE (oder andere ICEs) befindet und zu welcher Zeit der Zug an welchem Bahnhof fährt.",
-    },
-    en: {
-        "newhome.title": "Hi, I'm Philipp!",
-        "newhome.aboutMe.title": "About myself",
-        "newhome.aboutMe.text": "{agePhrase} I could write more things about myself here. Unfortunately I don't have much to say about myself.",
-        "newhome.calculatingAge": "So calculations to determine my age are currently running in the background or JavaScript is disabled.",
-        "newhome.agePhrase": "So according to calculations I am currently {age} years old.",
-        "newhome.footer.socials": "Socials",
-        "newhome.footer.contact": "Imprint",
-        "newhome.footer.terminal": "Terminal",
-        "newhome.rainbowice.title": "Wo ist der Regenbogen ICE? (Where\'s the rainbow ICE?)",
-        "newhome.rainbowice.description": "regenbogen-ice.de uses public train data to locate the rainbow ICE (or other ICEs). It can also show at what time the train will be at which station.",
-    },
-}
+const GlobalStyles = createGlobalStyle`
+    html {
+        font-size: 85%;
+        background-color: #111;
+    }
 
-const AppRoot = styled.div`
-    min-height: 100vh;
-`
+    @media only screen and (max-width: 1200px) {
+        html {
+            font-size: 65%;
+        }
+    }
 
-const PageHeader = styled.header`
-    height: 40vh;
-    min-height: 300px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 50px;
-`
+    @media only screen and (max-width: 1000px) {
+        html {
+            font-size: 55%;
+        }
+    }
 
-const HeaderContent = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`
-
-const HeaderTitle = styled.h1`
-    text-align: center;
-`
-
-const SocialLinks = styled.div`
-    display: flex;
-    flex-direction: row;
-    gap: 15px;
-`
-
-const SocialIcon = styled.img`
-    width: 35px;
-    height: 35px;
-    transition: .2s;
-    cursor: pointer;
-    :hover {
-        transform: scale(1.2);
+    @media only screen and (max-width: 900px) {
+        html {
+            font-size: 45%;
+        }
     }
 `
 
-const MainContainer = styled.div`
+const AppRoot = styled.div`
+    min-height: 100vh;
+    background-color: #000;
+    background: linear-gradient(100deg, #111 0%, #000 100%);
+    font-family: Inter, sans-serif;
+
     display: flex;
     flex-direction: column;
     align-items: center;
     overflow-x: hidden;
 `
 
-const GenericSection = styled.section`
+const Page = styled.div`
+    position: relative;
+
     display: flex;
-    flex-direction: row;
-    margin-left: 20px;
-    margin-right: 20px;
+    align-items: center;
+    flex-direction: column;
+
     width: 100%;
-    max-width: 850px;
-    justify-content: flex-start;
-    margin-bottom: 75px;
-    flex-wrap: wrap;
+    box-sizing: border-box;
+    max-width: 1600px;
+    padding: 0 5rem;
 `
 
-const SectionTitle = styled.h2`
-    font-size: 28px;
-    margin-bottom: 10px;
-    margin-left: 20px;
-    magin-right: 20px;
-    @media only screen and (min-width: 1100px)  {
-        margin-left: -75px;
+const Header = styled.header`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    width: 100%;
+    min-height: 100vh;
+`
+
+const TopHeader = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding-top: 8rem;
+
+    width: 100%;
+
+    @media only screen and (max-width: 800px) {
+        flex-direction: column-reverse;
+        padding-top: 8rem;
     }
 `
 
-const GenericParagraph = styled.p`
-    margin: 0;
-    margin-left: 20px;
-    margin-right: 20px;
-    width: 100%;
-`
-
-const CardGrid = styled.div`
+const TitleContainer = styled.div`
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    flex-wrap: wrap;
-    max-width: calc(100vw - 20px);
-    margin: 10px;
-    gap: 30px;
+    flex-direction: column;
+    align-self: flex-start;
 `
 
-const StyledLink = styled.a`
-    color: #fff;
-    text-decoration: underline;
-    cursor: pointer;
-    width: max-content;
+const Logo = styled.img`
+    height: 20rem;
+
+    @media only screen and (max-width: 800px) {
+        height: 100px;
+        margin-bottom: 4rem; /* safari mag flex gap nicht so */
+    }
+`
+
+const Title = styled.h1`
+    font-size: 7rem;
+    margin: 0;
+`
+
+const Subtitle = styled(Title)`
+    color: #777;
+`
+
+const DescriptionText = styled.h2`
+    color: #777;
+    font-size: 4rem;
+
+    align-self: flex-start;
+`
+
+const SocialsBar = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2.5rem;
+
+    margin: 10rem 0 2rem 0;
+`
+
+const SocialsIcon = styled.img`
+    width: 6rem;
+
+    transition: transform .1s;
+    :hover {
+        transform: scale(1.1);
+    }
+`
+
+const ProjectsTitle = styled.h1`
+    font-size: 6rem;
+    margin: 16rem 0 0 0;
+    align-self: flex-start;
+`
+
+const Project = styled.div`
+    margin: 6rem 0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+
+    ::after {
+        content: '';
+        position: absolute;
+        top: 4.5rem;
+        width: 100vw;
+        height: 3px;
+        background-color: #fff;
+    }
+`
+
+const ProjectLeft = styled(Project)`
+    align-self: flex-start;
+
+    ::after {
+        right: calc(100% + 3rem);
+    }
+`
+
+const ProjectRight = styled(Project)`
+    align-self: flex-end;
+
+    ::after {
+        left: calc(100% + 3rem);
+    }
+`
+
+const ProjectTitle = styled.h2`
+    font-size: 3.75rem;
+
+    margin: 0;
+    margin-bottom: 1rem;
+`
+
+const ProjectSubtitle = styled.h3`
+    font-size: 2rem;
+    color: #777;
+
+    margin: 0;
+`
+
+const ProjectGallery = styled.div`
+    display: flex;
+    margin-top: 2rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin-left: -5rem;
+    padding-left: 5rem;
+    width: calc(100% + 5rem);
+`
+
+const ProjectImage = styled.img`
+    border-radius: 30px;
+    height: 400px;
+    margin-right: 5rem;
 `
 
 const UndecoredLink = styled.a`
-    color: #fff;
-    text-decoration: none;
+    text-decoration: inherit;
+    color: inherit;
+`
+
+const SocialLink = styled.a`
     display: flex;
-    max-width: calc(100vw - 20px);
 `
 
-const ContactText = styled.h2`
-    margin: 20px;
-`
-
-const FooterElem = styled.footer`
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    padding: 10px;
-    justify-content: flex-end;
-    width: calc(100vw - 20px);
-    gap: 10px;
-    @media only screen and (max-width: 600px)  {
-        justify-content: center;
-    }
-    font-size: 18px;
-    font-weight: bold;
-`
-
-const getTranslation = getLang(translations)
-
-function AgeParagraph({t}: {t: Translation}) {
-    let [age, setAge] = useState(-1)
-
-    useEffect(() => {
-        var birthday = [26, 8, 2003];
-        var dateObj = new Date();
-        var age = dateObj.getFullYear() - birthday[2];
-        var hasHadBD = (dateObj.getMonth() >= birthday[1]) || (dateObj.getMonth() == (birthday[1] - 1) && dateObj.getDate() >= birthday[0]);
-        if(!hasHadBD) age--;
-        setAge(age);
-    }, []);
-
-    let agePhrase = age !== -1 ? t("newhome.agePhrase").replace("{age}", age.toString()) : t("newhome.calculatingAge");
-
-    return (
-        <GenericParagraph>{t("newhome.aboutMe.text").replace("{agePhrase}", agePhrase)}</GenericParagraph>
-    )
-}
-
-function Footer({t, eventBus}: {t: Translation, eventBus: EventBus}) {
-    function openTerminal(e: SyntheticEvent) {
-        e.preventDefault()
-        eventBus.post({id: "TERMINAL_TOGGLE"})
-    }
-    return (
-        <FooterElem>
-            <Link href="/socials" passHref>
-                <StyledLink href="/socials">{t("newhome.footer.socials")}</StyledLink>
-            </Link>
-            <Link href="/contact" passHref>
-                <StyledLink href="/contact">{t("newhome.footer.contact")}</StyledLink>
-            </Link>
-            <StyledLink href="/terminal" onClick={openTerminal}>{t("newhome.footer.terminal")}</StyledLink>
-        </FooterElem>
-    )
-}
-
-export default function NewHome() {
-    let lang = useContext(LangContext)
-    let eventBus: any = useContext(EventBusContext)
-
-    let t = getTranslation(lang)
-
-    let [loaded, setLoaded] = useState(false)
-
-    useEffect(() => {
-        setLoaded(true);
-    }, [])
-
+export default function NewHome({}) {
     return (
         <AppRoot>
-            <MainContainer>
-                <Head>
-                    <title>ppluss.de</title>
-                    <meta name="description" content="Willkommen bei PplusS! Dies ist meine Webseite auf der ich, naja Text stehen hab und so... Und ich verlinke meine Social Media-Accounts!"></meta>
-                </Head>
-                <LangSwitcher loaded={loaded} />
-                <PageHeader>
-                    <HeaderContent>
-                        <HeaderTitle>{t("newhome.title")}</HeaderTitle>
-                        <SocialLinks>
-                            {socialsData.map((data, index) => {
-                                return (
-                                    <a key={index} href={data.link} rel="noreferrer" target="_blank">
-                                        <SocialIcon src={data.icon} alt={data.title} />
-                                    </a>
-                                )
-                            })}
-                            <Link href="/socials" passHref>
-                                <a>
-                                    <SocialIcon src="/assets/v6/socialmediaicons/arrow.svg" alt="More" />
-                                </a>
-                            </Link>
-                        </SocialLinks>
-                    </HeaderContent>
-                </PageHeader>
-                <GenericSection>
-                    <SectionTitle>{t("newhome.aboutMe.title")}</SectionTitle>
-                    <AgeParagraph t={t} />
-                </GenericSection>
-                <GenericSection>
-                    <SectionTitle>Lorem ipsum</SectionTitle>
-                    <GenericParagraph>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sed auctor massa. Vestibulum malesuada pretium turpis id hendrerit. Pellentesque congue urna id pellentesque mattis. Morbi pulvinar lorem quis est consequat, non feugiat metus dapibus. Proin laoreet condimentum lacus eget vulputate. Etiam sagittis urna eu urna viverra, eu pharetra metus ultricies. Proin sed mi ut purus luctus fringilla. Quisque molestie augue eu risus condimentum, vitae porta felis bibendum. Donec ut ligula sed nisl egestas semper. Maecenas sit amet interdum dui, et tincidunt ante. Nunc consectetur turpis sed quam varius consequat. Vivamus varius tincidunt lobortis. Aliquam erat volutpat. Fusce bibendum ante sem. Etiam viverra mauris a sapien suscipit hendrerit.</GenericParagraph>
-                </GenericSection>
-                <GenericSection>
-                    <CardGrid>
-                        <UndecoredLink href="https://regenbogen-ice.de/" target="_blank" rel="noreferrer">
-                            <Card title={t("newhome.rainbowice.title")} description={t("newhome.rainbowice.description")} background="/assets/v6/cards/regenbogenice.png" /> {/* TODO: Better picture and use WEBP */}
-                        </UndecoredLink>
-                        <Card title={"PLACEHOLDER"} description={"PLACEHOLDER"} background="/assets/v6/cards/gge.webp" />
-                        <Card large={true} title={"PLACEHOLDER"} description={"PLACEHOLDER"} background="/assets/v6/cards/gge.webp" />
-                    </CardGrid>
-                </GenericSection>
-                <GenericSection>
-                    <ContactText>Feel free to <Link href="/socials" passHref><StyledLink>contact me</StyledLink></Link>, cheers!</ContactText>
-                </GenericSection>
-                <Footer eventBus={eventBus} t={t} />
-            </MainContainer>
-            <a hidden rel="me" href="https://chaos.social/@philippirl">a link to verify my website on mastodon</a>
+            <GlobalStyles />
+            <Head>
+                <title>ppluss.de</title>
+                {/* eslint-disable-next-line */}
+                <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap' />
+                <meta name="description" content="Willkommen bei PplusS! Dies ist meine Webseite auf der ich, naja Text stehen hab und so... Und ich verlinke meine Social Media-Accounts!"></meta>
+            </Head>
+            <Page>
+                <Header>
+                    <TopHeader>
+                        <TitleContainer as="h1">
+                            <Title as="span">Hey,</Title>
+                            <Subtitle as="span">I&apos;m Philipp!</Subtitle>
+                        </TitleContainer>
+                        <Logo src="/logo.png" />
+                    </TopHeader>
+                    <DescriptionText>Just another 18yo developer</DescriptionText>
+                    <SocialsBar>
+                        {socialsData.map(data => (
+                        <Link href={data.link} key={data.title} passHref>
+                            <SocialLink target="_blank">
+                                <SocialsIcon src={data.icon} />
+                            </SocialLink>
+                        </Link>
+                        ))}
+                        <Link href="/socials/" passHref>
+                            <SocialLink>
+                                <SocialsIcon src="/assets/v6/socialmediaicons/arrow.svg" />
+                            </SocialLink>
+                        </Link>
+                    </SocialsBar>
+                </Header>
+                <ProjectsTitle>Projects</ProjectsTitle>
+                <ProjectLeft>
+                    <UndecoredLink href="https://regenbogen-ice.de/" target="_blank">
+                        <ProjectTitle>Where&apos;s the Rainbow ICE?</ProjectTitle>
+                        <ProjectSubtitle>Track the rainbow ICE and other ICE trains</ProjectSubtitle>
+                        <ProjectGallery>
+                            <ProjectImage src="/assets/v6/cards/regenbogenice.png" />
+                        </ProjectGallery>
+                    </UndecoredLink>
+                </ProjectLeft>
+                <ProjectRight>
+                    <UndecoredLink href="https://github.com/philippirl" target="_blank">
+                        <ProjectTitle>Random stuff</ProjectTitle>
+                        <ProjectSubtitle>Some small random code projects</ProjectSubtitle>
+                        <ProjectGallery>
+                            <ProjectImage src="https://cdn.discordapp.com/attachments/790953646501789728/945055841378246666/unknown.png" />
+                        </ProjectGallery>
+                    </UndecoredLink>
+                </ProjectRight>
+            </Page>
         </AppRoot>
     )
 }
