@@ -294,11 +294,11 @@ export default class Terminal extends React.Component<TerminalProps> {
                         this.println("Error: Unknown host");
                         return;
                 }
-            case "newhome":
-                this.eventBus.post({id: "GOTO", data: "/new"});;
+            case "oldhome":
+                this.eventBus.post({id: "GOTO", data: "/old"});;
                 return;
             case "adri":
-                this.println("<3");
+                this.println("ly <3");
                 return;
             case "lowercase":
                 this.eventBus.post({id: "LOWERCASE_TOGGLE"});
