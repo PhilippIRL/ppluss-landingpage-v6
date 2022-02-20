@@ -51,17 +51,17 @@ const socialsData = [
     },
     {
         title: "Spotify",
-        text: "User",
+        text: "",
         color: "#1db954",
         icon: "/assets/v6/socialmediaicons/spotify.svg",
         link: "https://open.spotify.com/user/pplussmc"
     },
     {
-        title: "Spotify",
-        text: "Podcast",
-        color: "#1db954",
-        icon: "/assets/v6/socialmediaicons/spotify.svg",
-        link: "https://open.spotify.com/show/6wMzZDhlXOiuGZ657OeFVt"
+        title: "Matrix",
+        text: "",
+        color: "#0DBD8B",
+        icon: "/assets/v6/socialmediaicons/matrix.svg",
+        link: "https://matrix.to/#/@philippirl:matrix.org"
     },
     {
         title: "Tellonym",
