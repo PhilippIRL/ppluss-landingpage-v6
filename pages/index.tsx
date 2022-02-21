@@ -343,7 +343,7 @@ export default function Home({}) {
                         </TitleContainer>
                         <Logo src='/logo.png' />
                     </TopHeader>
-                    <DescriptionText>{t('home.description').replace('{age}', String(age)).replace('{hobby}', hobby)}</DescriptionText>
+                    <DescriptionText>{t('home.description').replace('{age}', String(age || '...')).replace('{hobby}', hobby)}</DescriptionText>
                     <SocialsBar>
                         {socialsData.map(data => (
                         <Link href={data.link} key={data.title} passHref>
