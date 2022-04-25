@@ -60,7 +60,7 @@ const translations = {
     },
 }
 
-const GlobalStyles = createGlobalStyle`
+const GlobalStyles: any = createGlobalStyle`
     html {
         font-size: 85%;
         background-color: #111;

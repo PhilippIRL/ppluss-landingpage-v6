@@ -10,7 +10,7 @@ import { LangContext, EventBusContext } from "../scripts/Contexts";
 import type { BusEvent } from "../scripts/EventBus";
 import parseHash from "../scripts/hashparser";
 
-const GlobalStyle = createGlobalStyle`
+const GlobalStyle: any = createGlobalStyle`
 
     html {
         overflow-x: hidden;
@@ -43,7 +43,7 @@ const GlobalStyle = createGlobalStyle`
     }
 `;
 
-const LowerCaseSpeech = createGlobalStyle`
+const LowerCaseSpeech: any = createGlobalStyle`
     * {
         text-transform: lowercase;
     }
