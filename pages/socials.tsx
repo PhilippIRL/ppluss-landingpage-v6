@@ -82,7 +82,7 @@ const socialsData = [
         text: "",
         color: "#fffc00",
         icon: "/assets/v6/socialmediaicons/snapchat.svg",
-        link: "https://www.snapchat.com/add/ppluss1"
+        link: "https://www.snapchat.com/add/philippirl"
     },
     {
         title: "Twitch",
@@ -150,6 +150,11 @@ const AppRoot = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    font-family: Inter, sans-serif;
+    background-color: #000;
+    background: linear-gradient(100deg, #111 0%, #000 100%);
+    min-height: 100vh;
 `;
 
 const SocialsContainer = styled.div`
@@ -159,6 +164,9 @@ const SocialsContainer = styled.div`
     align-items: center;
     flex-wrap: wrap;
     overflow: hidden;
+    max-width: max(90%, 1200px);
+    margin: 4rem 0;
+    align-content: flex-start;
 `;
 
 const UndecoratedLink = styled.a`
@@ -174,7 +182,7 @@ const colorRotateAnim = keyframes`
 `;
 
 const SocialsTitle: any = styled.h1`
-    font-size: 38px;
+    font-size: 5rem;
     color: #fff;
     ${(props: any) => props.colorRotate && css`
         color: #f00;

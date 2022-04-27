@@ -3,7 +3,7 @@ import EventBus from "../scripts/EventBus";
 import Terminal from "../components/Terminal";
 import { withRouter } from "next/router";
 import { defaultLang, getLanguagePreference, saveLanguagePreference } from "../scripts/Lang";
-import { createGlobalStyle, keyframes } from "styled-components";
+import { createGlobalStyle } from "styled-components";
 import Head from "next/head";
 import { LangContext, EventBusContext } from "../scripts/Contexts";
 
@@ -14,14 +14,16 @@ const GlobalStyle: any = createGlobalStyle`
 
     html {
         overflow-x: hidden;
-        background-color: rgba(34,34,34,1);
+        font-size: 75%;
+        background-color: #090909;
     }
 
     body {
         margin: 0;
-        background: linear-gradient(153deg, rgba(34,34,34,1) 0%, rgba(20,20,20,1) 100%);
+        background-color: #000;
+        background: linear-gradient(100deg, #090909 0%, #000 100%);
         min-height: 100vh;
-        font-family: "Nunito", sans-serif;
+        font-family: Inter, sans-serif;
         color: #fff;
     }
 
@@ -30,7 +32,7 @@ const GlobalStyle: any = createGlobalStyle`
     }
 
     body::-webkit-scrollbar {
-        width: 0.4em;
+        width: 0.6em;
     }
     
     body::-webkit-scrollbar-track {
@@ -41,6 +43,19 @@ const GlobalStyle: any = createGlobalStyle`
         border-radius: 4px;
         background-color: #bbb;
     }
+
+    @media only screen and (max-width: 1200px) {
+        html {
+            font-size: 65%;
+        }
+    }
+
+    @media only screen and (max-width: 1000px) {
+        html {
+            font-size: 55%;
+        }
+    }
+
 `;
 
 const LowerCaseSpeech: any = createGlobalStyle`
@@ -64,21 +79,12 @@ class App extends React.Component<any> {
     }
 
     componentDidMount() {
-        let languagePreference = getLanguagePreference();
-        this.setState({lang: languagePreference});
+        this.setState({lang: getLanguagePreference()});
+
         let hash = parseHash();
 
         if(hash.term !== undefined) {
             this.eventBus.post({id: "TERMINAL_FORCE"});
-        }
-
-        if(hash.perm !== undefined) {
-            this.eventBus.post({id: "FORCE_PERM_PROMPT"});
-        }
-
-        if(hash.prmt) {
-            let data = hash.prmt.split(",");
-            this.eventBus.post({id: "STEAM_PROMPT", data});
         }
 
         if(hash.forcecommand !== undefined) {
@@ -91,7 +97,9 @@ class App extends React.Component<any> {
             }
         }
 
-        window.location.hash = "";
+        if(window.location.hash !== "") {
+            window.location.hash = "";
+        }
     }
 
     onBusEvent(e: BusEvent) {
@@ -117,7 +125,6 @@ class App extends React.Component<any> {
                 <EventBusContext.Provider value={this.eventBus}>
                     <Head>
                         {/* eslint-disable */}
-                        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" />
                         <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap' />
                         <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet" />
                         {/* eslint-enable */}

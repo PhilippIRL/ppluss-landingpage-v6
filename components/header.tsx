@@ -15,7 +15,7 @@ const languageData = {
 }
 
 const HeaderDiv = styled.header`
-    height: 50px;
+    height: 55px;
     overflow-x: auto;
     overflow-y: hidden;
     display: flex;
@@ -26,7 +26,7 @@ const HeaderDiv = styled.header`
 const ButtonBack = styled.a`
     display: flex;
     align-items: center;
-    margin-left: 10px;
+    margin-left: 12px;
     cursor: pointer;
     margin-right: 20px;
     color: #fff;
@@ -41,7 +41,7 @@ const BackArrow = styled.svg`
 const BackText = styled.span`
     margin-left: 6px;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 20px;
     white-space: nowrap;
 `;
 

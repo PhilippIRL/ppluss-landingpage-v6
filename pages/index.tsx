@@ -1,4 +1,4 @@
-import styled, { createGlobalStyle } from 'styled-components'
+import styled from 'styled-components'
 import Link from 'next/link'
 import Head from 'next/head';
 import { useContext, useEffect, useState } from 'react';
@@ -14,9 +14,9 @@ const socialsData = [
         link: 'https://twitter.com/PhilippIRL'
     },
     {
-        title: 'Matrix',
-        icon: '/assets/v6/socialmediaicons/matrix.svg',
-        link: 'https://matrix.to/#/@philippirl:matrix.org'
+        title: 'Telegram',
+        icon: '/assets/v6/socialmediaicons/telegram.svg',
+        link: 'https://t.me/philippirl'
     },
     {
         title: 'Discord',
@@ -32,7 +32,7 @@ const translations = {
         'home.description': 'So ein {age} jähriger {hobby}',
         'home.hobby.0': 'Webentwickler',
         'home.hobby.1': 'Zugfan',
-        'home.hobby.2': 'Politikinteressierter',
+        'home.hobby.2': 'Typ, interessiert in Politik',
         'home.projects.title': 'Projekte',
         'home.projects.rainbowice.title': 'Wo ist der Regenbogen-ICE?',
         'home.projects.rainbowice.subtitle': 'Tracke den Regenbogen-ICE und andere ICEs',
@@ -60,35 +60,8 @@ const translations = {
     },
 }
 
-const GlobalStyles: any = createGlobalStyle`
-    html {
-        font-size: 85%;
-        background-color: #111;
-    }
-
-    @media only screen and (max-width: 1200px) {
-        html {
-            font-size: 65%;
-        }
-    }
-
-    @media only screen and (max-width: 1000px) {
-        html {
-            font-size: 55%;
-        }
-    }
-
-    @media only screen and (max-width: 900px) {
-        html {
-            font-size: 45%;
-        }
-    }
-`
-
 const AppRoot = styled.div`
     min-height: 100vh;
-    background-color: #000;
-    background: linear-gradient(100deg, #111 0%, #000 100%);
     font-family: Inter, sans-serif;
 
     display: flex;
@@ -242,6 +215,7 @@ const ProjectGallery = styled.div`
     overflow-x: auto;
     overflow-y: hidden;
     margin-left: -5rem;
+    margin-right: -5rem;
     padding-left: 5rem;
     width: calc(100% + 5rem);
 `
@@ -329,7 +303,6 @@ export default function Home({}) {
 
     return (
         <AppRoot>
-            <GlobalStyles />
             <Head>
                 <title>ppluss.de</title>
                 <meta name='description' content='Willkommen bei PplusS! Dies ist meine Webseite auf der ich, naja Text stehen hab und so... Und ich verlinke meine Social Media-Accounts!'></meta>

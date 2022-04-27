@@ -34,10 +34,18 @@ const UndecoratedLink = styled.a`
     color: #fff;
 `;
 
+const Title = styled.h1`
+    font-size: 4rem;
+`
+
+const Subtitle = styled.h2`
+
+`
+
 const ContentWrapper = styled.div`
     display: flex;
     flex-direction: column;
-    font-size: 18px;
+    font-size: 2rem;
     width: calc(100% - 40px);
     max-width: 1000px;
 `;
@@ -45,11 +53,12 @@ const ContentWrapper = styled.div`
 const Paragraph = styled.span`
     margin-top: 5px;
     margin-bottom: 5px;
+    line-height: 1.45;
 `;
 
 const Censored = styled.span`
-    background-color: #444;
-    color: #444;
+    background-color: #666;
+    color: #666;
     user-select: none;
 `
 
@@ -66,7 +75,7 @@ export default function Contact({lang}: {lang: string}) {
     let innerContent = secondRender ? (
         <ContentWrapper>
             <Paragraph>
-                <h2>{t("contact.provider")}</h2>
+                <Subtitle>{t("contact.provider")}</Subtitle>
                 <b>Philipp <Censored>AAAAAAAA</Censored></b><br/>
                 <Censored>Hauptstr. -12b</Censored><br/>
                 <Censored>12345 leel0</Censored>
@@ -80,7 +89,9 @@ export default function Contact({lang}: {lang: string}) {
             </Paragraph>
         </ContentWrapper>
     ) : (
-        <span>{t("contact.nojs")}</span>
+        <ContentWrapper>
+            <Paragraph>{t("contact.nojs")}</Paragraph>
+        </ContentWrapper>
     );
 
     return (
@@ -89,7 +100,7 @@ export default function Contact({lang}: {lang: string}) {
                 <title>{t("contact.title")}</title>
             </Head>
             <Header />
-            <h1>{t("contact.title")}</h1>
+            <Title>{t("contact.title")}</Title>
             {innerContent}
         </AppRoot>
     );

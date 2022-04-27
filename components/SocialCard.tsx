@@ -20,9 +20,13 @@ const SocialCardDiv = styled.div`
     background: #000;
     width: calc(50vw - 75px);
     height: calc(50vw - 75px);
-    @media (max-width: 400px) {
+    max-width: 400px;
+    max-height: 400px;
+    @media (max-width: 300px) {
         justify-content: center;
         align-items: center;
+    }
+    @media (max-width: 400px) {
         width: calc(50vw - 60px);
         height: calc(50vw - 60px);
     }
@@ -52,19 +56,13 @@ const SocialCardDiv = styled.div`
 const SocialCardTitle: any = styled.span`
     color: #fff;
     font-weight: bold;
-    font-size: 24px;
-    @media (max-width: 500px) {
-        font-size: 20px;
-    }
+    font-size: 2.4rem;
     margin-left: 5px;
 `;
 
 const SocialCardText: any = styled.span`
     color: #fff;
-    font-size: 18px;
-    @media (max-width: 500px) {
-        font-size: 16px;
-    }
+    font-size: 1.6rem;
     margin-left: 5px;
 `;
 
@@ -76,7 +74,7 @@ const SocialCardIcon: any = styled.img`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    @media (max-width: 400px) {
+    @media (max-width: 300px) {
         opacity: .3;
         filter: blur(3px);
     }

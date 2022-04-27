@@ -36,7 +36,7 @@ const TerminalRoot: any = styled.div`
     flex-direction: column;
     z-index: 1000;
     backdrop-filter: blur(40px);
-    font-size: 20px;
+    font-size: 22px;
     user-select: none;
     @media (max-width: 600px) {
         width: 100vw;
@@ -95,7 +95,7 @@ const TerminalLine: any = styled.span`
         min-height: 1em;
     `}
     @media (max-width: 500px) {
-        font-size: 18px;
+        font-size: 22px;
     }
 `;
 
@@ -294,9 +294,6 @@ export default class Terminal extends React.Component<TerminalProps> {
                         this.println("Error: Unknown host");
                         return;
                 }
-            case "oldhome":
-                this.eventBus.post({id: "GOTO", data: "/old"});;
-                return;
             case "adri":
                 this.println("ly <3");
                 return;

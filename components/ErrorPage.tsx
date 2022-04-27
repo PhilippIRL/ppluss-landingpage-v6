@@ -27,12 +27,12 @@ const StatusCode = styled.span`
     right: -100px;
     pointer-events: none;
     top: -220px;
-    opacity: .1;
+    opacity: .04;
     font-weight: bold;
     font-size: 500px;
     margin: 0;
     overflow: hidden;
-    z-index: -1;
+    z-index: 0;
     @media screen and (max-width: 1000px) {
         font-size: 300px;
         top: -130px;
@@ -41,8 +41,8 @@ const StatusCode = styled.span`
     @media screen and (max-width: 600px) {
         font-size: 150px;
         top: initial;
-        bottom: -30px;
-        right: 20px;
+        bottom: -20px;
+        right: 15px;
     }
     @media screen and (max-width: 350px) {
         display: none;
@@ -51,13 +51,13 @@ const StatusCode = styled.span`
 
 const StatusMessage = styled.span`
     font-weight: bold;
-    font-size: 40px;
+    font-size: 4.75rem;
     margin: 25px;
     text-align: center;
 `
 
 const Slogan = styled.span`
-    font-size: 20px;
+    font-size: 1.9rem;
     margin: 25px;
     text-align: center;
     color: #999;
@@ -133,7 +133,7 @@ const languageData = {
     en: {
         "errorpage.error.noslogan": "No slogan was found :c",
         "errorpage.video.title": "What others have experienced with computers...",
-        "errorpage.video.subtitle": "Click to play video",
+        "errorpage.video.subtitle": "Click to play",
     },
 }
 
