@@ -152,8 +152,6 @@ const AppRoot = styled.div`
     align-items: center;
 
     font-family: Inter, sans-serif;
-    background-color: #000;
-    background: linear-gradient(100deg, #111 0%, #000 100%);
     min-height: 100vh;
 `;
 
