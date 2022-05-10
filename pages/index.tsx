@@ -276,14 +276,13 @@ function useAge() {
 const hobbyCount = 3
 
 function useRandomHobby(t: Translation) {
-    const [hobby, setHobby] = useState('...')
+    const [hobby, setHobby] = useState<number | null>(null)
 
     useEffect(() => {
-        setHobby(t('home.hobby.' + Math.floor(hobbyCount * Math.random())))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        setHobby(Math.floor(hobbyCount * Math.random()))
     }, [])
 
-    return hobby
+    return hobby === null ? '...' : t('home.hobby.' + hobby)
 }
 
 function SocialsBarComponent() {
