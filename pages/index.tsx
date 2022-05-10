@@ -6,7 +6,7 @@ import { EventBusContext, LangContext } from '../scripts/Contexts'
 import type { SyntheticEvent } from 'react'
 import { getLang } from '../scripts/Lang'
 import type { Translation } from '../scripts/Lang'
-import { motion } from 'framer-motion';
+import { motion } from 'framer-motion'
 
 const socialsData = [
     {
@@ -104,7 +104,8 @@ const TopHeader = styled.div`
 
     @media only screen and (max-width: 800px) {
         flex-direction: column-reverse;
-        padding-top: 8rem;
+        padding-top: 0rem;
+        margin-top: -4vh;
     }
 `
 
@@ -145,6 +146,10 @@ const SocialsBar = styled(motion.div)`
     gap: 2.5rem;
 
     margin: 10rem 0 2rem 0;
+
+    @media only screen and (max-width: 800px) {
+        margin-top: 4rem;
+    }
 `
 
 const SocialsIcon = styled.img`
@@ -361,7 +366,7 @@ export default function Home({}) {
                             <Title animate={{ y: 0, opacity: 1 }} initial={{ y: 50, opacity: 0 }}>{t('home.title')}</Title>
                             <Subtitle animate={{ y: 0, opacity: 1 }} transition={{delay: .25}} initial={{ y: 50, opacity: 0 }}>{t('home.subtitle')}</Subtitle>
                         </TitleContainer>
-                        <Logo src='/logo.png' animate={{ opacity: 1, scale: 1, x: 0 }} transition={{delay: .55}} initial={{ opacity: 0, scale: 0.75, x: 100 }} />
+                        <Logo src='/logo.png' animate={{ opacity: 1, scale: 1 }} transition={{delay: .55}} initial={{ opacity: 0, scale: .5 }} />
                     </TopHeader>
                     <DescriptionText animate={{ y: 0, opacity: 1 }} transition={{delay: .50}} initial={{ y: 50, opacity: 0 }}>
                         {t('home.description').replace('{age}', String(age || '...')).replace('{hobby}', hobby)}

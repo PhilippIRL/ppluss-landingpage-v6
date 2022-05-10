@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import React, { useRef, useState } from "react";
 import styled from "styled-components";
+import { useHoverListener } from "../scripts/hooks";
 
 const SocialCardDiv = styled(motion.div)`
     display: flex;
@@ -83,20 +83,16 @@ const SocialCardIcon: any = styled.img`
 `;
 
 export default function SocialCard({title, description, color, icon}: {title: string, description?: string, color: string, icon: string}) {
-    const [selected, setSelected] = useState(false)
+    const [hovering, eventHandlers] = useHoverListener()
 
     return (
         <SocialCardDiv
-            animate={{scale: selected ? 1.15 : 1}}
+            animate={{scale: hovering ? 1.15 : 1}}
             transition={{default: {duration: .01}}}
-            onHoverStart={() => setSelected(true)}
-            onHoverEnd={() => setSelected(false)}
-            onTouchStart={() => setSelected(true)}
-            onTouchCancel={() => setSelected(false)}
-            onTouchEnd={() => setSelected(false)}
+            {...eventHandlers}
             style={{
                 background: `linear-gradient(-45deg, rgba(0,0,0,1) -250%, ${color} 100%)`,
-                zIndex: selected ? 10 : 1,
+                zIndex: hovering ? 10 : 1,
             }}
         >
             <SocialCardTitle>{title}</SocialCardTitle>

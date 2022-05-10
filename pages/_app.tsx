@@ -3,7 +3,7 @@ import EventBus from "../scripts/EventBus";
 import Terminal from "../components/Terminal";
 import { withRouter } from "next/router";
 import { defaultLang, getLanguagePreference, saveLanguagePreference } from "../scripts/Lang";
-import { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import Head from "next/head";
 import { LangContext, EventBusContext } from "../scripts/Contexts";
 
@@ -63,6 +63,26 @@ const LowerCaseSpeech: any = createGlobalStyle`
         text-transform: lowercase;
     }
 `;
+
+const NoScript = styled.noscript`
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background: black;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 2rem;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+`
 
 class App extends React.Component<any> {
 
@@ -130,6 +150,9 @@ class App extends React.Component<any> {
                         {/* eslint-enable */}
                         <link rel="manifest" href="/manifest.json"/>
                     </Head>
+                    <NoScript>
+                        <h1>Sorry, but you need to enable Javascript to view this page.</h1>
+                    </NoScript>
                     <GlobalStyle />
                     {this.state.lowerCaseSpeech ? <LowerCaseSpeech /> : null}
                     <this.props.Component {...this.props.pageProps} eventBus={this.eventBus} lang={this.state.lang} />
