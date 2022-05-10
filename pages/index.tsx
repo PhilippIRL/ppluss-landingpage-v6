@@ -22,7 +22,7 @@ const socialsData = [
     {
         title: 'Discord',
         icon: '/assets/v6/socialmediaicons/discord.svg',
-        link: 'https://discord.gg/BRJBhJj'
+        link: 'discord://-/users/221363184076980234'
     },
 ];
 
@@ -316,7 +316,7 @@ function SocialsBarComponent() {
         <SocialsBar variants={containerAnim} initial='hidden' animate='show'>
             {socialsData.map(data => (
             <Link href={data.link} key={data.title} passHref>
-                <SocialLink variants={itemAnim} target='_blank'>
+                <SocialLink variants={itemAnim} target={data.link.startsWith('https') ? '_blank' : ''}>
                     <SocialsIcon src={data.icon} />
                 </SocialLink>
             </Link>

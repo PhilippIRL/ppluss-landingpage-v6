@@ -17,13 +17,6 @@ const socialsData = [
     },
     {
         title: "Twitter",
-        text: "@ppscanary",
-        color: "#1DA1F2",
-        icon: "/assets/v6/socialmediaicons/twitter.svg",
-        link: "https://twitter.com/ppscanary"
-    },
-    {
-        title: "Twitter",
         text: "@ppspriv",
         color: "#1DA1F2",
         icon: "/assets/v6/socialmediaicons/twitter.svg",
@@ -45,7 +38,14 @@ const socialsData = [
     },
     {
         title: "Discord",
-        text: "",
+        text: "PhilippIRL#5148",
+        color: "#7289da",
+        icon: "/assets/v6/socialmediaicons/discord.svg",
+        link: "discord://-/users/221363184076980234"
+    },
+    {
+        title: "Discord",
+        text: "Just another guild",
         color: "#7289da",
         icon: "/assets/v6/socialmediaicons/discord.svg",
         link: "https://discord.gg/BRJBhJj"
@@ -93,8 +93,8 @@ const socialsData = [
         link: "https://twitch.tv/philipp_irl"
     },
     {
-        title: "chaos.social",
-        text: "Mastodon",
+        title: "Mastodon",
+        text: "chaos.social",
         color: "#657786",
         icon: "/assets/v6/socialmediaicons/mastodon.svg",
         link: "https://chaos.social/@philippirl"
@@ -230,7 +230,7 @@ export default function Socials() {
             <SocialsContainer variants={containerAnim} initial='hidden' animate='show'>
                 {socialsData.map((data, index) => {
                     return (
-                        <UndecoratedLink key={index} href={data.link} target="_blank" rel="noreferrer" variants={itemAnim}>
+                        <UndecoratedLink key={index} href={data.link} target={data.link.startsWith('https') ? '_blank' : ''} rel="noreferrer" variants={itemAnim}>
                             <SocialCard title={data.title} description={data.text} icon={data.icon} color={data.color} />
                         </UndecoratedLink>
                     );
