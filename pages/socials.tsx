@@ -5,6 +5,7 @@ import styled, { css, keyframes } from "styled-components";
 import { useContext, useState } from "react";
 import SocialCard from "../components/SocialCard";
 import { LangContext } from "../scripts/Contexts";
+import { motion } from "framer-motion";
 
 const socialsData = [
     {
@@ -155,19 +156,19 @@ const AppRoot = styled.div`
     min-height: 100vh;
 `;
 
-const SocialsContainer = styled.div`
+const SocialsContainer = styled(motion.div)`
     display: flex;
     flex-grow: 1;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    overflow: hidden;
+    overflow: visible;
     max-width: max(90%, 1200px);
     margin: 4rem 0;
     align-content: flex-start;
 `;
 
-const UndecoratedLink = styled.a`
+const UndecoratedLink = styled(motion.a)`
     color: #fff;
     text-decoration: none;
     margin: 10px;
@@ -194,6 +195,31 @@ export default function Socials() {
 
     let [colorRotate, setColorRotate] = useState(false);
 
+    const containerAnim = {
+        hidden: {
+            opacity: 1,
+            scale: .0,
+        },
+        show: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.05,
+            },
+            scale: 1,
+        },
+    }
+
+    const itemAnim = {
+        hidden: {
+            opacity: 1,
+            scale: .0,
+        },
+        show: {
+            opacity: 1,
+            scale: 1,
+        },
+    }
+
     return (
         <AppRoot>
             <Head>
@@ -201,10 +227,10 @@ export default function Socials() {
             </Head>
             <Header />
             <SocialsTitle onClick={() => setColorRotate(!colorRotate)} colorRotate={colorRotate}>{t("socials.title")}</SocialsTitle>
-            <SocialsContainer>
+            <SocialsContainer variants={containerAnim} initial='hidden' animate='show'>
                 {socialsData.map((data, index) => {
                     return (
-                        <UndecoratedLink key={index} href={data.link} target="_blank" rel="noreferrer">
+                        <UndecoratedLink key={index} href={data.link} target="_blank" rel="noreferrer" variants={itemAnim}>
                             <SocialCard title={data.title} description={data.text} icon={data.icon} color={data.color} />
                         </UndecoratedLink>
                     );

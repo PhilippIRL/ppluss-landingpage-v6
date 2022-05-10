@@ -1,7 +1,8 @@
+import { motion } from "framer-motion";
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
 
-const SocialCardDiv = styled.div`
+const SocialCardDiv = styled(motion.div)`
     display: flex;
     padding: 15px;
     flex-direction: column;
@@ -82,38 +83,22 @@ const SocialCardIcon: any = styled.img`
 `;
 
 export default function SocialCard({title, description, color, icon}: {title: string, description?: string, color: string, icon: string}) {
-
-    const [state, setState] = useState({x: 0, y: 0, mouseHere: false});
-    const ref = useRef(null);
-    const [enableTransition, setEnableTransition] = useState(true);
-    
-    let vert = 0, hor = 0, hover = false;
-
-    if(ref.current && (state.x != 0 || state.y != 0)) {
-        let elem = (ref as any).current;
-        let boundingBox = elem.getBoundingClientRect();
-        hover = true;
-        let x = (state.x - boundingBox.x) - (elem.clientWidth / 2);
-        let y = (state.y - boundingBox.y) - (elem.clientHeight / 2);
-        hor = (x / elem.clientWidth) * 2;
-        vert = (y / elem.clientHeight) * 2;
-        if(enableTransition) {
-            setTimeout(() => setEnableTransition(false),200);
-        }
-    } else if(!state.mouseHere && !enableTransition) {
-        setEnableTransition(true);
-    }
-
-    if(enableTransition) { // fixes transition performance issues
-        vert = 0;
-        hor = 0;
-    }
-
-    let transform = hover ? `scale(1.05) perspective(1000px) rotateX(${vert*4}deg) rotateY(${-hor*4}deg)` : undefined;
-    let transition = enableTransition ? ".2s" : "none";
+    const [selected, setSelected] = useState(false)
 
     return (
-        <SocialCardDiv ref={ref} style={{transform, transition, background: `linear-gradient(-45deg, rgba(0,0,0,1) -250%, ${color} 100%)`}} onMouseMove={(e: any) => setState({x: e.clientX, y: e.clientY, mouseHere: true})} onMouseLeave={(e: any) => setState({x: 0, y: 0, mouseHere: false})}>
+        <SocialCardDiv
+            animate={{scale: selected ? 1.15 : 1}}
+            transition={{default: {duration: .01}}}
+            onHoverStart={() => setSelected(true)}
+            onHoverEnd={() => setSelected(false)}
+            onTouchStart={() => setSelected(true)}
+            onTouchCancel={() => setSelected(false)}
+            onTouchEnd={() => setSelected(false)}
+            style={{
+                background: `linear-gradient(-45deg, rgba(0,0,0,1) -250%, ${color} 100%)`,
+                zIndex: selected ? 10 : 1,
+            }}
+        >
             <SocialCardTitle>{title}</SocialCardTitle>
             <SocialCardText>{description}</SocialCardText>
             <SocialCardIcon src={icon} />

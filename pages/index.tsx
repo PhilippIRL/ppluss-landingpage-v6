@@ -6,6 +6,7 @@ import { EventBusContext, LangContext } from '../scripts/Contexts'
 import type { SyntheticEvent } from 'react'
 import { getLang } from '../scripts/Lang'
 import type { Translation } from '../scripts/Lang'
+import { motion } from 'framer-motion';
 
 const socialsData = [
     {
@@ -107,22 +108,21 @@ const TopHeader = styled.div`
     }
 `
 
-const TitleContainer = styled.div`
+const TitleContainer = styled.h1`
     display: flex;
     flex-direction: column;
     align-self: flex-start;
 `
 
-const Logo = styled.img`
+const Logo = styled(motion.img)`
     height: 20rem;
 
     @media only screen and (max-width: 800px) {
-        height: 100px;
-        margin-bottom: 4rem; /* safari mag flex gap nicht so */
+        display: none;
     }
 `
 
-const Title = styled.h1`
+const Title = styled(motion.span)`
     font-size: 7rem;
     margin: 0;
 `
@@ -131,14 +131,14 @@ const Subtitle = styled(Title)`
     color: #777;
 `
 
-const DescriptionText = styled.h2`
+const DescriptionText = styled(motion.h2)`
     color: #777;
     font-size: 4rem;
 
     align-self: flex-start;
 `
 
-const SocialsBar = styled.div`
+const SocialsBar = styled(motion.div)`
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -242,7 +242,7 @@ const DecoredLink = styled(UndecoredLink)`
     border-bottom: 4px solid white;
 `
 
-const SocialLink = styled.a`
+const SocialLink = styled(motion.a)`
     display: flex;
 `
 
@@ -280,9 +280,55 @@ function useRandomHobby(t: Translation) {
 
     useEffect(() => {
         setHobby(t('home.hobby.' + Math.floor(hobbyCount * Math.random())))
-    }, [t])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     return hobby
+}
+
+function SocialsBarComponent() {
+    const containerAnim = {
+        hidden: {
+            opacity: 0,
+            y: 25,
+        },
+        show: {
+            opacity: 1,
+            transition: {
+                delayChildren: 0.75,
+                staggerChildren: 0.05,
+            },
+            y: 0,
+        },
+    }
+
+    const itemAnim = {
+        hidden: {
+            opacity: 0,
+            y: 25,
+        },
+        show: {
+            opacity: 1,
+            y: 0,
+        },
+    }
+
+    return (
+        <SocialsBar variants={containerAnim} initial='hidden' animate='show'>
+            {socialsData.map(data => (
+            <Link href={data.link} key={data.title} passHref>
+                <SocialLink variants={itemAnim} target='_blank'>
+                    <SocialsIcon src={data.icon} />
+                </SocialLink>
+            </Link>
+            ))}
+            <Link href='/socials/' passHref>
+                <SocialLink variants={itemAnim}>
+                    <SocialsIcon src='/assets/v6/socialmediaicons/arrow.svg' />
+                </SocialLink>
+            </Link>
+        </SocialsBar>
+    )
 }
 
 const getTranslation = getLang(translations)
@@ -303,35 +349,27 @@ export default function Home({}) {
 
     return (
         <AppRoot>
+
             <Head>
                 <title>ppluss.de</title>
                 <meta name='description' content='Willkommen bei PplusS! Dies ist meine Webseite auf der ich, naja Text stehen hab und so... Und ich verlinke meine Social Media-Accounts!'></meta>
             </Head>
+
             <Page>
                 <Header>
                     <TopHeader>
-                        <TitleContainer as='h1'>
-                            <Title as='span'>{t('home.title')}</Title>
-                            <Subtitle as='span'>{t('home.subtitle')}</Subtitle>
+                        <TitleContainer>
+                            <Title animate={{ y: 0, opacity: 1 }} initial={{ y: 50, opacity: 0 }}>{t('home.title')}</Title>
+                            <Subtitle animate={{ y: 0, opacity: 1 }} transition={{delay: .25}} initial={{ y: 50, opacity: 0 }}>{t('home.subtitle')}</Subtitle>
                         </TitleContainer>
-                        <Logo src='/logo.png' />
+                        <Logo src='/logo.png' animate={{ opacity: 1, scale: 1, x: 0 }} transition={{delay: .55}} initial={{ opacity: 0, scale: 0.75, x: 100 }} />
                     </TopHeader>
-                    <DescriptionText>{t('home.description').replace('{age}', String(age || '...')).replace('{hobby}', hobby)}</DescriptionText>
-                    <SocialsBar>
-                        {socialsData.map(data => (
-                        <Link href={data.link} key={data.title} passHref>
-                            <SocialLink target='_blank'>
-                                <SocialsIcon src={data.icon} />
-                            </SocialLink>
-                        </Link>
-                        ))}
-                        <Link href='/socials/' passHref>
-                            <SocialLink>
-                                <SocialsIcon src='/assets/v6/socialmediaicons/arrow.svg' />
-                            </SocialLink>
-                        </Link>
-                    </SocialsBar>
+                    <DescriptionText animate={{ y: 0, opacity: 1 }} transition={{delay: .50}} initial={{ y: 50, opacity: 0 }}>
+                        {t('home.description').replace('{age}', String(age || '...')).replace('{hobby}', hobby)}
+                    </DescriptionText>
+                    <SocialsBarComponent />
                 </Header>
+
                 <ProjectsTitle>{t('home.projects.title')}</ProjectsTitle>
                 <ProjectLeft>
                     <UndecoredLink href='https://regenbogen-ice.de/' target='_blank'>
@@ -342,6 +380,7 @@ export default function Home({}) {
                         </ProjectGallery>
                     </UndecoredLink>
                 </ProjectLeft>
+
                 <ProjectRight>
                     <UndecoredLink href='https://github.com/philippirl' target='_blank'>
                         <ProjectTitle>{t('home.projects.randomstuff.title')}</ProjectTitle>
@@ -351,8 +390,10 @@ export default function Home({}) {
                         </ProjectGallery>
                     </UndecoredLink>
                 </ProjectRight>
+
                 <Punchline>{t('home.contact.before')}<Link href='/socials/' passHref><DecoredLink>{t('home.contact.text')}</DecoredLink></Link>{t('home.contact.after')}</Punchline>
             </Page>
+
             <Footer>
                 <Link href='/contact/' passHref>
                     <UndecoredLink>
@@ -363,6 +404,7 @@ export default function Home({}) {
                     <FooterIcon src='/assets/v6/bottomicons/terminal.svg' />
                 </UndecoredLink>
             </Footer>
+
         </AppRoot>
     )
 }
