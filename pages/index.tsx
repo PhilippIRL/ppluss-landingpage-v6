@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import Link from 'next/link'
-import Head from 'next/head';
-import { useContext, useEffect, useState } from 'react';
+import Head from 'next/head'
+import { useContext, useEffect, useState } from 'react'
 import { EventBusContext, LangContext } from '../scripts/Contexts'
 import type { SyntheticEvent } from 'react'
 import { getLang } from '../scripts/Lang'
@@ -366,7 +366,7 @@ export default function Home({}) {
                             <Title animate={{ y: 0, opacity: 1 }} initial={{ y: 50, opacity: 0 }}>{t('home.title')}</Title>
                             <Subtitle animate={{ y: 0, opacity: 1 }} transition={{delay: .25}} initial={{ y: 50, opacity: 0 }}>{t('home.subtitle')}</Subtitle>
                         </TitleContainer>
-                        <Logo src='/logo.png' animate={{ opacity: 1, scale: 1 }} transition={{delay: .55}} initial={{ opacity: 0, scale: .5 }} />
+                        <Logo src='/logo.webp' animate={{ opacity: 1, scale: 1 }} transition={{delay: .55}} initial={{ opacity: 0, scale: .5 }} />
                     </TopHeader>
                     <DescriptionText animate={{ y: 0, opacity: 1 }} transition={{delay: .50}} initial={{ y: 50, opacity: 0 }}>
                         {t('home.description').replace('{age}', String(age || '...')).replace('{hobby}', hobby)}
@@ -380,7 +380,7 @@ export default function Home({}) {
                         <ProjectTitle>{t('home.projects.rainbowice.title')}</ProjectTitle>
                         <ProjectSubtitle>{t('home.projects.rainbowice.subtitle')}</ProjectSubtitle>
                         <ProjectGallery>
-                            <ProjectImage src='/assets/v6/cards/regenbogenice.png' />
+                            <ProjectImage src='/assets/v6/cards/regenbogenice.webp' />
                         </ProjectGallery>
                     </UndecoredLink>
                 </ProjectLeft>
@@ -390,7 +390,7 @@ export default function Home({}) {
                         <ProjectTitle>{t('home.projects.randomstuff.title')}</ProjectTitle>
                         <ProjectSubtitle>{t('home.projects.randomstuff.subtitle')}</ProjectSubtitle>
                         <ProjectGallery>
-                            <ProjectImage src='https://cdn.discordapp.com/attachments/790953646501789728/945055841378246666/unknown.png' />
+                            <ProjectImage src='/assets/v6/cards/randomcode.webp' />
                         </ProjectGallery>
                     </UndecoredLink>
                 </ProjectRight>

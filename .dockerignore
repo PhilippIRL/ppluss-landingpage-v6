@@ -4,3 +4,5 @@ README.md
 .next
 out
 Dockerfile
+/.git
+!/.git/FETCH_HEAD

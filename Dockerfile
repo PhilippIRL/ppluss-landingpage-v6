@@ -1,10 +1,10 @@
-FROM node:16
+FROM node:16-alpine
 WORKDIR /app
 
 COPY ./package.json .
 COPY ./yarn.lock .
 
-RUN yarn install
+RUN yarn install; yarn cache clean
 
 COPY . .
 
