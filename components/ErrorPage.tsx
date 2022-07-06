@@ -1,11 +1,11 @@
-import Head from "next/head"
-import { useState } from "react"
-import { useEffect } from "react"
-import styled from "styled-components"
-import { getLang } from "../scripts/Lang"
-import type { Translation } from "../scripts/Lang"
-import type { SyntheticEvent } from "react"
-import Header from "./header"
+import Head from 'next/head'
+import { useState } from 'react'
+import { useEffect } from 'react'
+import styled from 'styled-components'
+import { getLang } from '../scripts/Lang'
+import type { Translation } from '../scripts/Lang'
+import type { SyntheticEvent } from 'react'
+import Header from './header'
 
 const AppRoot = styled.div`
     display: flex;
@@ -126,18 +126,18 @@ const ActualYouTubeFrame = styled.iframe`
 
 const languageData = {
     de: {
-        "errorpage.error.noslogan": "Kein Spruch gefunden :c",
-        "errorpage.video.title": "Was andere für Erfahrungen mit Computern gemacht haben...",
-        "errorpage.video.subtitle": "Klicke um das Video abzuspielen",
+        'errorpage.error.noslogan': 'Kein Spruch gefunden :c',
+        'errorpage.video.title': 'Was andere für Erfahrungen mit Computern gemacht haben...',
+        'errorpage.video.subtitle': 'Klicke um das Video abzuspielen',
     },
     en: {
-        "errorpage.error.noslogan": "No slogan was found :c",
-        "errorpage.video.title": "What others have experienced with computers...",
-        "errorpage.video.subtitle": "Click to play",
+        'errorpage.error.noslogan': 'No slogan was found :c',
+        'errorpage.video.title': 'What others have experienced with computers...',
+        'errorpage.video.subtitle': 'Click to play',
     },
 }
 
-const getTranslation = getLang(languageData);
+const getTranslation = getLang(languageData)
 
 export default function ErrorPage({statusCode, statusMessage, slogans, lang}: {
     statusCode: number,
@@ -149,15 +149,15 @@ export default function ErrorPage({statusCode, statusMessage, slogans, lang}: {
 }) {
     const t = getTranslation(lang)
 
-    let [currentSlogan, setCurrentSlogan] = useState("")
+    let [currentSlogan, setCurrentSlogan] = useState('')
 
     useEffect(() => {
-        let slogansToUse = slogans[lang] || slogans["en"] || []
+        let slogansToUse = slogans[lang] || slogans['en'] || []
         if(slogansToUse.length != 0) {
             let newSlogan = slogansToUse[Math.floor(Math.random() * slogansToUse.length)]
             setCurrentSlogan(newSlogan)
         } else {
-            setCurrentSlogan(t("errorpage.error.noslogan"))
+            setCurrentSlogan(t('errorpage.error.noslogan'))
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [slogans, lang])
@@ -179,12 +179,12 @@ export default function ErrorPage({statusCode, statusMessage, slogans, lang}: {
 
 }
 
-const Videos = ["ZhK2hZvN3l8","BzczL7sSbDg","o4zJrsIpY3I","vjd732kSeHs","uqkGfinCFs0","QaveVba4Svg"]
+const Videos = ['ZhK2hZvN3l8','BzczL7sSbDg','o4zJrsIpY3I','vjd732kSeHs','uqkGfinCFs0','QaveVba4Svg']
 
 function VideoPlayer({t}: {t: Translation}) {
 
     let [enabled, setEnabled] = useState(false)
-    let [videoId, setVideoId] = useState("dQw4w9WgXcQ")
+    let [videoId, setVideoId] = useState('dQw4w9WgXcQ')
 
     useEffect(() => {
         setVideoId(Videos[Math.floor(Math.random() * Videos.length)])
@@ -206,8 +206,8 @@ function VideoPlayer({t}: {t: Translation}) {
             <VideoPlayerFrame>
                 <VideoPlayerBackdrop src={`https://i.ytimg.com/vi/${videoId}/mqdefault.jpg`}></VideoPlayerBackdrop>
                 <VideoPlayerOverlay href={`https://youtu.be/${videoId}`} onClick={activatePlayer} target="_blank" rel="noopener">
-                    <VideoPlayerTitle>{t("errorpage.video.title")}</VideoPlayerTitle>
-                    <VideoPlayerSubtitle>{t("errorpage.video.subtitle")}</VideoPlayerSubtitle>
+                    <VideoPlayerTitle>{t('errorpage.video.title')}</VideoPlayerTitle>
+                    <VideoPlayerSubtitle>{t('errorpage.video.subtitle')}</VideoPlayerSubtitle>
                 </VideoPlayerOverlay>
             </VideoPlayerFrame>
         )

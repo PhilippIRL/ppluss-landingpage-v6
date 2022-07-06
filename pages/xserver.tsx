@@ -1,62 +1,62 @@
-import React from "react";
-import Head from "next/head";
-import { getLang } from "../scripts/Lang";
+import React from 'react'
+import Head from 'next/head'
+import { getLang } from '../scripts/Lang'
 
 const languageData = {
     de: {
-        "xserver.wip": "hier kommt vielleicht bald was hin",
+        'xserver.wip': 'hier kommt vielleicht bald was hin',
     },
     en: {
-        "xserver.wip": "maybe there will be content here soon",
+        'xserver.wip': 'maybe there will be content here soon',
     },
 }
 
-const getTranslation = getLang(languageData);
+const getTranslation = getLang(languageData)
 
 export default class XServer extends React.Component<{lang: string}> {
 
-    t = (key: string) => "...";
+    t = (key: string) => '...'
 
-    running = true;
-    canvasRef: any = null;
+    running = true
+    canvasRef: any = null
 
     constructor(props: {lang: string}) {
-        super(props);
+        super(props)
 
-        this.canvasRef = React.createRef();
+        this.canvasRef = React.createRef()
 
-        this.draw = this.draw.bind(this);
+        this.draw = this.draw.bind(this)
     }
 
     componentDidMount() {
-        window.requestAnimationFrame(this.draw);
+        window.requestAnimationFrame(this.draw)
     }
 
     componentWillUnmount() {
-        this.running = false;
+        this.running = false
     }
 
     draw() {
-        let canvas = this.canvasRef.current;
+        let canvas = this.canvasRef.current
         if(canvas) {
 
-            if(canvas.height !== window.innerHeight) canvas.height = window.innerHeight;
-            if(canvas.width !== window.innerWidth) canvas.width = window.innerWidth;
+            if(canvas.height !== window.innerHeight) canvas.height = window.innerHeight
+            if(canvas.width !== window.innerWidth) canvas.width = window.innerWidth
             
-            let ctx = canvas.getContext("2d");
+            let ctx = canvas.getContext('2d')
 
-            ctx.fillStyle = "#000";
-            ctx.fillRect(0,0,canvas.width,canvas.height);
+            ctx.fillStyle = '#000'
+            ctx.fillRect(0,0,canvas.width,canvas.height)
 
-            ctx.fillStyle = "#fff";
-            ctx.font = "24px Source Code Pro";
-            ctx.fillText(this.t("xserver.wip"), 50, 50);
+            ctx.fillStyle = '#fff'
+            ctx.font = '24px Source Code Pro'
+            ctx.fillText(this.t('xserver.wip'), 50, 50)
         }
-        if(this.running) window.requestAnimationFrame(this.draw);
+        if(this.running) window.requestAnimationFrame(this.draw)
     }
 
     render() {
-        this.t = getTranslation(this.props.lang);
+        this.t = getTranslation(this.props.lang)
         return (
             <div className="app-root">
                 <Head>
@@ -69,6 +69,6 @@ export default class XServer extends React.Component<{lang: string}> {
                 </Head>
                 <canvas ref={this.canvasRef} onContextMenu={e => e.preventDefault()}></canvas>
             </div>
-        );
+        )
     }
 }

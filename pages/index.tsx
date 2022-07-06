@@ -24,7 +24,7 @@ const socialsData = [
         icon: '/assets/v6/socialmediaicons/discord.svg',
         link: 'discord://-/users/221363184076980234'
     },
-];
+]
 
 const translations = {
     de: {
@@ -267,13 +267,13 @@ function useAge() {
     const [age, setAge] = useState(0)
 
     useEffect(() => {
-        const birthday = [26, 8, 2003];
-        const dateObj = new Date();
-        let age = dateObj.getFullYear() - birthday[2];
-        const hasHadBD = (dateObj.getMonth() >= birthday[1]) || (dateObj.getMonth() == (birthday[1] - 1) && dateObj.getDate() >= birthday[0]);
-        if(!hasHadBD) age--;
-        setAge(age);
-    }, []);
+        const birthday = [26, 8, 2003]
+        const dateObj = new Date()
+        let age = dateObj.getFullYear() - birthday[2]
+        const hasHadBD = (dateObj.getMonth() >= birthday[1]) || (dateObj.getMonth() == (birthday[1] - 1) && dateObj.getDate() >= birthday[0])
+        if(!hasHadBD) age--
+        setAge(age)
+    }, [])
 
     return age
 }

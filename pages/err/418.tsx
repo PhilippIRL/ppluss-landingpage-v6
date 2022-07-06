@@ -1,10 +1,10 @@
-import ErrorPage from "../../components/ErrorPage"
+import ErrorPage from '../../components/ErrorPage'
 
 const slogans = {
-    de: ["same", "xd"],
-    en: ["same", "xd"],
+    de: ['same', 'xd'],
+    en: ['same', 'xd'],
 }
 
 export default function Error418Page({lang}: {lang: string}) {
-    return <ErrorPage lang={lang} statusCode={418} statusMessage={"418 I'm a teapot"} slogans={slogans} />
+    return <ErrorPage lang={lang} statusCode={418} statusMessage={'418 I\'m a teapot'} slogans={slogans} />
 }

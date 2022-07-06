@@ -2,6 +2,8 @@
   "extends": "next",
   "root": true,
   "rules": {
-    "eol-last": "error"
+    "eol-last": "error",
+    "semi": ["warn", "never"],
+    "quotes": ["warn", "single", {"allowTemplateLiterals": true}]
   }
 }

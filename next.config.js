@@ -15,6 +15,6 @@ function tryReadGitCommit() {
 module.exports = {
     trailingSlash: true,
     env: {
-        "NEXT_PUBLIC_APP_VERSION": tryReadGitCommit(),
+        'NEXT_PUBLIC_APP_VERSION': tryReadGitCommit(),
     },
 }

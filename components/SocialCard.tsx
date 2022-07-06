@@ -1,6 +1,6 @@
-import { motion } from "framer-motion";
-import styled from "styled-components";
-import { useHoverListener } from "../scripts/hooks";
+import { motion } from 'framer-motion'
+import styled from 'styled-components'
+import { useHoverListener } from '../scripts/hooks'
 
 const SocialCardDiv = styled(motion.div)`
     display: flex;
@@ -52,20 +52,20 @@ const SocialCardDiv = styled(motion.div)`
         height: calc(16.66vw - 55px);
     }
     position: relative;
-`;
+`
 
 const SocialCardTitle: any = styled.span`
     color: #fff;
     font-weight: bold;
     font-size: 2.4rem;
     margin-left: 5px;
-`;
+`
 
 const SocialCardText: any = styled.span`
     color: #fff;
     font-size: 1.6rem;
     margin-left: 5px;
-`;
+`
 
 const SocialCardIcon: any = styled.img`
     width: 75%;
@@ -80,7 +80,7 @@ const SocialCardIcon: any = styled.img`
         filter: blur(3px);
     }
     -webkit-user-drag: none;
-`;
+`
 
 export default function SocialCard({title, description, color, icon}: {title: string, description?: string, color: string, icon: string}) {
     const [hovering, eventHandlers] = useHoverListener()
@@ -99,5 +99,5 @@ export default function SocialCard({title, description, color, icon}: {title: st
             <SocialCardText>{description}</SocialCardText>
             <SocialCardIcon src={icon} />
         </SocialCardDiv>
-    );
+    )
 }

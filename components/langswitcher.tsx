@@ -1,20 +1,20 @@
-import React from "react";
-import { availableLangs } from "../scripts/Lang";
-import type EventBus from "../scripts/EventBus";
-import styled, { css } from "styled-components";
-import { useContext } from "react";
-import { EventBusContext, LangContext } from "../scripts/Contexts";
+import React from 'react'
+import { availableLangs } from '../scripts/Lang'
+import type EventBus from '../scripts/EventBus'
+import styled, { css } from 'styled-components'
+import { useContext } from 'react'
+import { EventBusContext, LangContext } from '../scripts/Contexts'
 
 const LangSwitcherRoot = styled.div`
     position: absolute;
     top: 10px;
     left: 10px;
     display: flex;
-`;
+`
 
 const UndecoratedLink = styled.a`
     text-decoration: none;
-`;
+`
 
 const LanguageSwitcherLang: any = styled.span`
     margin-right: 5px;
@@ -37,24 +37,24 @@ const LanguageSwitcherLang: any = styled.span`
             transform: translate(-17px, -1px)
         }
     `}
-`;
+`
 
 export default function LangSwitcher({loaded}: {loaded?: boolean}) {
     let lang = useContext(LangContext)
-    let eventBus = useContext(EventBusContext);
+    let eventBus = useContext(EventBusContext)
 
     return (
         <LangSwitcherRoot>
             {availableLangs.map(curLang => {
-                let current = curLang === lang;
+                let current = curLang === lang
                 return (
                     <UndecoratedLink key={curLang} href="#" onClick={(e) => {
-                        e.preventDefault();
-                        eventBus?.post({id: "LANG", data: curLang});
+                        e.preventDefault()
+                        eventBus?.post({id: 'LANG', data: curLang})
                     }}>
                         <LanguageSwitcherLang loaded={loaded} current={current}>{curLang.toUpperCase()}</LanguageSwitcherLang>
                     </UndecoratedLink>
-                );
+                )
             })}
         </LangSwitcherRoot>
     )
