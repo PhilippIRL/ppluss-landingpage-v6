@@ -103,15 +103,15 @@ class App extends React.Component<any> {
 
         let hash = parseHash()
 
-        if(hash.term !== undefined) {
+        if(hash.hasOwnProperty('term')) {
             this.eventBus.post({id: 'TERMINAL_FORCE'})
         }
 
-        if(hash.forcecommand !== undefined) {
+        if(hash.forcecommand) {
             this.eventBus.post({id: 'TERMINAL_FORCE_COMMAND', data: hash.forcecommand})
         }
 
-        if(hash.modal && (hash.modal === 'impressum' || hash.modal === 'datenschutz')) {
+        if(hash.modal === 'impressum' || hash.modal === 'datenschutz') {
             if(window.location.pathname === '/') {
                 this.props.router.push('/contact')
             }
@@ -123,15 +123,27 @@ class App extends React.Component<any> {
     }
 
     onBusEvent(e: BusEvent) {
-        if(e.id === 'GOTO' && e.data) {
-            this.props.router.push(e.data)
-        } else if(e.id === 'LANG' && e.data) {
-            saveLanguagePreference(e.data)
-            this.setState({lang:e.data})
-        } else if(e.id === 'LOWERCASE_SET') {
-            this.setState({lowerCaseSpeech: e.data as boolean})
-        } else if(e.id === 'LOWERCASE_TOGGLE') {
-            this.setState({lowerCaseSpeech: !this.state.lowerCaseSpeech})
+        const { id, data } = e
+
+        switch(id) {
+            case 'GOTO':
+                this.props.router.push(data)
+                break
+            
+            case 'LANG':
+                if(data) {
+                    saveLanguagePreference(e.data)
+                    this.setState({ lang: e.data })
+                }
+                break
+
+            case 'LOWERCASE_SET':
+                this.setState({ lowerCaseSpeech: e.data as boolean })
+                break
+
+            case 'LOWERCASE_TOGGLE':
+                this.setState({ lowerCaseSpeech: !this.state.lowerCaseSpeech })
+                break
         }
     }
     
@@ -143,6 +155,7 @@ class App extends React.Component<any> {
         return (
             <LangContext.Provider value={this.state.lang}>
                 <EventBusContext.Provider value={this.eventBus}>
+
                     <Head>
                         {/* eslint-disable */}
                         <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap' />
@@ -150,13 +163,17 @@ class App extends React.Component<any> {
                         {/* eslint-enable */}
                         <link rel="manifest" href="/manifest.json"/>
                     </Head>
+
                     <NoScript>
                         <h1>Sorry, but you need to enable Javascript to view this page.</h1>
                     </NoScript>
+
+                    <this.props.Component {...this.props.pageProps} eventBus={this.eventBus} lang={this.state.lang} />
+
                     <GlobalStyle />
                     {this.state.lowerCaseSpeech ? <LowerCaseSpeech /> : null}
-                    <this.props.Component {...this.props.pageProps} eventBus={this.eventBus} lang={this.state.lang} />
                     <Terminal eventBus={this.eventBus} />
+                    
                 </EventBusContext.Provider>
             </LangContext.Provider>
         )

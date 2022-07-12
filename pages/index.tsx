@@ -22,7 +22,7 @@ const socialsData = [
     {
         title: 'Discord',
         icon: '/assets/v6/socialmediaicons/discord.svg',
-        link: 'discord://-/users/221363184076980234'
+        link: 'https://discord.com/users/221363184076980234'
     },
 ]
 

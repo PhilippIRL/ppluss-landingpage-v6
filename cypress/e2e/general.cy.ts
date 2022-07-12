@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-describe('Testing', () => {
+describe('General', () => {
 
   it('says hey', () => {
     cy.visit('http://localhost:3000/')

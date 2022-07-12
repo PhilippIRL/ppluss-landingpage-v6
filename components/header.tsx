@@ -1,20 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { getLang } from '../scripts/Lang'
 import styled from 'styled-components'
-import { useContext } from 'react'
-import { LangContext } from '../scripts/Contexts'
-import { AnimatePresence, motion } from 'framer-motion'
-import { useHoverListener } from '../scripts/hooks'
-
-const languageData = {
-    de: {
-        'header.backToHome': 'PhilippIRL',
-    },
-    en: {
-        'header.backToHome': 'PhilippIRL',
-    },
-}
+import { motion } from 'framer-motion'
 
 const HeaderDiv = styled.header`
     height: 55px;
@@ -47,13 +34,7 @@ const BackText = styled.span`
     white-space: nowrap;
 `
 
-const getTranslation = getLang(languageData)
-
 export default function Header() {
-
-    const lang = useContext(LangContext)
-    const t = getTranslation(lang)
-
     const [host, setHost] = useState('ppluss.de')
 
     useEffect(() => {
@@ -68,6 +49,7 @@ export default function Header() {
             x: -37
         },
     }
+    
 
     return (
         <HeaderDiv>

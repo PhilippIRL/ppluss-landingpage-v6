@@ -6,6 +6,7 @@ import { useContext, useState } from 'react'
 import SocialCard from '../components/SocialCard'
 import { LangContext } from '../scripts/Contexts'
 import { motion } from 'framer-motion'
+import type { Translation } from '../scripts/Lang' 
 
 const socialsData = [
     {
@@ -41,7 +42,7 @@ const socialsData = [
         text: 'PhilippIRL#5148',
         color: '#7289da',
         icon: '/assets/v6/socialmediaicons/discord.svg',
-        link: 'discord://-/users/221363184076980234'
+        link: 'https://discord.com/users/221363184076980234'
     },
     {
         title: 'Discord',
@@ -189,11 +190,15 @@ const SocialsTitle: any = styled.h1`
     `}
 `
 
+function SocialsTitleView({t}: {t: Translation}) {
+    const [colorRotate, setColorRotate] = useState(false)
+
+    return <SocialsTitle onClick={() => setColorRotate(!colorRotate)} colorRotate={colorRotate}>{t('socials.title')}</SocialsTitle>
+}
+
 export default function Socials() {
     let lang = useContext(LangContext)
     const t = getTranslation(lang)
-
-    let [colorRotate, setColorRotate] = useState(false)
 
     const containerAnim = {
         hidden: {
@@ -203,7 +208,7 @@ export default function Socials() {
         show: {
             opacity: 1,
             transition: {
-                staggerChildren: 0.05,
+                staggerChildren: 0.02,
             },
             scale: 1,
         },
@@ -211,11 +216,9 @@ export default function Socials() {
 
     const itemAnim = {
         hidden: {
-            opacity: 1,
-            scale: .0,
+            scale: 0,
         },
         show: {
-            opacity: 1,
             scale: 1,
         },
     }
@@ -226,7 +229,7 @@ export default function Socials() {
                 <title>{t('socials.title')}</title>
             </Head>
             <Header />
-            <SocialsTitle onClick={() => setColorRotate(!colorRotate)} colorRotate={colorRotate}>{t('socials.title')}</SocialsTitle>
+            <SocialsTitleView t={t} />
             <SocialsContainer variants={containerAnim} initial='hidden' animate='show'>
                 {socialsData.map((data, index) => {
                     return (

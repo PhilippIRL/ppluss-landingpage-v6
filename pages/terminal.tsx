@@ -9,7 +9,7 @@ export default function Terminal({eventBus}: {eventBus: EventBus}) {
     useEffect(() => {
         eventBus.post({id: 'TERMINAL_FORCE'})
         router.replace('/')
-    }, [])
+    }, [eventBus, router])
 
     return (
         <>
