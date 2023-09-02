@@ -42,6 +42,8 @@ const translations = {
         'home.contact.before': 'Gerne kannst du mich auch ',
         'home.contact.text': 'kontaktieren',
         'home.contact.after': '.',
+        'home.projects.zza.title': 'Zugzielanzeiger',
+        'home.projects.zza.subtitle': 'Frag mich bitte nicht warum...',
     },
     en: {
         'home.title': 'Hey,',
@@ -58,6 +60,8 @@ const translations = {
         'home.contact.before': 'Feel free to ',
         'home.contact.text': 'contact me',
         'home.contact.after': '.',
+        'home.projects.zza.title': 'Platform display',
+        'home.projects.zza.subtitle': 'Please just don\'t ask why...',
     },
 }
 
@@ -390,6 +394,16 @@ export default function Home({}) {
                         </ProjectGallery>
                     </UndecoredLink>
                 </ProjectRight>
+
+                <ProjectLeft>
+                    <UndecoredLink href='https://zza.ppluss.de/' target='_blank'>
+                        <ProjectTitle>{t('home.projects.zza.title')}</ProjectTitle>
+                        <ProjectSubtitle>{t('home.projects.zza.subtitle')}</ProjectSubtitle>
+                        <ProjectGallery>
+                            <ProjectImage src='/assets/v6/cards/zza.webp' />
+                        </ProjectGallery>
+                    </UndecoredLink>
+                </ProjectLeft>
 
                 <Punchline>{t('home.contact.before')}<DecoredLink href='/socials/'>{t('home.contact.text')}</DecoredLink>{t('home.contact.after')}</Punchline>
             </Page>

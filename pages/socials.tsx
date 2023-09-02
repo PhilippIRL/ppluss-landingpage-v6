@@ -10,14 +10,14 @@ import type { Translation } from '../scripts/Lang'
 
 const socialsData = [
     {
-        title: 'Twitter',
+        title: 'Twitter / X',
         text: '@PhilippIRL',
         color: '#1DA1F2',
         icon: '/assets/v6/socialmediaicons/twitter.svg',
         link: 'https://twitter.com/PhilippIRL'
     },
     {
-        title: 'Twitter',
+        title: 'Twitter / X',
         text: '@ppspriv',
         color: '#1DA1F2',
         icon: '/assets/v6/socialmediaicons/twitter.svg',
@@ -28,7 +28,7 @@ const socialsData = [
         text: '',
         color: '#ff0000',
         icon: '/assets/v6/socialmediaicons/youtube.svg',
-        link: 'https://youtube.com/PhilippPplusS'
+        link: 'https://youtube.com/@philippirl'
     },
     {
         title: 'Instagram',
@@ -39,7 +39,7 @@ const socialsData = [
     },
     {
         title: 'Discord',
-        text: 'PhilippIRL#5148',
+        text: 'philippirl',
         color: '#7289da',
         icon: '/assets/v6/socialmediaicons/discord.svg',
         link: 'https://discord.com/users/221363184076980234'
@@ -65,13 +65,13 @@ const socialsData = [
         icon: '/assets/v6/socialmediaicons/matrix.svg',
         link: 'https://matrix.to/#/@philippirl:matrix.org'
     },
-    {
-        title: 'Tellonym',
-        text: '',
-        color: '#ff1a88',
-        icon: '/assets/v6/socialmediaicons/tellonym_square.png',
-        link: 'https://tellonym.me/ppluss'
-    },
+    //{
+    //    title: 'Tellonym',
+    //    text: '',
+    //    color: '#ff1a88',
+    //    icon: '/assets/v6/socialmediaicons/tellonym_square.png',
+    //    link: 'https://tellonym.me/ppluss'
+    //},
     {
         title: 'Telegram',
         text: '',
@@ -114,13 +114,13 @@ const socialsData = [
         icon: '/assets/v6/socialmediaicons/github.svg',
         link: 'https://github.com/PhilippIRL'
     },
-    {
-        title: 'GitLab',
-        text: '',
-        color: '#e24329',
-        icon: '/assets/v6/socialmediaicons/gitlab.svg',
-        link: 'https://gitlab.com/PhilippIRL'
-    },
+    //{
+    //    title: 'GitLab',
+    //    text: '',
+    //    color: '#e24329',
+    //    icon: '/assets/v6/socialmediaicons/gitlab.svg',
+    //    link: 'https://gitlab.com/PhilippIRL'
+    //},
     {
         title: 'TikTok',
         text: '',
@@ -134,6 +134,20 @@ const socialsData = [
         color: '#1b2838',
         icon: '/assets/v6/socialmediaicons/steam.svg',
         link: 'https://steamcommunity.com/id/PhilippIRL/'
+    },
+    {
+        title: 'Träwelling',
+        text: '',
+        color: '#c72730',
+        icon: '/assets/v6/socialmediaicons/traewelling.svg',
+        link: 'https://traewelling.de/@PhilippIRL'
+    },
+    {
+        title: 'Reddit',
+        text: '',
+        color: '#ff4500',
+        icon: '/assets/v6/socialmediaicons/reddit.svg',
+        link: 'https://www.reddit.com/user/PplusS'
     },
 ]
 
