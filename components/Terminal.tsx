@@ -22,7 +22,11 @@ const terminalInOutMobile = keyframes`
     }
 `
 
-const TerminalRoot: any = styled.div`
+interface TerminalRootProps {
+    anim: string,
+}
+
+const TerminalRoot: any = styled.div<TerminalRootProps>`
     position: fixed;
     bottom: 10px;
     width: calc(100vw - 20px);
@@ -87,7 +91,11 @@ const TerminalLines = styled.div`
     overflow-x: hidden;
 `
 
-const TerminalLine: any = styled.span`
+interface TerminalLineProps {
+    empty: boolean,
+}
+
+const TerminalLine: any = styled.span<TerminalLineProps>`
     min-height: max-content;
     word-break: break-all;
     white-space: pre;
