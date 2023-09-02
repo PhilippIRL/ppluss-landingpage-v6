@@ -179,7 +179,7 @@ export default function ErrorPage({statusCode, statusMessage, slogans, lang}: {
 
 }
 
-const Videos = ['ZhK2hZvN3l8','BzczL7sSbDg','o4zJrsIpY3I','vjd732kSeHs','uqkGfinCFs0','QaveVba4Svg']
+const Videos = ['ZhK2hZvN3l8','BzczL7sSbDg','o4zJrsIpY3I','vjd732kSeHs','uqkGfinCFs0']
 
 function VideoPlayer({t}: {t: Translation}) {
 
