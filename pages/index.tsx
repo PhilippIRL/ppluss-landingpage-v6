@@ -231,7 +231,7 @@ const ProjectImage = styled.img`
     margin-right: 5rem;
 `
 
-const UndecoredLink = styled.a`
+const UndecoredLink = styled(Link)`
     text-decoration: inherit;
     color: inherit;
 `
@@ -247,7 +247,7 @@ const DecoredLink = styled(UndecoredLink)`
     border-bottom: 4px solid white;
 `
 
-const SocialLink = styled(motion.a)`
+const SocialLink = styled(motion(Link))`
     display: flex;
 `
 
@@ -320,17 +320,13 @@ function SocialsBarComponent() {
     return (
         <SocialsBar variants={containerAnim} initial='hidden' animate='show'>
             {socialsData.map(data => (
-            <Link href={data.link} key={data.title} passHref>
-                <SocialLink variants={itemAnim} target={data.link.startsWith('https') ? '_blank' : ''}>
+                <SocialLink href={data.link} key={data.title} variants={itemAnim} target={data.link.startsWith('https') ? '_blank' : ''}>
                     <SocialsIcon src={data.icon} />
                 </SocialLink>
-            </Link>
             ))}
-            <Link href='/socials/' passHref>
-                <SocialLink variants={itemAnim}>
-                    <SocialsIcon src='/assets/v6/socialmediaicons/arrow.svg' />
-                </SocialLink>
-            </Link>
+            <SocialLink href='/socials/' variants={itemAnim}>
+                <SocialsIcon src='/assets/v6/socialmediaicons/arrow.svg' />
+            </SocialLink>
         </SocialsBar>
     )
 }
@@ -395,15 +391,13 @@ export default function Home({}) {
                     </UndecoredLink>
                 </ProjectRight>
 
-                <Punchline>{t('home.contact.before')}<Link href='/socials/' passHref><DecoredLink>{t('home.contact.text')}</DecoredLink></Link>{t('home.contact.after')}</Punchline>
+                <Punchline>{t('home.contact.before')}<DecoredLink href='/socials/'>{t('home.contact.text')}</DecoredLink>{t('home.contact.after')}</Punchline>
             </Page>
 
             <Footer>
-                <Link href='/contact/' passHref>
-                    <UndecoredLink>
-                        <FooterIcon src='/assets/v6/bottomicons/contact.svg' />
-                    </UndecoredLink>
-                </Link>
+                <UndecoredLink href='/contact/'>
+                    <FooterIcon src='/assets/v6/bottomicons/contact.svg' />
+                </UndecoredLink>
                 <UndecoredLink href='/terminal/' target='_blank' onClick={openTerminal}>
                     <FooterIcon src='/assets/v6/bottomicons/terminal.svg' />
                 </UndecoredLink>

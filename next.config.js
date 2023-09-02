@@ -17,4 +17,7 @@ module.exports = {
     env: {
         'NEXT_PUBLIC_APP_VERSION': tryReadGitCommit(),
     },
+    compiler: {
+        styledComponents: true,
+    },
 }
