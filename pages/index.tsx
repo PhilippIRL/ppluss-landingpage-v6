@@ -156,7 +156,7 @@ const SocialsIcon = styled.img`
     width: 6rem;
 
     transition: transform .1s;
-    :hover {
+    &:hover {
         transform: scale(1.1);
     }
 `
