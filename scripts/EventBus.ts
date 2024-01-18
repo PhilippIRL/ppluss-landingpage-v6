@@ -1,6 +1,10 @@
 export type BusEvent = {
+
     id: string,
-    data: any,
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    data?: any,
+    
 }
 
 export type BusListener = (e: BusEvent) => void;
@@ -12,6 +16,8 @@ export default class EventBus {
     constructor() {
         if(process.env.NODE_ENV === 'development') {
             this.listeners.push(console.log);
+
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (globalThis as any).eventBus = this
         }
     }
@@ -27,7 +33,7 @@ export default class EventBus {
         }
     }
 
-    post(msg: any) {
+    post(msg: BusEvent) {
         this.listeners.forEach(listener => listener(msg))
     }
 

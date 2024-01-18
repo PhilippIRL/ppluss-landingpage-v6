@@ -1,3 +1,6 @@
+// very legacy code, so:
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import React from 'react'
 import styled, { css, keyframes } from 'styled-components'
 import type EventBus from '../scripts/EventBus'

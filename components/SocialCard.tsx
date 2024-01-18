@@ -54,20 +54,20 @@ const SocialCardDiv = styled(motion.div)`
     position: relative;
 `
 
-const SocialCardTitle: any = styled.span`
+const SocialCardTitle = styled.span`
     color: #fff;
     font-weight: bold;
     font-size: 2.4rem;
     margin-left: 5px;
 `
 
-const SocialCardText: any = styled.span`
+const SocialCardText = styled.span`
     color: #fff;
     font-size: 1.6rem;
     margin-left: 5px;
 `
 
-const SocialCardIcon: any = styled.img`
+const SocialCardIcon = styled.img`
     width: 75%;
     height: 75%;
     opacity: .4;

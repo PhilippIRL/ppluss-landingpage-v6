@@ -195,10 +195,10 @@ const colorRotateAnim = keyframes`
     }
 `
 
-const SocialsTitle: any = styled.h1`
+const SocialsTitle = styled.h1<{colorRotate: boolean}>`
     font-size: 5rem;
     color: #fff;
-    ${(props: any) => props.colorRotate && css`
+    ${(props) => props.colorRotate && css`
         color: #f00;
         animation: 3s ${colorRotateAnim} linear infinite;
     `}
