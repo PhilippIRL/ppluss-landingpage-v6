@@ -20,7 +20,7 @@ export function getLang(languageData: LanguageData) {
 }
 
 export function getLanguagePreference(): string {
-    if(typeof window !== undefined) {
+    if(typeof window !== 'undefined') {
         if(window.localStorage[langStorageKey]) {
             if(availableLangs.includes(window.localStorage[langStorageKey])) {
                 return window.localStorage[langStorageKey]
@@ -45,7 +45,7 @@ export function getLanguagePreference(): string {
 }
 
 export function saveLanguagePreference(lang: string) {
-    if(typeof window !== undefined) {
+    if(typeof window !== 'undefined') {
         window.localStorage[langStorageKey] = lang
         return true
     }

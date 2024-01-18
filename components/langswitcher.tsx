@@ -1,6 +1,5 @@
 import React from 'react'
 import { availableLangs } from '../scripts/Lang'
-import type EventBus from '../scripts/EventBus'
 import styled, { css } from 'styled-components'
 import { useContext } from 'react'
 import { EventBusContext, LangContext } from '../scripts/Contexts'
@@ -16,18 +15,18 @@ const UndecoratedLink = styled.a`
     text-decoration: none;
 `
 
-const LanguageSwitcherLang: any = styled.span`
+const LanguageSwitcherLang = styled.span<{loaded?: boolean, current: boolean}>`
     margin-right: 5px;
     margin-left: 5px;
     color: #fff;
     text-decoration: none;
     font-size: 16px;
-    ${(props: any) => props.loaded === false && css`
+    ${(props) => props.loaded === false && css`
         color: #444;
         background-color: #444;
         border-radius: 3px;
     `}
-    ${(props: any) => props.current && props.loaded !== false && css`
+    ${(props) => props.current && props.loaded !== false && css`
         font-weight: bold;
         :after {
             content: "-";

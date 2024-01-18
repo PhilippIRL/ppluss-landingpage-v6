@@ -337,7 +337,7 @@ function SocialsBarComponent() {
 
 const getTranslation = getLang(translations)
 
-export default function Home({}) {
+export default function Home() {
     const lang = useContext(LangContext)
     const eventBus = useContext(EventBusContext)
 

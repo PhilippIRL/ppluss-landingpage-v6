@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { RefObject } from 'react'
 import Head from 'next/head'
 import { getLang } from '../scripts/Lang'
 
@@ -15,10 +15,11 @@ const getTranslation = getLang(languageData)
 
 export default class XServer extends React.Component<{lang: string}> {
 
+    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     t = (key: string) => '...'
 
     running = true
-    canvasRef: any = null
+    canvasRef: RefObject<HTMLCanvasElement> | null = null
 
     constructor(props: {lang: string}) {
         super(props)
@@ -37,7 +38,8 @@ export default class XServer extends React.Component<{lang: string}> {
     }
 
     draw() {
-        let canvas = this.canvasRef.current
+        let canvas = this.canvasRef?.current
+
         if(canvas) {
 
             if(canvas.height !== window.innerHeight) canvas.height = window.innerHeight
@@ -45,13 +47,16 @@ export default class XServer extends React.Component<{lang: string}> {
             
             let ctx = canvas.getContext('2d')
 
-            ctx.fillStyle = '#000'
-            ctx.fillRect(0,0,canvas.width,canvas.height)
-
-            ctx.fillStyle = '#fff'
-            ctx.font = '24px Source Code Pro'
-            ctx.fillText(this.t('xserver.wip'), 50, 50)
+            if(ctx) {
+                ctx.fillStyle = '#000'
+                ctx.fillRect(0,0,canvas.width,canvas.height)
+    
+                ctx.fillStyle = '#fff'
+                ctx.font = '24px Source Code Pro'
+                ctx.fillText(this.t('xserver.wip'), 50, 50)
+            }
         }
+
         if(this.running) window.requestAnimationFrame(this.draw)
     }
 

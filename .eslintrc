@@ -1,9 +1,16 @@
 {
-  "extends": "next",
+  "extends": ["next", "eslint:recommended"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
   "root": true,
   "rules": {
     "eol-last": "error",
     "semi": ["warn", "never"],
-    "quotes": ["warn", "single", {"allowTemplateLiterals": true}]
+    "quotes": ["warn", "single", {"allowTemplateLiterals": true}],
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "@typescript-eslint/no-explicit-any": ["warn"]
+  },
+  "env": {
+    "es2020": true
   }
 }

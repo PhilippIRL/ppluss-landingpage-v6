@@ -9,8 +9,9 @@ import { LangContext, EventBusContext } from '../scripts/Contexts'
 
 import type { BusEvent } from '../scripts/EventBus'
 import parseHash from '../scripts/hashparser'
+import type { AppProps } from 'next/app'
 
-const GlobalStyle: any = createGlobalStyle`
+const GlobalStyle = createGlobalStyle`
 
     html {
         overflow-x: hidden;
@@ -58,7 +59,7 @@ const GlobalStyle: any = createGlobalStyle`
 
 `
 
-const LowerCaseSpeech: any = createGlobalStyle`
+const LowerCaseSpeech = createGlobalStyle`
     * {
         text-transform: lowercase;
     }
@@ -84,12 +85,12 @@ const NoScript = styled.noscript`
     box-sizing: border-box;
 `
 
-class App extends React.Component<any> {
+class App extends React.Component<AppProps> {
 
     eventBus: EventBus
     state = {lang: defaultLang, lowerCaseSpeech: false}
 
-    constructor(props: any) {
+    constructor(props: AppProps) {
         super(props)
 
         this.onBusEvent = this.onBusEvent.bind(this)
@@ -103,7 +104,7 @@ class App extends React.Component<any> {
 
         let hash = parseHash()
 
-        if(hash.hasOwnProperty('term')) {
+        if(Object.prototype.hasOwnProperty.call(hash, 'term')) {
             this.eventBus.post({id: 'TERMINAL_FORCE'})
         }
 

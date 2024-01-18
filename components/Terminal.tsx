@@ -202,13 +202,14 @@ export default class Terminal extends React.Component<TerminalProps> {
                 this.setState({lines: []})
                 return
             case 'print':
-            case 'echo':
+            case 'echo': {
                 let text = args.join(' ')
                 if(text.includes('<script>')) {
                     this.println('no xss here lol')
                 }
                 this.println(text)
                 return
+            }
             case 'reboot':
             case 'reload':
             case 'refresh':
@@ -282,7 +283,7 @@ export default class Terminal extends React.Component<TerminalProps> {
                 this.println('lang: Change the page language')
                 this.println('exit: Close the console')
                 return
-            case 'host':
+            case 'host': {
                 if(args.length !== 1) {
                     this.println('host <ppluss | vercel | local>')
                     return
@@ -302,6 +303,7 @@ export default class Terminal extends React.Component<TerminalProps> {
                         this.println('Error: Unknown host')
                         return
                 }
+            }
             case 'adri':
                 this.println('ly <3')
                 return
