@@ -171,7 +171,7 @@ const AppRoot = styled.div`
     min-height: 100vh;
 `
 
-const SocialsContainer = styled(motion.div)`
+const SocialsContainer = styled(motion.create('div'))`
     display: flex;
     flex-grow: 1;
     justify-content: center;
@@ -183,7 +183,7 @@ const SocialsContainer = styled(motion.div)`
     align-content: flex-start;
 `
 
-const UndecoratedLink = styled(motion.a)`
+const UndecoratedLink = styled(motion.create('a'))`
     color: #fff;
     text-decoration: none;
     margin: 10px;

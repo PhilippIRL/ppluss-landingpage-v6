@@ -11,7 +11,7 @@ const HeaderDiv = styled.header`
     width: 100%;
 `
 
-const ButtonBack = styled(motion(Link))`
+const ButtonBack = styled(motion.create(Link))`
     display: flex;
     align-items: center;
     margin-left: 15px;
@@ -22,7 +22,7 @@ const ButtonBack = styled(motion(Link))`
     height: 100%;
 `
 
-const BackArrow = styled(motion.svg)`
+const BackArrow = styled(motion.create('svg'))`
     fill: #fff;
     width: 25px;
 `

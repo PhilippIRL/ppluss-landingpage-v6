@@ -119,7 +119,7 @@ const TitleContainer = styled.h1`
     align-self: flex-start;
 `
 
-const Logo = styled(motion.img)`
+const Logo = styled(motion.create('img'))`
     height: 20rem;
 
     @media only screen and (max-width: 800px) {
@@ -127,7 +127,7 @@ const Logo = styled(motion.img)`
     }
 `
 
-const Title = styled(motion.span)`
+const Title = styled(motion.create('span'))`
     font-size: 7rem;
     margin: 0;
 `
@@ -136,14 +136,14 @@ const Subtitle = styled(Title)`
     color: #777;
 `
 
-const DescriptionText = styled(motion.h2)`
+const DescriptionText = styled(motion.create('h2'))`
     color: #777;
     font-size: 4rem;
 
     align-self: flex-start;
 `
 
-const SocialsBar = styled(motion.div)`
+const SocialsBar = styled(motion.create('div'))`
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -251,7 +251,7 @@ const DecoredLink = styled(UndecoredLink)`
     border-bottom: 4px solid white;
 `
 
-const SocialLink = styled(motion(Link))`
+const SocialLink = styled(motion.create(Link))`
     display: flex;
 `
 

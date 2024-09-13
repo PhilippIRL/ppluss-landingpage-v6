@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import styled from 'styled-components'
 import { useHoverListener } from '../scripts/hooks'
 
-const SocialCardDiv = styled(motion.div)`
+const SocialCardDiv = styled(motion.create('div'))`
     display: flex;
     padding: 15px;
     flex-direction: column;
