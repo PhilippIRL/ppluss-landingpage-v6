@@ -1,12 +1,13 @@
 import styled from 'styled-components'
 import Link from 'next/link'
 import Head from 'next/head'
-import { useContext, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import { EventBusContext, LangContext } from '../scripts/Contexts'
-import type { SyntheticEvent } from 'react'
+import type { ChangeEventHandler, SyntheticEvent } from 'react'
 import { getLang } from '../scripts/Lang'
 import type { Translation } from '../scripts/Lang'
 import { motion } from 'framer-motion'
+import { sendMsgToSocket, useSocketReadyness } from '../scripts/MessageSocket'
 
 const socialsData = [
     {
@@ -44,6 +45,9 @@ const translations = {
         'home.contact.after': '.',
         'home.projects.zza.title': 'Zugzielanzeiger',
         'home.projects.zza.subtitle': 'Frag mich bitte nicht warum...',
+        'home.shoutbox.placeholder': 'Feedback, Kritik, Hi sagen, oder so? Immer her damit!',
+        'home.shoutbox.send': '-> Absenden',
+        'home.shoutbox.sent': 'Dankeschön!',
     },
     en: {
         'home.title': 'Hey,',
@@ -62,6 +66,9 @@ const translations = {
         'home.contact.after': '.',
         'home.projects.zza.title': 'Platform display',
         'home.projects.zza.subtitle': 'Please just don\'t ask why...',
+        'home.shoutbox.placeholder': 'Feedback, criticism, want to say hi, or something else? Feel free to put it here!',
+        'home.shoutbox.send': '-> Send',
+        'home.shoutbox.sent': 'Thank you!',
     },
 }
 
@@ -267,6 +274,74 @@ const FooterIcon = styled.img`
     margin-right: 1rem;
 `
 
+const ShoutboxContainer = styled.div`
+    width: 100%;
+    max-width: 1000px;
+    align-self: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+`
+
+const ShoutboxBase = styled.textarea`
+    background: transparent;
+    color: #fff;
+    outline: none;
+    border: none;
+
+    width: 100%;
+    height: 200px;
+    resize: none;
+    box-sizing: border-box;
+
+    font-size: 22px;
+    font-family: Inter;
+
+    &::placeholder {
+        color: #777;
+    }
+
+    transition: .1s border-color;
+
+    border: 3px solid #777;
+    border-radius: 20px;
+    padding: 20px;
+
+    &:hover {
+        border-color: #ddd;
+    }
+
+    &:focus {
+        border-color: #fff;
+    }
+`
+
+const ShoutboxSendButton = styled.button`
+    margin-top: 20px;
+    
+    font-size: 26px;
+    font-family: Inter, sans-serif;
+    font-weight: bold;
+
+    color: ${state => state.disabled ? '#777' : '#fff'};
+    background-color: transparent;
+
+    outline: none;
+    border: none;
+
+    cursor: ${state => state.disabled ? 'initial' : 'pointer'};
+
+    align-self: flex-end;
+
+    transition: .1s color;
+    ${state => !state.disabled && `
+        &:hover {
+            color: #ddd;
+        }
+    `}
+`
+
 function useAge() {
     const [age, setAge] = useState(0)
 
@@ -333,6 +408,50 @@ function SocialsBarComponent() {
             </SocialLink>
         </SocialsBar>
     )
+}
+
+let lastShoutboxTimeoutId: ReturnType<typeof setTimeout> | null = null
+
+function ShoutboxComponent({t}: {t: Translation}) {
+    const isSocketReady = useSocketReadyness()
+    const [isSubmitButtonClicked, setIsSubmitButtonClicked] = useState(false)
+    const [shoutboxContent, setShoutboxContent] = useState('')
+
+    const shoutboxChangeCallback: ChangeEventHandler<HTMLTextAreaElement> = useCallback((e) => {
+        setShoutboxContent(e.target.value)
+        
+        if(lastShoutboxTimeoutId !== null) {
+            clearTimeout(lastShoutboxTimeoutId)
+        }
+
+        lastShoutboxTimeoutId = setTimeout(() => {
+            sendMsgToSocket('shoutbox', e.target.value)
+        }, 200)
+    }, [])
+
+    const submitButtonCallback = useCallback(() => {
+        setIsSubmitButtonClicked(true)
+        sendMsgToSocket('meta', 'shoutbox_submit_clicked')
+        sendMsgToSocket('shoutbox', 'Final message: ' + shoutboxContent)
+        setShoutboxContent('')
+
+        setTimeout(() => {
+            setIsSubmitButtonClicked(false)
+        }, 3000)
+    }, [shoutboxContent])
+
+    if(isSocketReady) {
+        const shoutboxDisabled = shoutboxContent === '' || isSubmitButtonClicked
+
+        return (
+            <ShoutboxContainer>
+                <ShoutboxBase value={shoutboxContent} placeholder={t('home.shoutbox.placeholder')} onChange={shoutboxChangeCallback} />
+                <ShoutboxSendButton disabled={shoutboxDisabled ? true : undefined} onClick={submitButtonCallback}>{isSubmitButtonClicked ? t('home.shoutbox.sent') : t('home.shoutbox.send')}</ShoutboxSendButton>
+            </ShoutboxContainer>
+        )
+    }
+
+    return null
 }
 
 const getTranslation = getLang(translations)
@@ -404,6 +523,8 @@ export default function Home() {
                         </ProjectGallery>
                     </UndecoredLink>
                 </ProjectLeft>
+
+                <ShoutboxComponent t={t} />
 
                 <Punchline>{t('home.contact.before')}<DecoredLink href='/socials/'>{t('home.contact.text')}</DecoredLink>{t('home.contact.after')}</Punchline>
             </Page>

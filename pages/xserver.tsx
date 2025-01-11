@@ -19,7 +19,7 @@ export default class XServer extends React.Component<{lang: string}> {
     t = (key: string) => '...'
 
     running = true
-    canvasRef: RefObject<HTMLCanvasElement> | null = null
+    canvasRef: RefObject<HTMLCanvasElement | null> | null = null
 
     constructor(props: {lang: string}) {
         super(props)

@@ -10,6 +10,7 @@ import { LangContext, EventBusContext } from '../scripts/Contexts'
 import type { BusEvent } from '../scripts/EventBus'
 import parseHash from '../scripts/hashparser'
 import type { AppProps } from 'next/app'
+import { initMsgSocket } from '../scripts/MessageSocket'
 
 const GlobalStyle = createGlobalStyle`
 
@@ -121,6 +122,8 @@ class App extends React.Component<AppProps> {
         if(window.location.hash !== '') {
             window.location.hash = ''
         }
+
+        initMsgSocket()
     }
 
     onBusEvent(e: BusEvent) {
