@@ -12,7 +12,7 @@ const languageData = {
     },
 }
 
-var getTranslation = getLang(languageData)
+const getTranslation = getLang(languageData)
 
 export default class More extends React.Component<{lang: string}> {
     render() {

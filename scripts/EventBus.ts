@@ -7,7 +7,7 @@ export type BusEvent = {
     
 }
 
-export type BusListener = (e: BusEvent) => void;
+export type BusListener = (e: BusEvent) => void
 
 export default class EventBus {
 

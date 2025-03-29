@@ -25,7 +25,7 @@ export function sendMsgToSocket(field: string, content: string) {
     }
 }
 
-export function whenSocketIsReady(callback: Function) {
+export function whenSocketIsReady(callback: () => void) {
     if(isSocketReady()) {
         callback()
     } else if(window.msgsocket && window.msgsocket.readyState === WebSocket.CONNECTING) {

@@ -1,5 +1,5 @@
 // very legacy code, so:
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-explicit-any, no-var */
 
 import React from 'react'
 import styled, { css, keyframes } from 'styled-components'
