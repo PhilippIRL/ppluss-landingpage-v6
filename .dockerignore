@@ -1,8 +1,8 @@
-node_modules
-.gitignore
-README.md
-.next
-out
-Dockerfile
+/node_modules
+/.gitignore
+/README.md
+/.next
+/out
+/Dockerfile
 /.git
 !/.git/FETCH_HEAD
