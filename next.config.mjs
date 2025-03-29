@@ -1,4 +1,6 @@
-const fs = require('fs')
+// @ts-check
+
+import fs from 'fs'
 
 function tryReadGitCommit() {
     try {
@@ -12,7 +14,10 @@ function tryReadGitCommit() {
     }
 }
 
-module.exports = {
+/**
+ * @type {import('next').NextConfig}
+ */
+const NextConfig = {
     trailingSlash: true,
     env: {
         'NEXT_PUBLIC_APP_VERSION': tryReadGitCommit(),
@@ -21,3 +26,5 @@ module.exports = {
         styledComponents: true,
     },
 }
+
+export default NextConfig
