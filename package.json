@@ -31,5 +31,5 @@
     "typescript": "^5.8.2",
     "typescript-eslint": "^8.28.0"
   },
-  "packageManager": "yarn@4.8.0+sha512.85ec3149b1ec48f47c2690e13b29197a8a84b09c2c936cc596dddfb49c517e3bc3b1881ec52b5d35ca4b7c437c3f0daae3a80e39438c93bbcc5fcece2df5f15a"
+  "packageManager": "pnpm@10.7.0+sha512.6b865ad4b62a1d9842b61d674a393903b871d9244954f652b8842c2b553c72176b278f64c463e52d40fff8aba385c235c8c9ecf5cc7de4fd78b8bb6d49633ab6"
 }

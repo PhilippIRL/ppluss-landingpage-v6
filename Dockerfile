@@ -4,14 +4,13 @@ WORKDIR /app
 RUN corepack enable
 
 COPY ./package.json .
-COPY ./yarn.lock .
+COPY ./pnpm-lock.yaml .
 
-RUN yarn config set nodeLinker node-modules
-RUN yarn install; yarn cache clean
+RUN pnpm install
 
 COPY . .
 
-RUN yarn run build
+RUN pnpm run build
 
 EXPOSE 80
-CMD ["yarn", "run", "start", "-p", "80"]
+CMD ["pnpm", "run", "start", "-p", "80"]
