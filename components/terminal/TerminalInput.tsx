@@ -16,9 +16,9 @@ export function TerminalInput({ typingText, dispatch, onSubmit, inputRef }: { ty
         }
     }, [dispatch])
 
-    const onInputBlur = useCallback(() => {
-        focusField(inputRef.current)
-    }, [inputRef])
+    //const onInputBlur = useCallback(() => {
+    //    focusField(inputRef.current)
+    //}, [inputRef])
 
     useEffect(() => {
         focusField(inputRef.current)
@@ -26,7 +26,7 @@ export function TerminalInput({ typingText, dispatch, onSubmit, inputRef }: { ty
 
     return (
         <form className={styles.terminalInputForm} onSubmit={onSubmit}>
-            <input type="text" ref={inputRef} onBlur={onInputBlur} onChange={onChange} onKeyDown={keyComboHandler} value={typingText} />
+            <input type="text" ref={inputRef} onChange={onChange} onKeyDown={keyComboHandler} value={typingText} />
         </form>
     )
 }
