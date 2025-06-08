@@ -1,0 +1,186 @@
+@keyframes terminal-anim {
+    from {
+        transform: translateX(-750px);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes terminal-mobile-anim {
+    from {
+        transform: translateY(var(--terminal-height));
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+.terminalRoot {
+    --terminal-height: 400px;
+
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    z-index: 100;
+
+    background-color: #222222aa;
+    backdrop-filter: blur(40px);
+
+    width: 700px;
+    height: var(--terminal-height);
+
+    border-radius: 20px;
+
+    box-sizing: border-box;
+
+    padding-bottom: 30px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    user-select: none;
+}
+
+.terminalRootOpening {
+    animation: 300ms terminal-anim forwards;
+}
+
+.terminalRootClosing {
+    animation: 300ms terminal-anim reverse forwards;
+}
+
+.terminalHeader {
+    box-sizing: border-box;
+
+    width: 100%;
+    height: 30px;
+
+    position: relative;
+
+    touch-action: none;
+
+    cursor: ns-resize;
+}
+
+.terminalResizePill {
+    width: 40px;
+    height: 4px;
+    border-radius: 5px;
+
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    background: #fff;
+}
+
+.terminalCloseButton {
+    background: inherit;
+    border: inherit;
+    outline: inherit;
+
+    padding: 0;
+
+    width: 24px;
+    height: 24px;
+
+    position: absolute;
+    top: 5px;
+    right: 10px;
+
+    cursor: initial;
+}
+
+.terminalCloseButton svg {
+    fill: #fff;
+
+    width: 100%;
+    height: 100%;
+}
+
+.terminalLines {
+    box-sizing: border-box;
+    flex-grow: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 0 15px;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.terminalLine {
+    font-family: VT323, monospace;
+    font-size: 22px;
+
+    white-space: pre-wrap;
+
+    min-height: 1lh;
+}
+
+.terminalInput {
+    caret-color: #0000;
+    
+    outline: none;
+    border: none;
+
+    background: inherit;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+
+    width: max-content;
+}
+
+@keyframes blinking {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+.terminalCursor {
+    animation: 750ms blinking infinite alternate steps(1);
+
+    font-size: 16px;
+}
+
+.terminalInputForm {
+    position: fixed;
+    bottom: -100px;
+    left: 0;
+}
+
+.terminalInputForm input {
+    font-size: 16px !important;
+}
+
+@media screen and (max-width: 750px) {
+    .terminalRoot {
+        bottom: 0px;
+        left: 0px;
+
+        width: 100vw;
+
+        border-radius: 0;
+
+        background-color: #222222;
+    }
+
+    .terminalRootOpening {
+        animation: 300ms terminal-mobile-anim forwards;
+    }
+
+    .terminalRootClosing {
+        animation: 300ms terminal-mobile-anim reverse forwards;
+    }
+}

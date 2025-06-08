@@ -7,7 +7,7 @@ export default function Terminal({eventBus}: {eventBus: EventBus}) {
     let router = useRouter()
 
     useEffect(() => {
-        eventBus.post({id: 'TERMINAL_FORCE'})
+        setTimeout(() => eventBus.post({id: 'TERMINAL_FORCE'}), 200)
         router.replace('/')
     }, [eventBus, router])
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import EventBus from '../scripts/EventBus'
-import Terminal from '../components/Terminal'
+import Terminal from '../components/terminal/Terminal'
 import { withRouter } from 'next/router'
 import { defaultLang, getLanguagePreference, saveLanguagePreference } from '../scripts/Lang'
 import styled, { createGlobalStyle } from 'styled-components'
@@ -106,11 +106,11 @@ class App extends React.Component<AppProps> {
         let hash = parseHash()
 
         if(Object.prototype.hasOwnProperty.call(hash, 'term')) {
-            this.eventBus.post({id: 'TERMINAL_FORCE'})
+            setTimeout(() => this.eventBus.post({id: 'TERMINAL_FORCE'}), 200)
         }
 
         if(hash.forcecommand) {
-            this.eventBus.post({id: 'TERMINAL_FORCE_COMMAND', data: hash.forcecommand})
+            setTimeout(() => this.eventBus.post({id: 'TERMINAL_FORCE_COMMAND', data: hash.forcecommand}), 200)
         }
 
         if(hash.modal === 'impressum' || hash.modal === 'datenschutz') {
@@ -162,8 +162,7 @@ class App extends React.Component<AppProps> {
 
                     <Head>
                         {/* eslint-disable */}
-                        <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap' />
-                        <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet" />
+                        <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=VT323&display=swap' />
                         {/* eslint-enable */}
                         <link rel="manifest" href="/manifest.json"/>
                     </Head>

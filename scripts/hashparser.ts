@@ -1,15 +1,7 @@
-type HashObject = {[key: string]: string | null};
+type HashObject = { [key: string]: string }
 
 export default function parseHash(hash=window.location.hash): HashObject {
-    const obj: HashObject = {}
-
-    const props = hash.substring(1).split('&')
-    props.map(prop => prop.split('='))
-        .forEach(([key, data]) => {
-            if(key) {
-                obj[decodeURIComponent(key)] = data === undefined ? null : decodeURIComponent(data)
-            }
-        })
+    const params = new URLSearchParams(hash.substring(1))
         
-    return obj
+    return Object.fromEntries(params)
 }
