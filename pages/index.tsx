@@ -34,7 +34,7 @@ const translations = {
         'home.description': 'So ein {age} jähriger {hobby}',
         'home.hobby.0': 'Webentwickler',
         'home.hobby.1': 'Zugfan',
-        'home.hobby.2': 'Typ, interessiert in Politik',
+        'home.hobby.2': 'Typ, interessiert an Politik',
         'home.projects.title': 'Projekte',
         'home.projects.rainbowice.title': 'Wo ist der Regenbogen-ICE?',
         'home.projects.rainbowice.subtitle': 'Tracke den Regenbogen-ICE und andere ICEs',
