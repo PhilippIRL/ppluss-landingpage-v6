@@ -66,7 +66,7 @@ const LowerCaseSpeech = createGlobalStyle`
     }
 `
 
-const NoScript = styled.noscript`
+const NoScript = styled('noscript')`
     position: fixed;
     width: 100vw;
     height: 100vh;

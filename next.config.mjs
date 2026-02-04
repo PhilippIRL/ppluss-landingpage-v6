@@ -10,7 +10,7 @@ function tryReadGitCommit() {
         const text = fs.readFileSync('.git/FETCH_HEAD').toString()
         return '#' + text.substring(0,8).toUpperCase()
     } catch(e) {
-        return e.toString()
+        return String(e)
     }
 }
 
