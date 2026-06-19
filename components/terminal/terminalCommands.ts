@@ -147,10 +147,6 @@ function onCommand(command: string, args: string[], dispatch: TerminalDispatcher
             }
         }
 
-        case 'adri':
-            println('ly <3')
-            return
-
         case 'lowercase':
             eventBus.post({id: 'LOWERCASE_TOGGLE'})
             println('UwU')
